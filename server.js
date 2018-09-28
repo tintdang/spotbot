@@ -19,9 +19,10 @@ if (process.env.NODE_ENV === "production") {
 }
 
 //Add the routes from the routes folder
-app.use(routes)
+// app.use(routes)
 
 // log HTTP requests
 
 app.use(morgan("combined"));
 
+app.listen(PORT, () => console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`));
