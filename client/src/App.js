@@ -7,6 +7,8 @@ class App extends Component {
       <div>
         <Navbar />
         <h1>Hello World, Welcome to SpotBot</h1>
+        <GameBoard />
+        <UserSeat />
       </div>
     );
   }
