@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Game from "./pages/Game";
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <Navbar />
-        <h1>Hello World, Welcome to SpotBot</h1>
-      </div>
-    );
-  }
-}
+const App = () =>
+  <Router>
+    <div>
+      <Navbar />
+      <Switch>
+        <Route exact path="/" component={Game} />
+      </Switch>
+    </div>
+  </Router>;
 
 export default App;
