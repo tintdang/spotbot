@@ -15,8 +15,8 @@ class GameBoard extends React.Component {
     render(){
         return(
             <div id="game-board">
-                <textarea>
-                    Lorem ipsum and such...
+                <textarea   id="game-text"
+                            defaultValue="User interaction will go here...">
                 </textarea>
             </div>
         )
