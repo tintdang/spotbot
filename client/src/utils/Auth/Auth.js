@@ -26,6 +26,7 @@ export default class Auth {
     return this.profile;
   }
 
+  // handleAuthentication is set as a promise to have other functions run after.
   handleAuthentication() {
     return new Promise((resolve, reject) => {
       this.auth0.parseHash((err, authResult) => {
