@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Game from "./pages/Game";
+import './style.css';
 
 const App = () =>
   <Router>

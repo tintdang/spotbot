@@ -1,7 +1,23 @@
 /* For now these are just all unique static colors to help identify the design */
 
-*{
-    background-color: red;
-    width: 80vw;
-    height: 80vh;
+#game-board{
+    background-color: rgb(50,50,50);
+    background-color: rgba(50,50,50,1);
+    width: 70vw;
+    margin: 20px auto 0px auto;
+    height: 60vh;
+    min-width: 350px;
+    min-height: 350px;
+
+}
+
+#game-text{
+    background-color: rgb(180,180,180);
+    background-color: rgba(180,180,180,.8);
+    height: 90%;
+    width: 90%;
+    margin: auto;
+    position: relative;
+    top: 5%;
+    left: 5%;
 }
