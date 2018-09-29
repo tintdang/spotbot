@@ -18,8 +18,14 @@ class UserSeat extends React.Component {
     render(){
         return(
             <div id="user-seat">
-                <img
-                href="https://www.placehold.it/200x200"></img>
+            <div id="user-section">
+                <div id="user-input">
+
+                </div>
+                <div id="user-info">
+
+                </div>
+                </div>
             </div>
         )
     }

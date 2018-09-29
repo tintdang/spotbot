@@ -1,10 +1,13 @@
 import React from "react";
+import './Navbar.css';
 
 const Navbar = () =>
-<nav style={{background:"grey"}}>
-  <div className="nav-bar">
+<nav>
+  <div 
+  id="nav-style"
+  className="nav-bar">
     <div className="Navbar-nav">
-      <h1>Navbar Here</h1>
+      <h1>SPOT the BOT</h1>
     </div>
   </div>
 </nav>;

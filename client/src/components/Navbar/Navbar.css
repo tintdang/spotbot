@@ -1,5 +1,14 @@
 /* For now these are just all unique static colors to help identify the design */
 
-*{
-    background-color: blue
+#nav-style{
+    color: rgb(240,240,240);
+    background-color: rgb(70,70,70);
+    background-color: rgba(70,70,70,.7);
+    height: 10vh;
+    border-bottom: 8px;
+    border-bottom-style: solid;
+    border-bottom-color:  rgb(10,10,10);
+    border-bottom-color:  rgba(10,10,10,.9);
+    text-align: center;
+    font-weight: bold;
 }

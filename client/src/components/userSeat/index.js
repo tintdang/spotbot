@@ -1,3 +1,3 @@
-import UserSeat from './gameBoard'
+import UserSeat from './userSeat';
 
 export default UserSeat;
