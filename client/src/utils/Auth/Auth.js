@@ -44,6 +44,7 @@ export default class Auth {
     return new Date().getTime() < this.expiresAt;
   }
 
+  //Sending user to the auth0 website
   login() {
     this.auth0.authorize();
   }
