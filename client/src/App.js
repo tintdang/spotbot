@@ -1,5 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import {withRouter} from 'react-router';
+import { Route, Redirect } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Game from "./pages/Game";
 import Callback from "./pages/Callback";
@@ -9,23 +10,24 @@ import './style.css';
 const App = props => {
 
   return (
-    <Router>
-      <div>
-        <Navbar />
-        <Switch>
-          <Route path="/callback" render={() => (
-            <Callback auth={props.auth}/>
-          )}/>
-          <Route exact path="/" component={Homepage} />
-          <Route exact path="/game" render={() => {
-            return (props.auth.isAuthenticated()) ? (
-              <Game auth={props.auth} {...props}/>
-            ) : (<Redirect to="/"/>)}}/>
+    <div>
+      <Navbar />
+      <Route path="/callback" render={() => (
+        <Callback auth={props.auth} />
+      )} />
+      <Route exact path="/" render={() => (
+        <Homepage
+          auth={props.auth}
+        />)
+      } />
+      <Route exact path="/game" render={() => {
+        return (props.auth.isAuthenticated()) ? (
+          <Game auth={props.auth} history={props.history} />
+        ) : (<Redirect to="/" />)
+      }} />
 
-        </Switch>
-      </div>
-    </Router>
+    </div>
   )
 }
 
-export default App;
+export default withRouter(App);
