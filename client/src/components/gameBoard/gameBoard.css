@@ -1,4 +1,3 @@
-/* For now these are just all unique static colors to help identify the design */
 
 #game-board{
     background-color: rgb(50,50,50);
@@ -20,4 +19,16 @@
     position: relative;
     top: 5%;
     left: 5%;
+}
+
+#timer-holder{
+    margin: 0;
+    padding: 0;
+    position: relative;
+    bottom: 12vh;
+    left: 40%;
+    height: 12vh;
+    width: 20%;
+    background-color: rgb(50,50,50);
+    background-color: rgba(50,50,50,1);
 }

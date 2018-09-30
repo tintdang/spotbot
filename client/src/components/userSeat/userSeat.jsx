@@ -7,7 +7,7 @@ class UserSeat extends React.Component {
         valueshere: null
     }
 
-    componentDidMount(){
+    componentDidMount() {
         console.log("UserSeat Component loaded!");
     }
 
@@ -15,16 +15,18 @@ class UserSeat extends React.Component {
 
 
 
-    render(){
-        return(
+    render() {
+        return (
             <div id="user-seat">
-            <div id="user-section">
-                <div id="user-input">
+                <div id="user-section">
+                    <div id="user-input">
+                        <textarea id="user-textbox">
 
-                </div>
-                <div id="user-info">
+                        </textarea>
+                    </div>
+                    <div id="user-info">
 
-                </div>
+                    </div>
                 </div>
             </div>
         )

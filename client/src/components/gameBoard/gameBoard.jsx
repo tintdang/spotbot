@@ -1,5 +1,6 @@
-import React from 'react'
-import './gameBoard.css'
+import React from 'react';
+import './gameBoard.css';
+import Timer from '../timer';
 
 class GameBoard extends React.Component {
 
@@ -18,9 +19,12 @@ class GameBoard extends React.Component {
                 <textarea   id="game-text"
                             defaultValue="User interaction will go here...">
                 </textarea>
+                <div id="timer-holder">
+                    <Timer />
+                </div>
             </div>
         )
     }
-}
+};
 
 export default GameBoard;
