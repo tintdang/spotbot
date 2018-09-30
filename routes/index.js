@@ -4,8 +4,8 @@ const router = require("express").Router();
 //Api Routes
 
 // /api route
-router.use("/api", (req, res) => {
-  res.send("This is your /api route");
+router.get("/api", (req, res) => {
+  res.json("This is your /api route");
 });
 
 // If no api routes are hit, send them to the React App

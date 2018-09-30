@@ -1,0 +1,27 @@
+/* For now these are just all unique static colors to help identify the design */
+
+#user-seat{
+    background-color: rgb(240,240,240);
+    background-color: rgba(240,240,240,1);
+    height: 20vh;
+    width: 70vw;
+    margin: 20px auto;
+    min-width: 350px;
+}
+
+#user-section{
+    background-color: rgb(50,50,50);
+    background-color: rgba(50,50,50,1);
+    height: 80%;
+    width: 90%;
+    margin: 0;
+    position: relative;
+    top: 10%;
+    left: 5%;
+    padding: 0;
+
+}
+
+#user-input{}
+
+#user-info{}

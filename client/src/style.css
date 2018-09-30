@@ -1,0 +1,8 @@
+body{
+    background-color: #eee;
+    background-image: url('./assets/images/circuit_color.jpg');
+    background-repeat: none;
+    background-position: center;
+    /* background-size: 100vh auto; */
+    background-size: cover;
+}
