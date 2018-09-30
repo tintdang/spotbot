@@ -1,18 +1,24 @@
-import React, { Component } from "react";
+import React from "react";
 import './game.css';
 import GameBoard from '../../components/gameBoard';
 import UserSeat from '../../components/userSeat';
 
-class Game extends Component {
+const Game = props => {
+  //Creating a logout button
+  const logout = () => {
+    props.auth.logout();
+    props.history.push('/');
+  };
 
-  render() {
-    return(
-      <div>
-        <GameBoard />
-        <UserSeat />
-      </div>
-    )
-  }
+
+  return (
+    <div>
+      <GameBoard />
+      <UserSeat />
+      <button onClick={logout}>Logout</button>
+    </div>
+  )
+
 }
 
 export default Game;
