@@ -2,8 +2,11 @@ import React from 'react';
 import { withRouter } from 'react-router';
 
 const Callback = props => {
+    props.auth.handleAuthentication().then(() => {
+        props.history.push('/game')
+    });
     
-    return(
+    return (
         <div>Logging into the Game</div>
     );
 }
