@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      #username {height: 40px; background: #000; padding: 3px; position: fixed; bottom: 40px; width: 100%;}
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #message {height: 40px; background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%;}
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+      #messages { margin-bottom: 40px }
+      /* trying to add username info */
+      .system-message {background: #eee; font-weight: bold; color: #000080; }
+      .self-message {text-align: right; }
+    </style>
+  </head>
+  <body>
+      <!-- adding a place to add a username -->
+    <ul id="messages"></ul>
+    <form action="" id="username">
+        <input id="name-text" autocomplete="off" placeholder="Username"/>
+        <button>Confirm</button>
+    </form>
+    <form action="" id="message">
+        <input id="message-text" autocomplete="off" />
+        <button>Send</button>
+    </form>
+    <!-- after npm install --save socket.io, we add this before </body> -->
+    <!-- <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+    </script> -->
+    <!-- This makes it so that when the user types in a message, the server gets it as a
+    chat message event. This is added in the script seciton in index.html -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <!-- This is the version of the script shown in the github, in case it doesn't work with the original one given... -->
+    <!-- <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script> -->
+    <script>
+        // username test -- Added these functions
+        function appendMessage(msg) {
+                $('#messages').append($('<li>').text(msg));
+            }
+            function appendSysMessage(msg) {
+                $('#messages').append($('<li>').text(msg).addClass("system-message"));
+            }
+            function appendSelfMessage(msg) {
+                $('#messages').append($('<li>').text(msg).addClass("self-message"));
+            }
+            var socket = io();
+            $('#username').submit(function () {
+                socket.emit('username', $('#name-text').val());
+                $('#name-text').val('');
+                $('#username').hide();
+                return false;
+            });
+            $('#message').submit(function () {
+                var message = $('#message-text').val();
+                socket.emit('chat message', message);
+                appendSelfMessage(message);
+                $('#message-text').val('');
+                return false;
+            });
+            socket.on('welcome', function (msg) {
+                appendSysMessage(msg);
+            });
+            socket.on('username', function (username) {
+                appendSysMessage(username);
+            });
+            socket.on('connected', function (msg) {
+                appendSysMessage("A new user has connected, currently online: " + msg.number);
+            });
+            socket.on('disconnected', function (obj) {
+                if (obj.username) {
+                    appendSysMessage("User " + obj.username + " has disconnected, currently online: " + obj.number);
+                } else {
+                    appendSysMessage("An anonymous user has disconnected, currently online: " + obj.number);
+                }
+            });
+            socket.on('chat message', function (obj) {
+                appendMessage(obj.username + ': ' + obj.message);
+            });
+        // $(function () {
+        //     var socket = io();
+        //     $('form').submit(function(){
+        //         socket.emit('chat message', $('#m').val());
+        //         $('#m').val('');
+        //         return false;
+        //     });
+        //     // this allows to see messages?
+        //     socket.on('chat message', function(msg){
+        //         $('#messages').append($('<li>').text(msg));
+        //         window.scrollTo(0, document.body.scrollHeight);
+        //     });
+        // });
+    </script>
+  </body>
+</html>
