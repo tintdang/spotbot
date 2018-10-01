@@ -25,6 +25,7 @@ class GameBoard extends React.Component {
 
       if(this.state.timer === 0){
         console.log("this should stop")
+        //This will run the stop countdown function below and will stop the timer to continue any furthur
         return this.stopCountdown()
       }
 
@@ -33,6 +34,10 @@ class GameBoard extends React.Component {
 
   stopCountdown = () => {
     clearInterval(interval)
+    //Reset the timer back to the normal state
+    this.setState({
+      timer: 5
+    })
   }
 
 
