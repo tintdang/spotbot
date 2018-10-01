@@ -16,7 +16,7 @@ const App = props => {
         <Callback auth={props.auth} />
       )} />
       <Route exact path="/" render={() => (
-        <Homepage
+        <Game
           auth={props.auth}
         />)
       } />
