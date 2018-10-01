@@ -5,7 +5,7 @@ import Timer from '../timer';
 class GameBoard extends React.Component {
 
     state = {
-        timer: null,
+        timer: 30
         
     }
 
@@ -21,7 +21,7 @@ class GameBoard extends React.Component {
                             defaultValue="User interaction will go here...">
                 </textarea>
                 <div id="timer-holder">
-                    <Timer />
+                    <Timer time={this.state.timer}/>
                 </div>
             </div>
         )
