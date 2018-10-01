@@ -5,7 +5,8 @@ import Timer from '../timer';
 class GameBoard extends React.Component {
 
     state = {
-        valueshere: null
+        timer: null,
+        
     }
 
     componentDidMount(){
