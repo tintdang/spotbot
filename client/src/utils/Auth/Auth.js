@@ -42,7 +42,8 @@ export default class Auth {
   }
 
   isAuthenticated() {
-    return new Date().getTime() < this.expiresAt;
+    let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    return new Date().getTime() < expiresAt;
   }
 
   //Sending user to the auth0 website
@@ -52,14 +53,18 @@ export default class Auth {
 
   logout() {
     // clear id token and expiration
-    this.idToken = null;
-    this.expiresAt = null;
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('expires_at');
   }
 
   setSession(authResult) {
-    this.idToken = authResult.idToken;
-    this.profile = authResult.idTokenPayload;
+    // Set the time the Access Token will expire
+    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    // Set their tokens at local storage
+    localStorage.setItem('access_token', authResult.accessToken);
+    localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('expires_at', expiresAt);
     // set the time that the id token will expire at
-    this.expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
   }
 }
