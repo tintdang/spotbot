@@ -15,11 +15,11 @@ const App = props => {
       <Route path="/callback" render={() => (
         <Callback auth={props.auth} />
       )} />
-      <Route exact path="/" render={() => (
-        <Homepage
-          auth={props.auth}
-        />)
-      } />
+      <Route exact path="/" render={() => {
+        return (!props.auth.isAuthenticated()) ? (
+          <Homepage auth={props.auth} />
+        ) :(<Redirect to="/game" />)
+      }} />
       <Route exact path="/game" render={() => {
         return (props.auth.isAuthenticated()) ? (
           <Game auth={props.auth} history={props.history} />
