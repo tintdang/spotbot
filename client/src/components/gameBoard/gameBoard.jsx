@@ -34,10 +34,12 @@ class GameBoard extends React.Component {
 
   stopCountdown = () => {
     clearInterval(interval)
-    //Reset the timer back to the normal state
-    this.setState({
-      timer: 5
-    })
+    //Reset the timer back to the normal state after 3 seconds
+    setTimeout(() => {
+      this.setState({
+        timer: 5
+      })
+    }, 3000)
   }
 
 
