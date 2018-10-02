@@ -2,6 +2,9 @@
   "name": "spotbot",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "server": "node server.js"
+  },
   "license": "MIT",
   "dependencies": {
     "auth0-js": "^9.8.0",
