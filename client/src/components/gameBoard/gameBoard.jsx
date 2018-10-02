@@ -47,9 +47,10 @@ class GameBoard extends React.Component {
   render() {
     return (
       <div id="game-board">
-        <textarea id="game-text"
+        {/* <textarea id="game-text"
           defaultValue="User interaction will go here...">
-        </textarea>
+        </textarea> */}
+        <Chat />
         <div id="timer-holder">
           <Timer time={this.state.timer} />
           <button onClick={() => this.timerCountdown()}>Start</button>

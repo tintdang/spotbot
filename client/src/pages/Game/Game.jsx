@@ -2,7 +2,6 @@ import React from "react";
 import './game.css';
 import GameBoard from '../../components/gameBoard';
 import UserSeat from '../../components/userSeat';
-import Chat from '../../components/chat';
 
 const Game = props => {
   //Creating a logout button
