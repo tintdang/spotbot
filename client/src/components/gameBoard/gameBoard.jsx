@@ -24,9 +24,9 @@ class GameBoard extends React.Component {
                 {/* <textarea id="game-text"
                     defaultValue="User interaction will go here...">
                 </textarea> */}
-                {/* <div id="timer-holder">
+                <div id="timer-holder">
                     <Timer />
-                </div> */}
+                </div>
             </div>
 
         )
