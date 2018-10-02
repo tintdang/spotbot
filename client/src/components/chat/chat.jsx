@@ -20,6 +20,11 @@ class Chat extends React.Component {
             console.log("Received msg?", data);
             addMessage(data);
         });
+        // from bot <--
+        this.socket.on('bot reply', function(msg){
+            console.log("Received bot msg?", msg);
+            addMessage(msg);
+          });
 
         const addMessage = data => {
             console.log("Data rec'd in addMsg method:", data);
@@ -33,6 +38,11 @@ class Chat extends React.Component {
                 author: this.state.author,
                 message: this.state.message
             });
+            // to bot -->
+            this.socket.emit('chat message', {
+                message: this.state.message
+            });
+            // clear state
             this.setState({ message: '' });
         }
     }
