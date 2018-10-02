@@ -2,6 +2,9 @@
   "name": "spotbot",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "server": "node server.js"
+  },
   "license": "MIT",
   "dependencies": {
     "apiai": "^4.0.3",
