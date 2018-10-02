@@ -16,7 +16,7 @@ const Game = props => {
     <div>
       <GameBoard />
       <UserSeat />
-      <button onClick={logout}>Logout</button>
+      <button style={{float:"right"}} onClick={logout}>Logout</button>
     </div>
   )
 
