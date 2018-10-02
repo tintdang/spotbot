@@ -1,0 +1,12 @@
+#vote-Button{
+    color: rgb(240,240,240);
+    background-color: rgb(50,50,50);
+    background-color: rgba(50,50,50,1);
+    height: 5vh;
+    width: 20%;
+    /* position: center; */
+    padding: 1%;
+    margin: 1%;
+    float: left;
+    
+}

@@ -1,24 +1,18 @@
 import React from 'react'
 import './voteButton.css'
 
-class VoteButton extends React.Component {
+const VoteButton = props => {
 
-    state = {
-        valueshere: null
-    }
-
-    componentDidMount(){
-        console.log("voteButton Component(s) loaded!");
-    }
+    // componentDidMount(){
+    //     console.log("voteButton Component(s) loaded!");
+    // }
     // future methods here
 
-    render(){
         return(
             <div>
-                <div id="vote-Button"></div>
+                <button id="vote-Button">Vote!</button>
             </div>
         )
-    }
 }
 
 export default VoteButton;
