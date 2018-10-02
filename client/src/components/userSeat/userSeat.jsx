@@ -1,7 +1,7 @@
 import React from 'react'
 import './userSeat.css'
 import VoteButton from '../voteButtons';
-// import Timer from '../timer';
+import Timer from '../timer';
 
 class UserSeat extends React.Component {
 
