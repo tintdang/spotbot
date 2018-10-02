@@ -1,6 +1,9 @@
 import React from 'react';
 import './gameBoard.css';
 import Timer from '../timer';
+import Chat from '../chat';
+
+
 
 let interval;
 
@@ -14,7 +17,6 @@ class GameBoard extends React.Component {
   componentDidMount() {
     console.log("GameBoard Component loaded!");
   }
-  // future methods here
 
   timerCountdown = () => {
     interval = setInterval(() => {
@@ -23,7 +25,7 @@ class GameBoard extends React.Component {
       })
       console.log(this.state.timer)
 
-      if(this.state.timer === 0){
+      if (this.state.timer === 0) {
         console.log("this should stop")
         //This will run the stop countdown function below and will stop the timer to continue any furthur
         return this.stopCountdown()
@@ -42,15 +44,13 @@ class GameBoard extends React.Component {
     }, 3000)
   }
 
-
-
-
   render() {
     return (
       <div id="game-board">
-        <textarea id="game-text"
+        {/* <textarea id="game-text"
           defaultValue="User interaction will go here...">
-        </textarea>
+        </textarea> */}
+        <Chat />
         <div id="timer-holder">
           <Timer time={this.state.timer} />
           <button onClick={() => this.timerCountdown()}>Start</button>

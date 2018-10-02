@@ -7,7 +7,7 @@ const Navbar = () =>
   id="nav-style"
   className="nav-bar">
     <div className="Navbar-nav">
-      <h1>SPOT the BOT</h1>
+      <h1>SPOT-BOT</h1>
     </div>
   </div>
 </nav>;
