@@ -1,5 +1,6 @@
 // src/Auth/Auth.js
 import auth0 from 'auth0-js';
+import history from '../History/history';
 // https://auth0.com/blog/react-router-4-practical-tutorial/
 
 // Creates an Auth class that will be used in index.js
@@ -29,17 +30,16 @@ export default class Auth {
 
   // handleAuthentication is set as a promise to have other functions run after.
   handleAuthentication() {
-    return new Promise((resolve, reject) => {
-      this.auth0.parseHash((err, authResult) => {
-        if (err) return reject(err);
-        console.log(authResult);
-        if (!authResult || !authResult.idToken) {
-          return reject(err);
-        }
+    this.auth0.parseHash((err, authResult) => {
+      console.log(authResult);
+      if (authResult && authResult.idToken){
         this.setSession(authResult);
-        resolve();
-      });
-    })
+        history.replace('/game')
+      } else if (err){
+        history.replace('/')
+        console.log(err);
+      }
+    });
   }
 
   isAuthenticated() {
@@ -57,6 +57,8 @@ export default class Auth {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
+
+    history.replace('/')
   }
 
   setSession(authResult) {
@@ -67,5 +69,6 @@ export default class Auth {
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
     // set the time that the id token will expire at
+    history.replace('/game')
   }
 }
