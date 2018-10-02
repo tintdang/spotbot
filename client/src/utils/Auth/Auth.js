@@ -3,13 +3,14 @@ import auth0 from 'auth0-js';
 // https://auth0.com/blog/react-router-4-practical-tutorial/
 
 // Creates an Auth class that will be used in index.js
+const origin = window.location.origin;
 export default class Auth {
   constructor() {
     this.auth0 = new auth0.WebAuth({
       domain: 'tindang.auth0.com',
       audience: 'https://tindang.auth0.com/userinfo',
       clientID: 'bYJ74HYs2ygdgG1lEuTIlmruxiOn7cDX',
-      redirectUri: 'http://localhost:3000/callback',
+      redirectUri: origin + '/callback',
       responseType: 'token id_token',
       scope: 'openid profile'
     });
