@@ -2,7 +2,7 @@ import React from "react";
 import io from "socket.io-client";
 import './chat.css';
 
-
+const origin = window.location.origin;
 class Chat extends React.Component {
 
     constructor(props) {
@@ -14,7 +14,7 @@ class Chat extends React.Component {
             messages: []
         };
 
-        this.socket = io('localhost:3001');
+        this.socket = io(origin);
 
         this.socket.on('RECEIVE_MESSAGE', function (data) {
             console.log("Received msg?", data);
