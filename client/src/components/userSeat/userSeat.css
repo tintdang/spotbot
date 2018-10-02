@@ -1,4 +1,3 @@
-/* For now these are just all unique static colors to help identify the design */
 
 #user-seat{
     background-color: rgb(240,240,240);
@@ -22,6 +21,18 @@
 
 }
 
-#user-input{}
+#user-info{
+    background-color: lightsteelblue;
+    height: 20%;
+    width: 80%;
+    margin: auto;
+}
 
-#user-info{}
+#user-input{
+    background-color: rgb(240,240,240);
+    background-color: rgba(240,240,240,1);
+    height: 70%;
+    width: 80%;
+    margin: auto;
+}
+
