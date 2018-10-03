@@ -5,12 +5,17 @@ const UserSchema = new Schema({
   id: {
     type: String,
     index: true,
+    unique: true
   },
   name: String,
   attributes: {
     type: Object,
     default: {},
   },
+  inGame: {
+    type: Boolean,
+    default: false
+  }
 })
 
 // This creates our model from the above schema, using mongoose's model method

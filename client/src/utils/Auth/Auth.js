@@ -1,6 +1,7 @@
 // src/Auth/Auth.js
 import auth0 from 'auth0-js';
 // https://auth0.com/blog/react-router-4-practical-tutorial/
+import API from '../API';
 
 // Creates an Auth class that will be used in index.js
 const origin = window.location.origin;
@@ -67,5 +68,11 @@ export default class Auth {
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
     // set the time that the id token will expire at
+    // saving user to database
+    console.log("authResult.idTokenPayload");
+    API.saveUser({
+      id: authResult.idTokenPayload.sub,
+      name: authResult.idTokenPayload.name
+    });
   }
 }
