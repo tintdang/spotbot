@@ -1,7 +1,12 @@
 import React from "react";
 import io from "socket.io-client";
 import './chat.css';
+import API from "../../utils/API";
 
+const origin = window.location.origin;
+
+let randNum;
+let key;
 
 class Chat extends React.Component {
 
@@ -11,14 +16,38 @@ class Chat extends React.Component {
         this.state = {
             author: '',
             message: '',
-            messages: []
+            messages: [],
+            botMsg: 'test123',
+            botname: 'Real_Human_Person.exe'
         };
 
-        this.socket = io('localhost:3001');
+        // USE THESE TO TOGGLE FOR PRODUCTION OR IMPLEMENT A SWITCH
+        // this.socket = io(origin);
+        console.log("Ignore this but leave it:", origin);
 
-        this.socket.on('RECEIVE_MESSAGE', function (data) {
+        this.socket = io('localhost:3001');
+        // END PROD-SWITCH
+
+        this.socket.on('RECEIVE_MESSAGE', (data) => {
             console.log("Received msg?", data);
             addMessage(data);
+            // store to database
+            API.saveHistory(data);
+        });
+
+        // from bot <--
+        this.socket.on('bot reply', (msg) => {
+            console.log("Received bot msg?", msg);
+            this.setState({
+                // botname: msg.author,
+                botMsg: msg
+            });
+
+            this.socket.emit('SEND_MESSAGE', {
+                author: this.state.botname,
+                message: this.state.botMsg
+            });
+            addMessage(msg);
         });
 
         const addMessage = data => {
@@ -27,15 +56,31 @@ class Chat extends React.Component {
             console.log(this.state.messages);
         };
 
-        this.sendMessage = ev => {
-            ev.preventDefault();
+        this.sendToBot = () => {
+            // event.preventDefault();
+            this.socket.emit('chat message', {
+                message: this.state.message
+            });
+        }
+
+        this.sendMessage = () => {
+            // event.preventDefault();
             this.socket.emit('SEND_MESSAGE', {
                 author: this.state.author,
                 message: this.state.message
             });
+            // clear state
             this.setState({ message: '' });
+            console.log("sendMessage Ran. Message state reset to blank: ", this.state.message);
         }
     }
+
+    actionsOnClick = event => {
+        event.preventDefault();
+        console.log('ACTIONS CALLED.');
+        this.sendMessage();
+        this.sendToBot();
+    };
 
     componentDidMount() {
         console.log("Chat mounted");
@@ -47,9 +92,10 @@ class Chat extends React.Component {
     }
 
     genNewKey = () => {
-        let randNum = Math.floor(Math.random() * 300);
-        let key = Date.now() + randNum;
+        randNum = Math.floor(Math.random() * 300);
+        key = Date.now() + randNum;
         console.log("Key id assigned: ", key);
+        // return key;
     }
 
     render() {
@@ -67,8 +113,8 @@ class Chat extends React.Component {
                         {this.state.messages.map(message => {
                             return (
                                 <div
-                                    onChange={this.genNewKey}
-                                    key={this.key}>
+                                    // onChange={this.genNewKey()}
+                                    key={key}>
                                     {message.author}: {message.message}
                                 </div>
                             )
@@ -84,9 +130,10 @@ class Chat extends React.Component {
                         <br />
                         <input type="text" placeholder="Message" name="message" className="form-control"
                             onChange={this.handleInputChange}
-                            value={this.state.message} />
+                            value={this.state.message}
+                        />
                         <br />
-                        <button onClick={this.sendMessage} className="btn btn-dark form-control">Send</button>
+                        <button onClick={this.actionsOnClick} className="btn btn-dark form-control">Send</button>
                     </form>
                 </div>
             </div>
