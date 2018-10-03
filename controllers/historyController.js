@@ -16,10 +16,10 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
-    console.log("req.body: ", req.body);
+    //console.log("req.body: ", req.body);
     const history = {
-      userId: req.body.author || "",
-      message: req.body.message || ""
+      userId: req.body.author,
+      message: req.body.message
     };
     db.History
       .create(history)

@@ -1,7 +1,7 @@
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-var HistorySchema = new Schema({
+const HistorySchema = new Schema({
   userId: {
     type: String,
     index: true,
@@ -15,7 +15,7 @@ var HistorySchema = new Schema({
   }
 })
 // This creates our model from the above schema, using mongoose's model method
-var History = mongoose.model('history', HistorySchema);
+const History = mongoose.model('history', HistorySchema);
 
 // Export the History model
 module.exports = History;
