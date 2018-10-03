@@ -1,7 +1,7 @@
 import React from "react";
 import {withRouter} from 'react-router';
 import { Route, Redirect } from "react-router-dom";
-import Navbar from "./components/Navbar";
+
 import Game from "./pages/Game";
 import Callback from "./pages/Callback";
 import Homepage from "./pages/Homepage";
@@ -11,7 +11,6 @@ const App = props => {
 
   return (
     <div>
-      <Navbar />
       <Route path="/callback" render={() => (
         <Callback auth={props.auth} />
       )} />

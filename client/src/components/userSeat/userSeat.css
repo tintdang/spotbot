@@ -1,11 +1,13 @@
 
 #user-seat{
     background-color: rgb(240,240,240);
-    background-color: rgba(240,240,240,1);
+    background-color: rgb(56, 19, 19);
     height: 8vh;
     width: 70vw;
     margin: 20px auto;
     min-width: 350px;
+    position: fixed;
+    bottom: 0vh;
 }
 
 #user-section{
