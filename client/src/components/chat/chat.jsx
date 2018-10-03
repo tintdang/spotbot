@@ -123,10 +123,10 @@ class Chat extends React.Component {
                 </div>
                 <div className="card-footer">
                     <form>
-                        <input type="text" placeholder="Username" name="author" className="form-control"
+                        {/* <input type="text" placeholder="Username" name="author" className="form-control"
                             value={this.state.author}
                             onChange={this.handleInputChange}
-                        />
+                        /> */}
                         <br />
                         <input type="text" placeholder="Message" name="message" className="form-control"
                             onChange={this.handleInputChange}

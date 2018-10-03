@@ -9,7 +9,7 @@ const PopOutRight = props =>
 
     <div className="popOut right">
         <div>
-            <button onClick={toggleVisibility()}>X</button>
+            <button id="prbutton" onClick={toggleVisibility()}> =- </button>
         </div>
     </div>
 
