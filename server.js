@@ -22,7 +22,7 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 
 // Set up connections for socket.io ***
-const http = require('http').Server(app);
+// const http = require('http').Server(app); 
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 io.on('connection', function(socket){

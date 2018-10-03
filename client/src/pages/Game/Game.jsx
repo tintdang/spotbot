@@ -5,16 +5,54 @@ import UserSeat from '../../components/userSeat';
 import Navbar from "../../components/Navbar";
 import PopOutRight from '../../components/popOutRight';
 import PopOutLeft from '../../components/popOutLeft';
+import Timer from '../../components/timer';
 
+let interval;
 
-const Game = props => {
+class Game extends React.Component {
+  
+  state = {
+    timer: 5
+
+  }
+
+  componentDidMount() {
+    console.log("Game Canvas Component loaded!");
+  }
+
+  timerCountdown = () => {
+    interval = setInterval(() => {
+      this.setState({
+        timer: this.state.timer - 1
+      })
+      console.log(this.state.timer)
+
+      if (this.state.timer === 0) {
+        console.log("this should stop")
+        //This will run the stop countdown function below and will stop the timer to continue any furthur
+        return this.stopCountdown()
+      }
+
+    }, 1000)
+  }
+
+  stopCountdown = () => {
+    clearInterval(interval)
+    //Reset the timer back to the normal state after 3 seconds
+    setTimeout(() => {
+      this.setState({
+        timer: 5
+      })
+    }, 3000)
+  }
+  
   //Creating a logout button
-  const logout = () => {
-    props.auth.logout();
-    props.history.push('/');
+  logout = () => {
+    this.props.auth.logout();
+    this.props.history.push('/');
   };
 
-
+render(){
   return (
     <div id="canvas">
       <Navbar />
@@ -22,10 +60,14 @@ const Game = props => {
       <GameBoard />
       <PopOutRight />
       <UserSeat />
-      <button id='logout-button' onClick={logout}>Logout</button>
+      <Timer time={this.state.timer} />
+      <button id='logout-button' onClick={this.logout}>Logout</button>
+      <div id="timer-holder">
+          <button onClick={() => this.timerCountdown()}>Start</button>
+        </div>
     </div>
   )
-
+  }
 }
 
 export default Game;
