@@ -16,7 +16,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
-    console.log("req.body: ", req.body);
+    //console.log("req.body: ", req.body);
     const user = {
       id: req.body.id,
       name: req.body.name
