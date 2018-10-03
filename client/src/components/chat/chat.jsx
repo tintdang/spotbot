@@ -21,12 +21,6 @@ class Chat extends React.Component {
             botname: 'Real_Human_Person.exe'
         };
 
-<<<<<<< HEAD
-        this.socket = io(origin);
-        
-        // from chat <-->
-        this.socket.on('RECEIVE_MESSAGE', function (data) {
-=======
         // USE THESE TO TOGGLE FOR PRODUCTION OR IMPLEMENT A SWITCH
         // this.socket = io(origin);
         console.log("Ignore this but leave it:", origin);
@@ -35,7 +29,6 @@ class Chat extends React.Component {
         // END PROD-SWITCH
 
         this.socket.on('RECEIVE_MESSAGE', (data) => {
->>>>>>> master
             console.log("Received msg?", data);
             addMessage(data);
             // store to database
@@ -55,13 +48,7 @@ class Chat extends React.Component {
                 message: this.state.botMsg
             });
             addMessage(msg);
-<<<<<<< HEAD
-            // store to database
-            //API.saveHistory(msg);
-          }); 
-=======
         });
->>>>>>> master
 
         const addMessage = data => {
             console.log("Data rec'd in addMsg method:", data);
