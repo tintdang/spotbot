@@ -61,7 +61,7 @@ io.on('connection', (socket) => {
 
 io.on('connection', function(socket) {
   socket.on('chat message', (text) => {
-    console.log('Message: ' + text.message); 
+    //console.log('Message: ' + text.message); 
 
     // Get a reply from API.ai
 
@@ -71,7 +71,7 @@ io.on('connection', function(socket) {
 
     apiaiReq.on('response', (response) => {
       let aiText = response.result.fulfillment.speech;
-      console.log('Bot reply: ' + aiText);
+      //console.log('Bot reply: ' + aiText);
       socket.emit('bot reply', aiText);
     });
 

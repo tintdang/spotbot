@@ -1,6 +1,7 @@
 import React from "react";
 import io from "socket.io-client";
 import './chat.css';
+import API from "../../utils/API";
 
 const origin = window.location.origin;
 
@@ -30,6 +31,8 @@ class Chat extends React.Component {
         this.socket.on('RECEIVE_MESSAGE', (data) => {
             console.log("Received msg?", data);
             addMessage(data);
+            // store to database
+            API.saveHistory(data);
         });
 
         // from bot <--
@@ -66,7 +69,6 @@ class Chat extends React.Component {
                 author: this.state.author,
                 message: this.state.message
             });
-
             // clear state
             this.setState({ message: '' });
             console.log("sendMessage Ran. Message state reset to blank: ", this.state.message);
