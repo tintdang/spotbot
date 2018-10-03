@@ -3,8 +3,6 @@ import './gameBoard.css';
 import Timer from '../timer';
 import Chat from '../chat';
 
-
-
 let interval;
 
 class GameBoard extends React.Component {
