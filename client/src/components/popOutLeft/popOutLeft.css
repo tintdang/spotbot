@@ -13,3 +13,8 @@
     position: relative;
     left: 10vw;
 }
+
+#plbutton{
+    background-color: transparent;
+    width: 100%;
+}
