@@ -90,7 +90,7 @@ io.on('connection', (socket) => {
     
 
     socket.on('SEND_MESSAGE', function(data){
-      console.log(data);
+      //console.log(data);
       io.emit('RECEIVE_MESSAGE', data);
     })
 });
