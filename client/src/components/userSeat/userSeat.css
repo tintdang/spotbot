@@ -4,10 +4,10 @@
     background-color: rgb(56, 19, 19);
     height: 8vh;
     width: 70vw;
-    margin: 20px auto;
+    margin: 0 15vw;
     min-width: 350px;
     position: fixed;
-    bottom: 0vh;
+    bottom: -1px;
 }
 
 #user-section{
@@ -37,4 +37,5 @@
     width: 80%;
     margin: auto;
 }
+
 

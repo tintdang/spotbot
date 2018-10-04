@@ -3,28 +3,14 @@ import './userSeat.css'
 import VoteButton from '../voteButtons';
 import Timer from '../timer';
 
-class UserSeat extends React.Component {
+const UserSeat = props => {
 
-    state = {
-        valueshere: null
-    }
-
-    componentDidMount() {
-        console.log("UserSeat Component loaded!");
-    }
-
-    // future methods here
-
-
-
-    render() {
         return (
             <div id="user-seat">
-                {/* <Timer /> */}
                 <VoteButton>1</VoteButton>
                 <VoteButton>2</VoteButton>
                 <VoteButton>3</VoteButton>
-                
+                <Timer time={props.time}/>
 
                 {/* <div id="user-section">
                     <div id="user-info">
@@ -40,9 +26,7 @@ class UserSeat extends React.Component {
                     </div>
                 </div> */}
             </div>
-
         )
-    }
 }
 
 export default UserSeat;

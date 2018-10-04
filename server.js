@@ -25,7 +25,7 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 // const http = require('http').Server(app); 
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
-io.on('connection', function(socket){
+io.on('connection', function (socket) {
   console.log('a user connected');
 });
 
@@ -49,61 +49,66 @@ app.use(routes)
 app.use(morgan("combined"));
 
 
+/// SOCKET.IO SERVER PIECES:
+
+let allowedUsers = [];
+
 // Setting up more socket.io stuff:
 io.on('connection', (socket) => {
-    console.log(socket.id);
 
-    socket.on('SEND_MESSAGE', function(data){
+  //Did we connect? If so, on which socket?
+  console.log(socket.id);
+
+  //When that specific socket disconnects, what should we do?
+  socket.on('disconnect', () => {
+    //Search our allowedUsers array and remove anyone from it that disconnects
+    for (let i = 0; i < allowedUsers.length; i++) {
+      if (socket.id === allowedUsers[i]) {
+        allowedUsers.splice(i, 1);
+        console.log("Array state after user removed:", allowedUsers);
+      }
+    }
+  });
+
+  //When a user connects, if there is room for them, we mark it in our array.
+  allowedUsers.push(socket.id)
+  console.log("List of players by socket.id:", allowedUsers);
+
+  if (allowedUsers.length < 4) {
+    socket.on('SEND_MESSAGE', function (data) {
       console.log(data);
       io.emit('RECEIVE_MESSAGE', data);
-    })
-});
+    });
+  } else {
+    console.log("THIS IS THE LOGIC FLAG PLACE FOR TOO MANY PEOPLE");
+  }
 
-io.on('connection', function(socket) {
+  //COPY PASTE BOT LOGIC
   socket.on('chat message', (text) => {
     //console.log('Message: ' + text.message); 
-
     // Get a reply from API.ai
-
     let apiaiReq = apiai.textRequest(text.message, {
       sessionId: APIAI_SESSION_ID
     });
-
     apiaiReq.on('response', (response) => {
       let aiText = response.result.fulfillment.speech;
       //console.log('Bot reply: ' + aiText);
       socket.emit('bot reply', aiText);
     });
-
     apiaiReq.on('error', (error) => {
       console.log(error);
     });
-
     apiaiReq.end();
-
   });
-});
+  //END PASTE
 
-// username test
-            // socket.on('disconnect', function() {
-            // console.log('user ' + username + ' disconnected');
-            // count--;
-            // io.sockets.emit('disconnected', {
-            //     username: username,
-            //     number: count
-            // });
-            // });
+});
 
 
 //Start the socket.io listener:
 server.listen(PORT, () =>
-  console.log(`Socket.io is listening on PORT ${PORT}`) 
+  console.log(`Socket.io is listening on PORT ${PORT}`)
 );
-
-//Start the server
-// app.listen(PORT, () => 
-//   console.log(`API server is now listening on PORT ${PORT}`)
-// );
 
 
 

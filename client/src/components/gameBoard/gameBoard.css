@@ -4,13 +4,13 @@
     background-color: rgba(50,50,50,1);
     width: 70vw;
     margin: 0;
-    height: 68vh;
+    height: 75vh;
     min-width: 350px;
     min-height: 350px;
     float: left;
     position: relative;
     left: 10vw;
-
+    z-index: 10;
 }
 
 #game-text{
