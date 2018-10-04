@@ -2,6 +2,7 @@ node_modules/
 .DS_Store
 .env
 keys.js
+package-lock.json
 
 personal/
 
