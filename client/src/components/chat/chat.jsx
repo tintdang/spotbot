@@ -47,15 +47,15 @@ class Chat extends React.Component {
                 author: this.state.botname,
                 message: this.state.botMsg
             });
-            addMessage(msg);
         });
 
         const addMessage = data => {
             console.log("Data rec'd in addMsg method:", data);
             this.setState({ messages: [...this.state.messages, data] });
-            console.log(this.state.messages);
+            //console.log(this.state.messages);
         };
 
+        // too bot -->
         this.sendToBot = () => {
             // event.preventDefault();
             this.socket.emit('chat message', {
