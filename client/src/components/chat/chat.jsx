@@ -9,6 +9,10 @@ let randNum;
 let key;
 
 class Chat extends React.Component {
+// testing for providing user names
+// var socket = io.connect();
+// data = {name: userName, userId: socket.id};
+// socket.emit('setSocketId', data);
 
     constructor(props) {
         super(props);
@@ -141,6 +145,7 @@ class Chat extends React.Component {
             //     </div>
             // </div>
         );
+        
     }
 }
 

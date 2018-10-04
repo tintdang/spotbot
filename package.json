@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "server": "node server.js"
+    "server": "node server.js",
+    "start": "node server.js"
   },
   "license": "MIT",
   "dependencies": {
@@ -14,6 +15,18 @@
     "express": "^4.16.3",
     "mongoose": "^5.3.1",
     "morgan": "^1.9.1",
+    "nodemon": "^1.18.4",
     "socket.io": "^2.1.1"
-  }
+  },
+  "description": "A fun game where you and a group decide which person in the group is a chat bot",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tintdang/spotbot.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/tintdang/spotbot/issues"
+  },
+  "homepage": "https://github.com/tintdang/spotbot#readme"
 }
