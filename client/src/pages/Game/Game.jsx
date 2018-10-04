@@ -5,7 +5,7 @@ import UserSeat from '../../components/userSeat';
 import Navbar from "../../components/Navbar";
 import PopOutRight from '../../components/popOutRight';
 import PopOutLeft from '../../components/popOutLeft';
-import Timer from '../../components/timer';
+
 
 let interval;
 
@@ -13,7 +13,6 @@ class Game extends React.Component {
   
   state = {
     timer: 5
-
   }
 
   componentDidMount() {
@@ -59,12 +58,8 @@ render(){
       <PopOutLeft />
       <GameBoard />
       <PopOutRight />
-      <UserSeat />
-      <Timer time={this.state.timer} />
+      <UserSeat time={this.state.timer} />
       <button id='logout-button' onClick={this.logout}>Logout</button>
-      <div id="timer-holder">
-          <button onClick={() => this.timerCountdown()}>Start</button>
-        </div>
     </div>
   )
   }

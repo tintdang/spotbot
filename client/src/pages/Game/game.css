@@ -12,17 +12,17 @@ body{
 }
 
 #canvas{
-    background-color: lightblue;
-    background-image: url('../../assets/images/blue_woman_robotic.jpg');
+    /* background-color: lightpink; */
+    background-image: url('../../assets/images/circuit_color.jpg');
     width: 100vw;
     max-width: 100vw;
     height: 100vh;
     max-height: 100vh;
     /* min-width: 400x; */
     /* min-width: 800px; */
-    position: fixed;
-    top:0;
-    left:0;
+    position: absolute;
+    /* top:0;
+    left:0; */
 
 }
 

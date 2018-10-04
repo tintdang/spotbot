@@ -4,9 +4,8 @@ import './timer.css'
 const Timer = props =>
 
     <div>
-        <span id="timer">{props.time}</span>
+        <span id="timer">Time: {props.time}</span>
     </div>;
-
 
 
 export default Timer;

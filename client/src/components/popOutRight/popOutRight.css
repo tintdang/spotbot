@@ -3,7 +3,7 @@
     background-color: rgba(20,20,20,.8);
     width: 5vw;
     margin: 0;
-    height: 66vh;
+    height: 60vh;
     min-width: 0;
     min-height: 0;
     float: left;
@@ -12,6 +12,7 @@
 .right{
     position: relative;
     right: -10vw;
+    top: 5vh;
 }
 
 #prbutton{

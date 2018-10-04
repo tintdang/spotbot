@@ -12,6 +12,7 @@
 .left{
     position: relative;
     left: 10vw;
+    top: 5vh;
 }
 
 #plbutton{

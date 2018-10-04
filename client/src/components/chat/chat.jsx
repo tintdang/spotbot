@@ -26,10 +26,11 @@ class Chat extends React.Component {
         };
 
         // USE THESE TO TOGGLE FOR PRODUCTION OR IMPLEMENT A SWITCH
-        // this.socket = io(origin);
+        // this.socket = io(origin, {'sync disconnect on unload': true });
         console.log("Ignore this but leave it: ", origin);
 
-        this.socket = io('localhost:3001');
+        this.socket = io('localhost:3001', 
+        {'sync disconnect on unload': true });
         // END PROD-SWITCH
 
         this.socket.on('RECEIVE_MESSAGE', (data) => {
