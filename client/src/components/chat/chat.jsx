@@ -27,13 +27,13 @@ class Chat extends React.Component {
 
         // USE THESE TO TOGGLE FOR PRODUCTION OR IMPLEMENT A SWITCH
         // this.socket = io(origin);
-        console.log("Ignore this but leave it:", origin);
+        console.log("Ignore this but leave it: ", origin);
 
         this.socket = io('localhost:3001');
         // END PROD-SWITCH
 
         this.socket.on('RECEIVE_MESSAGE', (data) => {
-            console.log("Received msg?", data);
+            //console.log("Received msg?", data);
             addMessage(data);
             // store to database
             API.saveHistory(data);
@@ -41,7 +41,7 @@ class Chat extends React.Component {
 
         // from bot <--
         this.socket.on('bot reply', (msg) => {
-            console.log("Received bot msg?", msg);
+            //console.log("Received bot msg?", msg);
             this.setState({
                 // botname: msg.author,
                 botMsg: msg
@@ -51,15 +51,15 @@ class Chat extends React.Component {
                 author: this.state.botname,
                 message: this.state.botMsg
             });
-            addMessage(msg);
         });
 
         const addMessage = data => {
-            console.log("Data rec'd in addMsg method:", data);
+            //console.log("Data rec'd in addMsg method:", data);
             this.setState({ messages: [...this.state.messages, data] });
-            console.log(this.state.messages);
+            //console.log(this.state.messages);
         };
 
+        // too bot -->
         this.sendToBot = () => {
             // event.preventDefault();
             this.socket.emit('chat message', {
@@ -75,13 +75,13 @@ class Chat extends React.Component {
             });
             // clear state
             this.setState({ message: '' });
-            console.log("sendMessage Ran. Message state reset to blank: ", this.state.message);
+            //console.log("sendMessage Ran. Message state reset to blank: ", this.state.message);
         }
     }
 
     actionsOnClick = event => {
         event.preventDefault();
-        console.log('ACTIONS CALLED.');
+        //console.log('ACTIONS CALLED.');
         this.sendMessage();
         this.sendToBot();
     };

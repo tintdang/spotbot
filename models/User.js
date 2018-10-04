@@ -5,11 +5,24 @@ const UserSchema = new Schema({
   id: {
     type: String,
     index: true,
+    unique: true
   },
   name: String,
   attributes: {
     type: Object,
     default: {},
+  },
+  inGame: {
+    type: Boolean,
+    default: false
+  },
+  correctGuesses: {
+    type: Number,
+    default: 0
+  },
+  fakeOuts: {
+    type: Number,
+    default: 0
   },
 })
 
