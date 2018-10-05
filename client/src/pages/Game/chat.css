@@ -5,9 +5,15 @@
     /* max-width: 400px; */
     max-height: 400px;
     overflow-y: scroll;
-    /* position:relative;
-    bottom:0; */
+
+    /* position:relative; */
 }
+
+/* .scrolltobottom{
+    position: relative;
+    bottom:0;
+    asdfasdf
+} */
 
 .card{
     width: 100%;

@@ -194,10 +194,10 @@ io.on('connection', (socket) => {
       });
       if (gameTime === 0) { // this is when game stops
         clearInterval(gameInterval);
-        // post-game logic
-        io.emit('allow_voting', {
-          allowVote: true
-        });
+        // // post-game logic
+        // io.emit('allow_voting', {
+        //   allowVote: true
+        // });
       }
     }, 1000);
 
