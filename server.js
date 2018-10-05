@@ -177,9 +177,13 @@ io.on('connection', (socket) => {
     // START GAME FUNCTIONs
     gameTimer = () => {
     gameTime = 15;
-    setInterval(function() {
+    const gameInterval = setInterval(function() {
       gameTime--;
-      io.emit('game_logic', { timer: gameTime })
+      io.emit('game_logic', { timer: gameTime });
+      if (gameTime === 0) { // this is when game stops
+        clearInterval(gameInterval);
+        // post-game logic
+      }
     }, 1000);
 
   }

@@ -26,7 +26,7 @@ class Game extends React.Component {
         messages: [],
         botMsg: 'test123',
         botname: 'Real_Human_Person.exe',
-        timer: 5,
+        timer: 15,
         chatActive: true,
         score: null,
     };
@@ -58,7 +58,7 @@ class Game extends React.Component {
             message: this.state.botMsg
         });
     });
-
+    // game time logic
     this.socket.on('game_logic', (data) => {
        this.setState(data);
     });
