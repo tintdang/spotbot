@@ -68,6 +68,13 @@ class Game extends React.Component {
        this.setState(data);
     });
 
+    // This sets username 
+    this.socket.on('username', (data) => {
+        if (this.state.author === '') {
+        this.setState(data)
+        }
+    })
+
     const addMessage = data => {
         //console.log("Data rec'd in addMsg method:", data);
         this.setState({ messages: [...this.state.messages, data] });

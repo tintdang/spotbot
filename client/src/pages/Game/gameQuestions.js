@@ -1,0 +1,20 @@
+let gameQ = [
+    "Where are you from?",
+    "Are you enjoying this hot weather?",
+    "How much wood would a woodchuck chuck if a woodchuck could chuck wood?",
+    "What do you know?",
+    "Is there milk in ice cream?",
+    "Nike or Adidas?",
+    "Budapest is in what country?",
+    "What do you eat on Thanksgiving?",
+    "Can you do a pull up?",
+    "The professor said: All statements that include the word 'God' are false. Is the professor right or wrong?",
+    "If the sky is the sea, what does that make birds?",
+    "Today, I feel ocean round. What does that mean?",
+    "Jimmy was all like, bippity boppity, and Squirrel was like, badda beep badda boop. Who told the truth?",
+    "Do you prefer telling stuff or buying stuff?",
+    "Name three things you really want to recommend to me.",
+    "What is your oldest memory?",
+    "Oh sweet, this cool, huh?",
+    "Do you think I can fit this whole donut in my mouth?"
+];

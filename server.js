@@ -108,6 +108,26 @@ generateUserName = () => {
   return name;
 }
 
+// Names array
+let userNames = ["Rosie", "Johnny5", "Marvin", "bot", "Lion Force Voltron", "Kitt", "T-1000", "Cable's Arm", "Winter Soldier's Arm"];
+
+let currentUserNames = [];
+
+//This will pick a random name from the array and slice it out of the array.
+generateUserName = (socketID) => {
+  let name;
+  name = userNames[Math.floor(Math.random() * userNames.length)];
+  console.log("We picked " + name + " = " + socketID)
+  while (currentUserNames.includes(name)) {
+    console.log("found duplicate name");
+    name = userNames[Math.floor(Math.random() * userNames.length)];
+    console.log("We now picked " + name + " = " + socketID);
+  }
+  currentUserNames.push(name);
+
+  return name;
+}
+
 // Setting up more socket.io stuff:
 io.on('connection', (socket) => {
 
@@ -117,7 +137,12 @@ io.on('connection', (socket) => {
   });
 
   //Did we connect? If so, on which socket?
-  console.log(socket.id);
+  // console.log(socket.id);
+
+  // Assign player their name and send it over to socket
+  username = generateUserName(socket.id);
+  io.emit('username', { author: username})
+
 
   //When that specific socket disconnects, what should we do?
   socket.on('disconnect', () => {
@@ -125,10 +150,16 @@ io.on('connection', (socket) => {
     for (let i = 0; i < allowedUsers.length; i++) {
       if (socket.id === allowedUsers[i]) {
         allowedUsers.splice(i, 1);
-        console.log("Array state after user removed:", allowedUsers);
+        console.log("username removed " + currentUserNames[i])
+        currentUserNames.splice(i, 1);
+        console.log("usernames left ", currentUserNames)
+        console.log("Array state after user removed: ", allowedUsers);
       }
     }
   });
+
+
+
 
   //When a user connects, if there is room for them, we mark it in our array.
   allowedUsers.push(socket.id);
