@@ -1,6 +1,6 @@
 // import dependencies ***
 require('dotenv').config()
-const axios = require('axios');
+//const axios = require('axios');
 const express = require("express");
 const bodyParser = require("body-parser");
 const routes = require("./routes");
@@ -111,8 +111,6 @@ generateUserName = () => {
 // Names array
 let userNames = ["Rosie", "Johnny5", "Marvin", "bot", "Lion Force Voltron", "Kitt", "T-1000", "Cable's Arm", "Winter Soldier's Arm"];
 
-let currentUserNames = [];
-
 //This will pick a random name from the array and slice it out of the array.
 generateUserName = (socketID) => {
   let name;
@@ -170,9 +168,9 @@ io.on('connection', (socket) => {
       console.log(data);
       io.emit('RECEIVE_MESSAGE', data);
       // store to database
-      axios.post('/api/history', data, function(req, res) {
-        console.log(res.data);
-      });
+      // axios.post('/api/history', data, function(req, res) {
+      //   console.log(res.data);
+      // });
     });
   } else {
     console.log("THIS IS THE LOGIC FLAG PLACE FOR TOO MANY PEOPLE");
