@@ -1,5 +1,6 @@
 // import dependencies ***
 require('dotenv').config()
+//const axios = require('axios');
 const express = require("express");
 const bodyParser = require("body-parser");
 const routes = require("./routes");
@@ -18,7 +19,9 @@ const PORT = process.env.PORT || 3001;
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/SpotBot";
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true
+});
 
 
 // Set up connections for socket.io ***
@@ -44,11 +47,7 @@ const io = require('socket.io')(server);
 //   });
 // });
 
-
-
-
 // testing for providing user names
-
 
 // var userNames = {};
 
@@ -67,13 +66,14 @@ const io = require('socket.io')(server);
 // });
 
 
-
 // Declaration for Dialogflow bot
 const apiai = require('apiai')(APIAI_TOKEN);
 
 
 // Use bodyParser to parse application/json content
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(bodyParser.json());
 
 //Serve basic assets if on production
@@ -110,85 +110,105 @@ io.on('connection', (socket) => {
   });
 
   //When a user connects, if there is room for them, we mark it in our array.
-  allowedUsers.push(socket.id)
+  allowedUsers.push(socket.id);
   console.log("List of players by socket.id:", allowedUsers);
 
   if (allowedUsers.length < 4) {
     socket.on('SEND_MESSAGE', function (data) {
       console.log(data);
       io.emit('RECEIVE_MESSAGE', data);
+      // store to database
+      API.saveHistory(data);
     });
   } else {
     console.log("THIS IS THE LOGIC FLAG PLACE FOR TOO MANY PEOPLE");
   }
 
 
-  if (allowedUsers.length === 3){
+  if (allowedUsers.length === 3) {
     //When there are the full amount of players we need in the game connected and joined.
 
 
     // ````````````````````````````timer stuff``````````````````
     let interval;
-    let timer = 6
+    let timer = 6;
 
     count = () => {
       interval = setInterval(() => {
-        timer--
-        io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: timer})
-        if(timer === 1){
+        timer--;
+        io.emit("GAME_MESSAGE", {
+          author: "SpotBot",
+          message: timer
+        });
+        if (timer === 1) {
           // io.emit("RECEIVE_MESSAGE",  { author: "SpotBot", message: "SPOTBOT!!!!"})
           // io.emit("StartGame", )
-          return stop()
+          return stop();
         }
-      }, 1000)
+      }, 1000);
     }
 
     stop = () => {
-      io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "SPOTBOT!!!!"})
+      io.emit("GAME_MESSAGE", {
+        author: "SpotBot",
+        message: "SPOTBOT!!!!"
+      });
       gameTimer();
       //Reset the timer and interval
-      clearInterval(interval)
+      clearInterval(interval);
       timer = 6;
     }
 
 
     // ````````````````````````````````````````
 
-    
+
 
     console.log("Game is ready")
-    io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "A Third person has joined the session."})
+    io.emit("GAME_MESSAGE", {
+      author: "SpotBot",
+      message: "A Third person has joined the session."
+    })
     //Wait 2 seconds before running the next message
     setTimeout(() => {
-      io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "The game will start in..."})
+      io.emit("GAME_MESSAGE", {
+        author: "SpotBot",
+        message: "The game will start in..."
+      });
       //Wait 2 seconds then run the count function
-      setTimeout(()=>{
-        count()
+      setTimeout(() => {
+        count();
       })
     }, 3000)
-    
-  }
-  else if (allowedUsers.length < 3){
+  } else if (allowedUsers.length < 3) {
     //If there are less than 3 players, have spotbot send a message out
-    console.log("Game is not ready")
-    socket.broadcast.to(allowedUsers[0]).emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "Please wait until 3 players are present and then the game will begin"})
+    console.log("Game is not ready");
+    socket.broadcast.to(allowedUsers[0]).emit("GAME_MESSAGE", {
+      author: "SpotBot",
+      message: "Please wait until 3 players are present and then the game will begin"
+    });
   }
 
-    // START GAME FUNCTIONs
-    gameTimer = () => {
+  // START GAME FUNCTIONs
+  gameTimer = () => {
     gameTime = 15;
-    const gameInterval = setInterval(function() {
+    const gameInterval = setInterval(function () {
       gameTime--;
-      io.emit('game_logic', { timer: gameTime });
+      io.emit('game_logic', {
+        timer: gameTime
+      });
       if (gameTime === 0) { // this is when game stops
         clearInterval(gameInterval);
         // post-game logic
+        io.emit('allow_voting', {
+          allowVote: true
+        });
       }
     }, 1000);
 
   }
-    // END GAME FUNCTIONS
-  
+  // END GAME FUNCTIONS
+
 
   //COPY PASTE BOT LOGIC
   socket.on('chat message', (text) => {
@@ -222,6 +242,3 @@ io.on('connection', (socket) => {
 server.listen(PORT, () =>
   console.log(`Socket.io is listening on PORT ${PORT}`)
 );
-
-
-

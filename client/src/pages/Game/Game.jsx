@@ -7,7 +7,7 @@ import PopOutLeft from '../../components/popOutLeft';
 import './gameBoard.css';
 import './chat.css';
 import io from "socket.io-client";
-import API from "../../utils/API";
+
 
 const origin = window.location.origin;
 
@@ -38,11 +38,16 @@ class Game extends React.Component {
     this.socket = io('localhost:3001', {'sync disconnect on unload': true });
     // END PROD-SWITCH
 
+    // receive chat messages from socket 
     this.socket.on('RECEIVE_MESSAGE', (data) => {
         //console.log("Received msg?", data);
         addMessage(data);
-        // store to database
-        API.saveHistory(data);
+    });
+
+    // receive game messages from socket
+    this.socket.on('GAME_MESSAGE', (data) => {
+        //console.log("Received msg?", data);
+        addMessage(data);
     });
 
     // from bot <--
