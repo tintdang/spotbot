@@ -29,46 +29,12 @@ mongoose.connect(MONGODB_URI, {
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
-// io.on('connection', socket => {
-//   console.log('a user connected');
-//   // console.log("array of users below if working");
-//   // console.log(io.sockets.sockets);
-//   // console.log("array of users above if working");
-//   console.log("length of sockets/how many users 888");
-//   console.log(io.engine.clientsCount);
-//   console.log("length of sockets/how many users 888");
-
-//   io.clients((error, clients) => {
-//     if (error) throw error;
-//     console.log(clients); // => [6em3d4TJP8Et9EMNAAAA, G5p55dHhGgUnLUctAAAB]
-// });
-//   socket.on('disconnect', () => {
-//     console.log('a user disconnected...')
-//   });
-// });
-
-// testing for providing user names
-
-// var userNames = {};
-
-// var getDefaultName = function(){
-//   var cnt = 0;
-//   for (user in names) {
-//     cnt+=1;
-//   }
-//   return 'User' + String(cnt);
-// // };
-// io.sockets.on('connection', function(socket) {
-//   name = getDefaultName();
-//   userNames[name] = socket.id;
-//   data = {name: name};
-//   socket.emit('initName', data);
-// });
-
 
 // Declaration for Dialogflow bot
 const apiai = require('apiai')(APIAI_TOKEN);
 
+// Serve static content for the app from the "public" directory in the application directory.
+app.use(express.static("public"));
 
 // Use bodyParser to parse application/json content
 app.use(bodyParser.urlencoded({
