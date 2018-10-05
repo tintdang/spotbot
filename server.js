@@ -122,6 +122,70 @@ io.on('connection', (socket) => {
     console.log("THIS IS THE LOGIC FLAG PLACE FOR TOO MANY PEOPLE");
   }
 
+
+  if (allowedUsers.length === 3){
+    //When there are the full amount of players we need in the game connected and joined.
+
+
+    // ````````````````````````````timer stuff``````````````````
+    let interval;
+    let timer = 6
+
+    count = () => {
+      interval = setInterval(() => {
+        timer--
+        io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: timer})
+        if(timer === 1){
+          // io.emit("RECEIVE_MESSAGE",  { author: "SpotBot", message: "SPOTBOT!!!!"})
+          // io.emit("StartGame", )
+          return stop()
+        }
+      }, 1000)
+    }
+
+    stop = () => {
+      io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "SPOTBOT!!!!"})
+      gameTimer();
+      //Reset the timer and interval
+      clearInterval(interval)
+      timer = 6;
+    }
+
+
+    // ````````````````````````````````````````
+
+    
+
+    console.log("Game is ready")
+    io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "A Third person has joined the session."})
+    //Wait 2 seconds before running the next message
+    setTimeout(() => {
+      io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "The game will start in..."})
+      //Wait 2 seconds then run the count function
+      setTimeout(()=>{
+        count()
+      })
+    }, 3000)
+    
+  }
+  else if (allowedUsers.length < 3){
+    //If there are less than 3 players, have spotbot send a message out
+    console.log("Game is not ready")
+    socket.broadcast.to(allowedUsers[0]).emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "Please wait until 3 players are present and then the game will begin"})
+  }
+
+    // START GAME FUNCTIONs
+    gameTimer = () => {
+    gameTime = 15;
+    setInterval(function() {
+      gameTime--;
+      io.emit('game_logic', { timer: gameTime })
+    }, 1000);
+
+  }
+    // END GAME FUNCTIONS
+  
+
   //COPY PASTE BOT LOGIC
   socket.on('chat message', (text) => {
     //console.log('Message: ' + text.message); 
