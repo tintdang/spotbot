@@ -78,10 +78,13 @@ class Game extends React.Component {
             this.setState(data)
         });
 
-
-
         // this will enable chat at game start
         this.socket.on('START_GAME', (data) => {
+            this.setState(data);
+        });
+
+        // receive endgame from socket
+        this.socket.on('END_GAME', (data) => {
             this.setState(data);
         });
 

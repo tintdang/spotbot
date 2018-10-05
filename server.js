@@ -205,7 +205,7 @@ io.on('connection', (socket) => {
 
   // START GAME FUNCTIONs
   gameTimer = () => {
-    gameTime = 15;
+    gameTime = 10;
     const gameInterval = setInterval(function () {
       gameTime--;
       io.emit('game_logic', {
@@ -213,10 +213,15 @@ io.on('connection', (socket) => {
       });
       if (gameTime === 0) { // this is when game stops
         clearInterval(gameInterval);
-        // // post-game logic
-        // io.emit('allow_voting', {
-        //   allowVote: true
-        // });
+        // post-game logic
+        io.emit("GAME_MESSAGE", {
+          author: "SpotBot",
+          message: "GAME IS OVER!"
+        });
+        io.emit('END_GAME', {
+          // send something
+            chatActive: false,
+        });
       }
     }, 1000);
 
