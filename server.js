@@ -95,11 +95,32 @@ let allowedUsers = [];
 // Names array
 let userNames = ["Rosie", "Johnny5", "Marvin", "bot", "Lion Force Voltron", "Kitt", "T-1000", "Cable's Arm", "Winter Soldier's Arm"];
 
+let currentUserNames = [];
+
+//This will pick a random name from the array and slice it out of the array.
+generateUserName = (socketID) => {
+  let name;
+  name = userNames[Math.floor(Math.random() * userNames.length)];
+  console.log("We picked " + name + " = " + socketID)
+  while (currentUserNames.includes(name)) {
+    console.log("found duplicate name");
+    name = userNames[Math.floor(Math.random() * userNames.length)];
+    console.log("We now picked " + name + " = " + socketID);
+  }
+  currentUserNames.push(name);
+
+  return console.log(name);
+}
+
 // Setting up more socket.io stuff:
 io.on('connection', (socket) => {
 
   //Did we connect? If so, on which socket?
-  console.log(socket.id);
+  // console.log(socket.id);
+
+  // Assign player their name
+  generateUserName(socket.id);
+
 
   //When that specific socket disconnects, what should we do?
   socket.on('disconnect', () => {
@@ -107,10 +128,16 @@ io.on('connection', (socket) => {
     for (let i = 0; i < allowedUsers.length; i++) {
       if (socket.id === allowedUsers[i]) {
         allowedUsers.splice(i, 1);
-        console.log("Array state after user removed:", allowedUsers);
+        console.log("username removed " + currentUserNames[i])
+        currentUserNames.splice(i, 1);
+        console.log("usernames left ", currentUserNames)
+        console.log("Array state after user removed: ", allowedUsers);
       }
     }
   });
+
+
+
 
   //When a user connects, if there is room for them, we mark it in our array.
   allowedUsers.push(socket.id)
@@ -126,7 +153,7 @@ io.on('connection', (socket) => {
   }
 
 
-  if (allowedUsers.length === 3){
+  if (allowedUsers.length === 3) {
     //When there are the full amount of players we need in the game connected and joined.
 
 
@@ -137,8 +164,8 @@ io.on('connection', (socket) => {
     count = () => {
       interval = setInterval(() => {
         timer--
-        io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: timer})
-        if(timer === 1){
+        io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: timer })
+        if (timer === 1) {
           // io.emit("RECEIVE_MESSAGE",  { author: "SpotBot", message: "SPOTBOT!!!!"})
           // io.emit("StartGame", )
           return stop()
@@ -147,7 +174,7 @@ io.on('connection', (socket) => {
     }
 
     stop = () => {
-      io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "SPOTBOT!!!!"})
+      io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "SPOTBOT!!!!" })
       gameTimer();
       //Reset the timer and interval
       clearInterval(interval)
@@ -157,37 +184,37 @@ io.on('connection', (socket) => {
 
     // ````````````````````````````````````````
 
-    
 
-    console.log("Game is ready")
-    io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "A Third person has joined the session."})
+
+    // console.log("Game is ready")
+    io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "A Third person has joined the session." })
     //Wait 2 seconds before running the next message
     setTimeout(() => {
-      io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "The game will start in..."})
+      io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "The game will start in..." })
       //Wait 2 seconds then run the count function
-      setTimeout(()=>{
+      setTimeout(() => {
         count()
       })
     }, 3000)
-    
+
   }
-  else if (allowedUsers.length < 3){
+  else if (allowedUsers.length < 3) {
     //If there are less than 3 players, have spotbot send a message out
-    console.log("Game is not ready")
-    socket.broadcast.to(allowedUsers[0]).emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "Please wait until 3 players are present and then the game will begin"})
+    // console.log("Game is not ready")
+    socket.broadcast.to(allowedUsers[0]).emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "Please wait until 3 players are present and then the game will begin" })
   }
 
-    // START GAME FUNCTIONs
-    gameTimer = () => {
+  // START GAME FUNCTIONs
+  gameTimer = () => {
     gameTime = 15;
-    setInterval(function() {
+    setInterval(function () {
       gameTime--;
       io.emit('game_logic', { timer: gameTime })
     }, 1000);
 
   }
-    // END GAME FUNCTIONS
-  
+  // END GAME FUNCTIONS
+
 
   //COPY PASTE BOT LOGIC
   socket.on('chat message', (text) => {
