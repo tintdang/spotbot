@@ -137,6 +137,7 @@ io.on('connection', (socket) => {
         io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: timer})
         if(timer === 1){
           // io.emit("RECEIVE_MESSAGE",  { author: "SpotBot", message: "SPOTBOT!!!!"})
+          // io.emit("StartGame", )
           return stop()
         }
       }, 1000)
@@ -144,7 +145,9 @@ io.on('connection', (socket) => {
 
     stop = () => {
       io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "SPOTBOT!!!!"})
+      //Reset the timer and interval
       clearInterval(interval)
+      timer = 6
     }
 
 
