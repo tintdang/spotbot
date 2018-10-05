@@ -90,6 +90,7 @@ class Game extends React.Component {
             //console.log("Data rec'd in addMsg method:", data);
             this.setState({ messages: [...this.state.messages, data] });
             //console.log(this.state.messages);
+            this.autoscrollDown()
         };
 
         // too bot -->
@@ -125,18 +126,9 @@ class Game extends React.Component {
         console.log("Game Canvas (and chat) Component loaded!");
     }
 
-    componentDidUpdate() {
+    autoscrollDown = () => {
         const element = document.getElementById("card-body");
         element.scrollTop = element.scrollHeight - element.clientHeight;
-
-        // const element = document.getElementById("card-body");
-        // if (this.state.cardBody) {
-        //     const oldElement = this.state.cardBody;
-        //     if( oldElement.scrollTop === oldElement.scrollHeight - oldElement.clientHeight) {
-        //         element.scrollTop = element.scrollHeight - element.clientHeight;
-        //     }
-        // }
-        // this.setState({ cardBody: element });
     }
 
     //It's a terrible way to swap it, but here's where chatActive turns on and off.
