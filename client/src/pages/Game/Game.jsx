@@ -28,7 +28,9 @@ class Game extends React.Component {
             botname: '',
             timer: 15,
             chatActive: false,
-            score: null
+            score: null,
+            allowVoting: false,
+            userNames: []
         };
 
         // USE THESE TO TOGGLE FOR PRODUCTION OR IMPLEMENT A SWITCH
@@ -85,7 +87,12 @@ class Game extends React.Component {
 
         // receive endgame from socket
         this.socket.on('END_GAME', (data) => {
-            this.setState(data);
+            
+            let newData = data.userNames.splice(data.userNames.indexOf(this.state.author), 1);
+            console.log(newData);
+            this.setState(newData);
+            
+            
         });
 
         const addMessage = data => {

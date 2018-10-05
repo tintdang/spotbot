@@ -212,21 +212,29 @@ io.on('connection', (socket) => {
         timer: gameTime
       });
       if (gameTime === 0) { // this is when game stops
-        clearInterval(gameInterval);
-        // post-game logic
-        io.emit("GAME_MESSAGE", {
-          author: "SpotBot",
-          message: "GAME IS OVER!"
-        });
-        io.emit('END_GAME', {
-          // send something
-            chatActive: false,
-        });
+        //Run the end game function
+        endGame(gameInterval);
       }
     }, 1000);
 
   }
-  // END GAME FUNCTIONS
+  // END GAME LOGIC
+  endGame = (gameInterval) => {
+    clearInterval(gameInterval);
+    // post-game logic
+    // Spotbot will tell the game is over
+    io.emit("GAME_MESSAGE", {
+      author: "SpotBot",
+      message: "GAME IS OVER!"
+    });
+    // This disables chat functionality to the users
+    io.emit('END_GAME', {
+      // send something
+        chatActive: false,
+        allowVoting: true,
+        userNames: currentUserNames
+    });
+  }
 
 
   //COPY PASTE BOT LOGIC
