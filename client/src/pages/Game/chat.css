@@ -27,8 +27,11 @@
 
 .messages{
 height: 70%;
+position: relative;
+bottom: 0;
 }
 
 .card-footer{
 height: 15%;
 }
+

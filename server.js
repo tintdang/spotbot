@@ -93,21 +93,6 @@ app.use(morgan("combined"));
 let allowedUsers = [];
 let currentUserNames = [];
 
-generateUserName = () => {
-  let name;
-  userNames = ["u1", "u2", "u3", "u4", "u5"];
-  name = userNames[Math.floor(Math.random() * userNames.length)];
-  console.log("We picked " + name)
-  while(currentUserNames.includes(name)) {
-    console.log("found duplicate name");
-    name = userNames[Math.floor(Math.random() * userNames.length)];
-    console.log("We now picked " + name);
-  }
-  currentUserNames.push(name);
-
-  return name;
-}
-
 // Names array
 let userNames = ["Rosie", "Johnny5", "Marvin", "bot", "Lion Force Voltron", "Kitt", "T-1000", "Cable's Arm", "Winter Soldier's Arm"];
 
@@ -201,10 +186,8 @@ io.on('connection', (socket) => {
     }
 
     stop = () => {
-      io.emit("GAME_MESSAGE", {
-        author: "SpotBot",
-        message: "SPOTBOT!!!!"
-      });
+      io.emit("GAME_MESSAGE", { author: "SpotBot", message: "SPOTBOT!!!!" })
+      io.emit("START_GAME", { chatActive: true })
       gameTimer();
       //Reset the timer and interval
       clearInterval(interval);
