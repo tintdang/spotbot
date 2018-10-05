@@ -1,5 +1,6 @@
 // import dependencies ***
 require('dotenv').config()
+//const axios = require('axios');
 const express = require("express");
 const bodyParser = require("body-parser");
 const routes = require("./routes");
@@ -18,7 +19,9 @@ const PORT = process.env.PORT || 3001;
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/SpotBot";
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true
+});
 
 
 // Set up connections for socket.io ***
@@ -26,54 +29,17 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
-// io.on('connection', socket => {
-//   console.log('a user connected');
-//   // console.log("array of users below if working");
-//   // console.log(io.sockets.sockets);
-//   // console.log("array of users above if working");
-//   console.log("length of sockets/how many users 888");
-//   console.log(io.engine.clientsCount);
-//   console.log("length of sockets/how many users 888");
-
-//   io.clients((error, clients) => {
-//     if (error) throw error;
-//     console.log(clients); // => [6em3d4TJP8Et9EMNAAAA, G5p55dHhGgUnLUctAAAB]
-// });
-//   socket.on('disconnect', () => {
-//     console.log('a user disconnected...')
-//   });
-// });
-
-
-
-
-// testing for providing user names
-
-
-// var userNames = {};
-
-// var getDefaultName = function(){
-//   var cnt = 0;
-//   for (user in names) {
-//     cnt+=1;
-//   }
-//   return 'User' + String(cnt);
-// // };
-// io.sockets.on('connection', function(socket) {
-//   name = getDefaultName();
-//   userNames[name] = socket.id;
-//   data = {name: name};
-//   socket.emit('initName', data);
-// });
-
-
 
 // Declaration for Dialogflow bot
 const apiai = require('apiai')(APIAI_TOKEN);
 
+// Serve static content for the app from the "public" directory in the application directory.
+app.use(express.static("public"));
 
 // Use bodyParser to parse application/json content
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(bodyParser.json());
 
 //Serve basic assets if on production
@@ -89,17 +55,54 @@ app.use(morgan("combined"));
 
 
 /// SOCKET.IO SERVER PIECES:
-
+// array of socket IDs
 let allowedUsers = [];
+// array of currently used User Names
+let currentUserNames = [];
 
 // Names array
 let userNames = ["Rosie", "Johnny5", "Marvin", "bot", "Lion Force Voltron", "Kitt", "T-1000", "Cable's Arm", "Winter Soldier's Arm"];
 
+//This will pick a random name from the array and slice it out of the array.
+generateUserName = (socketID) => {
+  let name;
+  name = userNames[Math.floor(Math.random() * userNames.length)];
+  console.log("We picked " + name + " = " + socketID)
+  while (currentUserNames.includes(name)) {
+    console.log("found duplicate name");
+    name = userNames[Math.floor(Math.random() * userNames.length)];
+    console.log("We now picked " + name + " = " + socketID);
+  }
+  currentUserNames.push(name);
+  return name;
+}
+
+// generates a bot name
+generateBotName = () => {
+  let name;
+  name = userNames[Math.floor(Math.random() * userNames.length)];
+  console.log("BOT picked " + name)
+  while (currentUserNames.includes(name)) {
+    console.log("found duplicate name");
+    name = userNames[Math.floor(Math.random() * userNames.length)];
+    console.log("BOT now picked " + name);
+  }
+  currentUserNames.push(name);
+  return name;
+}
+// sets bot name
+let botName = generateBotName();
+
+
 // Setting up more socket.io stuff:
 io.on('connection', (socket) => {
+  // sends bot name to user
+  io.emit('BOT_NAME', { botname: botName });
 
-  //Did we connect? If so, on which socket?
-  console.log(socket.id);
+  // Assign player their name and send it over to socket
+  username = generateUserName(socket.id);
+  io.emit('USER_NAME', { author: username});
+
 
   //When that specific socket disconnects, what should we do?
   socket.on('disconnect', () => {
@@ -107,23 +110,119 @@ io.on('connection', (socket) => {
     for (let i = 0; i < allowedUsers.length; i++) {
       if (socket.id === allowedUsers[i]) {
         allowedUsers.splice(i, 1);
-        console.log("Array state after user removed:", allowedUsers);
+        console.log("username removed: " + currentUserNames[i])
+        currentUserNames.splice(i, 1);
+        console.log("usernames remaining: ", currentUserNames)
+        console.log("Array state after user removed: ", allowedUsers);
       }
     }
   });
 
+
   //When a user connects, if there is room for them, we mark it in our array.
-  allowedUsers.push(socket.id)
+  allowedUsers.push(socket.id);
   console.log("List of players by socket.id:", allowedUsers);
 
   if (allowedUsers.length < 4) {
     socket.on('SEND_MESSAGE', function (data) {
       console.log(data);
       io.emit('RECEIVE_MESSAGE', data);
+      /* store to database
+      axios.post('/api/history', 
+        data
+      ).then(function (response) {
+        console.log(response);
+      }).catch(function (error) {
+        console.log("Encountered error in database posting");
+      });
+      */
     });
   } else {
     console.log("THIS IS THE LOGIC FLAG PLACE FOR TOO MANY PEOPLE");
   }
+
+
+  if (allowedUsers.length === 3) {
+    //When there are the full amount of players we need in the game connected and joined.
+
+
+    // ````````````````````````````timer stuff``````````````````
+    let interval;
+    let timer = 6;
+
+    count = () => {
+      interval = setInterval(() => {
+        timer--;
+        io.emit("GAME_MESSAGE", {
+          author: "SpotBot",
+          message: timer
+        });
+        if (timer === 1) {
+          // io.emit("RECEIVE_MESSAGE",  { author: "SpotBot", message: "SPOTBOT!!!!"})
+          // io.emit("StartGame", )
+          return stop();
+        }
+      }, 1000);
+    }
+
+    stop = () => {
+      io.emit("GAME_MESSAGE", { author: "SpotBot", message: "SPOTBOT!!!!" })
+      io.emit("START_GAME", { chatActive: true })
+      gameTimer();
+      //Reset the timer and interval
+      clearInterval(interval);
+      timer = 6;
+    }
+
+
+    // ````````````````````````````````````````
+
+
+    console.log("Game is ready")
+    io.emit("GAME_MESSAGE", {
+      author: "SpotBot",
+      message: "A Third person has joined the session."
+    })
+    //Wait 2 seconds before running the next message
+    setTimeout(() => {
+      io.emit("GAME_MESSAGE", {
+        author: "SpotBot",
+        message: "The game will start in..."
+      });
+      //Wait 2 seconds then run the count function
+      setTimeout(() => {
+        count();
+      })
+    }, 3000)
+  } else if (allowedUsers.length < 3) {
+    //If there are less than 3 players, have spotbot send a message out
+    console.log("Game is not ready");
+    socket.broadcast.to(allowedUsers[0]).emit("GAME_MESSAGE", {
+      author: "SpotBot",
+      message: "Please wait until 3 players are present and then the game will begin"
+    });
+  }
+
+  // START GAME FUNCTIONs
+  gameTimer = () => {
+    gameTime = 15;
+    const gameInterval = setInterval(function () {
+      gameTime--;
+      io.emit('game_logic', {
+        timer: gameTime
+      });
+      if (gameTime === 0) { // this is when game stops
+        clearInterval(gameInterval);
+        // // post-game logic
+        // io.emit('allow_voting', {
+        //   allowVote: true
+        // });
+      }
+    }, 1000);
+
+  }
+  // END GAME FUNCTIONS
+
 
   //COPY PASTE BOT LOGIC
   socket.on('chat message', (text) => {
@@ -144,6 +243,12 @@ io.on('connection', (socket) => {
   });
   //END PASTE
 
+  // START GAME FUNCTIONs
+  socket.on('game logic', (info) => {
+
+  });
+  // END GAME FUNCTIONS
+
 });
 
 
@@ -151,6 +256,3 @@ io.on('connection', (socket) => {
 server.listen(PORT, () =>
   console.log(`Socket.io is listening on PORT ${PORT}`)
 );
-
-
-
