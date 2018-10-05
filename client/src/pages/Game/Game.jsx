@@ -25,8 +25,8 @@ class Game extends React.Component {
             message: '',
             messages: [],
             botMsg: 'test123',
-            botname: 'Real_Human_Person.exe',
-            timer: 5,
+            botname: '',
+            timer: 15,
             chatActive: false,
             score: null,
         };
@@ -73,6 +73,12 @@ class Game extends React.Component {
                 this.setState(data)
             }
         });
+
+        // This sets bot name 
+        this.socket.on('BOT_NAME', (data) => {
+            this.setState(data)
+        });
+
 
 
         // this will enable chat at game start

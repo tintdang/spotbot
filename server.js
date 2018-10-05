@@ -55,8 +55,9 @@ app.use(morgan("combined"));
 
 
 /// SOCKET.IO SERVER PIECES:
-
+// array of socket IDs
 let allowedUsers = [];
+// array of currently used User Names
 let currentUserNames = [];
 
 // Names array
@@ -73,16 +74,34 @@ generateUserName = (socketID) => {
     console.log("We now picked " + name + " = " + socketID);
   }
   currentUserNames.push(name);
-
   return name;
 }
 
+// generates a bot name
+generateBotName = () => {
+  let name;
+  name = userNames[Math.floor(Math.random() * userNames.length)];
+  console.log("BOT picked " + name)
+  while (currentUserNames.includes(name)) {
+    console.log("found duplicate name");
+    name = userNames[Math.floor(Math.random() * userNames.length)];
+    console.log("BOT now picked " + name);
+  }
+  currentUserNames.push(name);
+  return name;
+}
+// sets bot name
+let botName = generateBotName();
+
+
 // Setting up more socket.io stuff:
 io.on('connection', (socket) => {
+  // sends bot name to user
+  io.emit('BOT_NAME', { botname: botName });
 
   // Assign player their name and send it over to socket
   username = generateUserName(socket.id);
-  io.emit('USER_NAME', { author: username})
+  io.emit('USER_NAME', { author: username});
 
 
   //When that specific socket disconnects, what should we do?
