@@ -141,6 +141,12 @@ io.on('connection', (socket) => {
   });
   //END PASTE
 
+  // START GAME FUNCTIONs
+  socket.on('game logic', (info) => {
+
+  });
+  // END GAME FUNCTIONS
+
 });
 
 
