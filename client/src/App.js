@@ -6,6 +6,8 @@ import Game from "./pages/Game";
 import Callback from "./pages/Callback";
 import Homepage from "./pages/Homepage";
 import './style.css';
+import Waiting from "./pages/Waiting";
+
 
 const App = props => {
 
@@ -24,7 +26,9 @@ const App = props => {
           <Game auth={props.auth} history={props.history} />
         ) : (<Redirect to="/" />)
       }} />
-
+      <Route exact path="/waiting" render={() => {
+        return(<Waiting/>)
+      }}/>
     </div>
   )
 }

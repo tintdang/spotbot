@@ -115,7 +115,7 @@ io.on('connection', (socket) => {
   //When a user connects, if there is room for them, we mark it in our array.
   allowedUsers.push(socket.id)
   console.log("List of players by socket.id:", allowedUsers);
-
+  
   if (allowedUsers.length < 4) {
     socket.on('SEND_MESSAGE', function (data) {
       console.log(data);
