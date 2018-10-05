@@ -145,9 +145,10 @@ io.on('connection', (socket) => {
 
     stop = () => {
       io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "SPOTBOT!!!!"})
+      gameTimer();
       //Reset the timer and interval
       clearInterval(interval)
-      timer = 6
+      timer = 6;
     }
 
 
@@ -172,6 +173,17 @@ io.on('connection', (socket) => {
     console.log("Game is not ready")
     socket.broadcast.to(allowedUsers[0]).emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "Please wait until 3 players are present and then the game will begin"})
   }
+
+    // START GAME FUNCTIONs
+    gameTimer = () => {
+    gameTime = 15;
+    setInterval(function() {
+      gameTime--;
+      io.emit('game_logic', { timer: gameTime })
+    }, 1000);
+
+  }
+    // END GAME FUNCTIONS
   
 
   //COPY PASTE BOT LOGIC

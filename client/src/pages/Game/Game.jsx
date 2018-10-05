@@ -59,6 +59,10 @@ class Game extends React.Component {
         });
     });
 
+    this.socket.on('game_logic', (data) => {
+       this.setState(data);
+    });
+
     const addMessage = data => {
         //console.log("Data rec'd in addMsg method:", data);
         this.setState({ messages: [...this.state.messages, data] });
