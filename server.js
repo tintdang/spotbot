@@ -176,6 +176,7 @@ io.on('connection', (socket) => {
 
     stop = () => {
       io.emit("RECEIVE_MESSAGE", { author: "SpotBot", message: "SPOTBOT!!!!" })
+      io.emit("START_GAME", { chatActive: true })
       gameTimer();
       //Reset the timer and interval
       clearInterval(interval)

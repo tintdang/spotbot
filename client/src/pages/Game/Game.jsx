@@ -27,7 +27,7 @@ class Game extends React.Component {
         botMsg: 'test123',
         botname: 'Real_Human_Person.exe',
         timer: 5,
-        chatActive: true,
+        chatActive: false,
         score: null,
     };
 
@@ -70,6 +70,11 @@ class Game extends React.Component {
         }
     })
 
+    // this will enable chat at game start
+    this.socket.on('START_GAME', (data) => {
+        this.setState(data)
+    })
+
     const addMessage = data => {
         //console.log("Data rec'd in addMsg method:", data);
         this.setState({ messages: [...this.state.messages, data] });
@@ -99,8 +104,10 @@ class Game extends React.Component {
 actionsOnClick = event => {
     event.preventDefault();
     //console.log('ACTIONS CALLED.');
+    if (this.state.chatActive === true) {
     this.sendMessage();
     this.sendToBot();
+    }
 };
 
 componentDidMount() {
