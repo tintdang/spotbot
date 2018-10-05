@@ -9,7 +9,6 @@ import './chat.css';
 import io from "socket.io-client";
 import API from "../../utils/API";
 
-
 const origin = window.location.origin;
 
 let randNum;
@@ -27,15 +26,16 @@ class Game extends React.Component {
         messages: [],
         botMsg: 'test123',
         botname: 'Real_Human_Person.exe',
-        timer: 5
+        timer: 5,
+        chatActive: true,
+        score: null,
     };
 
     // USE THESE TO TOGGLE FOR PRODUCTION OR IMPLEMENT A SWITCH
     // this.socket = io(origin, {'sync disconnect on unload': true });
     console.log("Ignore this but leave it: ", origin);
 
-    this.socket = io('localhost:3001', 
-    {'sync disconnect on unload': true });
+    this.socket = io('localhost:3001', {'sync disconnect on unload': true });
     // END PROD-SWITCH
 
     this.socket.on('RECEIVE_MESSAGE', (data) => {
@@ -97,12 +97,17 @@ actionsOnClick = event => {
 };
 
 componentDidMount() {
-    console.log("Chat mounted");
+    console.log("Game Canvas (and chat) Component loaded!");
 }
 
+  //It's a terrible way to swap it, but here's where chatActive turns on and off.
 handleInputChange = event => {
+  if(this.state.chatActive === true){
     const { name, value } = event.target;
     this.setState({ [name]: value });
+  } else { 
+    console.log ("Chat is NOT working because it's flagged to be off in our state");
+  }  
 }
 
 genNewKey = () => {
@@ -111,10 +116,6 @@ genNewKey = () => {
     console.log("Key id assigned: ", key);
     // return key;
 }
-
-  componentDidMount() {
-    console.log("Game Canvas Component loaded!");
-  }
 
   timerCountdown = () => {
     interval = setInterval(() => {
