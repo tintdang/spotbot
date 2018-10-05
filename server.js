@@ -59,7 +59,8 @@ app.use(morgan("combined"));
 let allowedUsers = [];
 // array of currently used User Names
 let currentUserNames = [];
-
+// checks if game has started
+let gameRunning = false;
 // Names array
 let userNames = ["Rosie", "Johnny5", "Marvin", "bot", "Lion Force Voltron", "Kitt", "T-1000", "Cable's Arm", "Winter Soldier's Arm"];
 
@@ -92,7 +93,6 @@ generateBotName = () => {
 }
 // sets bot name
 let botName = generateBotName();
-
 
 // Setting up more socket.io stuff:
 io.on('connection', (socket) => {
@@ -142,10 +142,8 @@ io.on('connection', (socket) => {
   }
 
 
-  if (allowedUsers.length === 3) {
-    //When there are the full amount of players we need in the game connected and joined.
-
-
+  if (allowedUsers.length === 3 && gameRunning === false) {
+    // When there are the full amount of players we need in the game connected and joined.
     // ````````````````````````````timer stuff``````````````````
     let interval;
     let timer = 6;
@@ -166,12 +164,14 @@ io.on('connection', (socket) => {
     }
 
     stop = () => {
-      io.emit("GAME_MESSAGE", { author: "SpotBot", message: "SPOTBOT!!!!" })
-      io.emit("START_GAME", { chatActive: true })
+      io.emit("GAME_MESSAGE", { author: "SpotBot", message: "SPOTBOT!!!!" });
+      io.emit("START_GAME", { chatActive: true });
       gameTimer();
       //Reset the timer and interval
       clearInterval(interval);
       timer = 6;
+      // set game running
+      gameRunning = true;
     }
 
 

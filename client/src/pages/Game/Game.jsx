@@ -28,7 +28,7 @@ class Game extends React.Component {
             botname: '',
             timer: 15,
             chatActive: false,
-            score: null,
+            score: null
         };
 
         // USE THESE TO TOGGLE FOR PRODUCTION OR IMPLEMENT A SWITCH
@@ -44,7 +44,6 @@ class Game extends React.Component {
 
         // receive game messages from socket
         this.socket.on('GAME_MESSAGE', (data) => {
-            //console.log("Received msg?", data);
             addMessage(data);
         });
 
@@ -83,7 +82,7 @@ class Game extends React.Component {
 
         // this will enable chat at game start
         this.socket.on('START_GAME', (data) => {
-            this.setState(data)
+            this.setState(data);
         });
 
         const addMessage = data => {
