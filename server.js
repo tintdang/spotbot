@@ -109,7 +109,7 @@ generateUserName = (socketID) => {
   }
   currentUserNames.push(name);
 
-  return console.log(name);
+  return name;
 }
 
 // Setting up more socket.io stuff:
@@ -118,8 +118,9 @@ io.on('connection', (socket) => {
   //Did we connect? If so, on which socket?
   // console.log(socket.id);
 
-  // Assign player their name
-  generateUserName(socket.id);
+  // Assign player their name and send it over to socket
+  username = generateUserName(socket.id);
+  io.emit('username', { author: username})
 
 
   //When that specific socket disconnects, what should we do?
