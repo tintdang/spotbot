@@ -1,6 +1,6 @@
 // import dependencies ***
 require('dotenv').config()
-//const axios = require('axios');
+const axios = require('axios');
 const express = require("express");
 const bodyParser = require("body-parser");
 const routes = require("./routes");
@@ -91,9 +91,30 @@ app.use(morgan("combined"));
 /// SOCKET.IO SERVER PIECES:
 
 let allowedUsers = [];
+let currentUserNames = [];
+
+generateUserName = () => {
+  let name;
+  userNames = ["u1", "u2", "u3", "u4", "u5"];
+  name = userNames[Math.floor(Math.random() * userNames.length)];
+  console.log("We picked " + name)
+  while(currentUserNames.includes(name)) {
+    console.log("found duplicate name");
+    name = userNames[Math.floor(Math.random() * userNames.length)];
+    console.log("We now picked " + name);
+  }
+  currentUserNames.push(name);
+
+  return name;
+}
 
 // Setting up more socket.io stuff:
 io.on('connection', (socket) => {
+
+  userNameTemp = generateUserName(); 
+  io.emit("USER_NAME", {
+    author: userNameTemp
+  });
 
   //Did we connect? If so, on which socket?
   console.log(socket.id);
@@ -118,7 +139,9 @@ io.on('connection', (socket) => {
       console.log(data);
       io.emit('RECEIVE_MESSAGE', data);
       // store to database
-      API.saveHistory(data);
+      axios.post('/api/history', data, function(req, res) {
+        console.log(res.data);
+      });
     });
   } else {
     console.log("THIS IS THE LOGIC FLAG PLACE FOR TOO MANY PEOPLE");
