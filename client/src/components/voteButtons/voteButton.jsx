@@ -1,7 +1,7 @@
 import React from 'react'
 import './voteButton.css'
 
-const VoteButton = props => {
+const VoteButton = ({ children }) => {
 
     // componentDidMount(){
     //     console.log("voteButton Component(s) loaded!");
@@ -10,7 +10,7 @@ const VoteButton = props => {
 
         return(
             <div>
-                <button id="vote-Button">Vote!</button>
+                <button id="vote-Button">{children}</button>
             </div>
         )
 }

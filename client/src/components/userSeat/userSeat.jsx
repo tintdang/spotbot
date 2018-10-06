@@ -7,9 +7,14 @@ const UserSeat = props => {
 
         return (
             <div id="user-seat">
-                <VoteButton>1</VoteButton>
+                {props.vote.map(button => {
+                    return (
+                        <VoteButton>{button}</VoteButton>
+                    )
+                })}
+                {/* <VoteButton>1</VoteButton>
                 <VoteButton>2</VoteButton>
-                <VoteButton>3</VoteButton>
+                <VoteButton>3</VoteButton> */}
                 <Timer time={props.time}/>
 
                 {/* <div id="user-section">

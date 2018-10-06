@@ -240,7 +240,7 @@ class Game extends React.Component {
                     </div>
                 </div>
                 <PopOutRight />
-                <UserSeat time={this.state.timer} />
+                <UserSeat time={this.state.timer} vote={this.state.userNames}/>
                 <button id='logout-button' onClick={this.logout}>Logout</button>
             </div>
         )
