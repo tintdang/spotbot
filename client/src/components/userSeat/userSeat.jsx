@@ -5,19 +5,19 @@ import Timer from '../timer';
 
 const UserSeat = props => {
 
-        return (
-            <div id="user-seat">
-                {props.vote.map(button => {
-                    return (
-                        <VoteButton>{button}</VoteButton>
-                    )
-                })}
-                {/* <VoteButton>1</VoteButton>
+    return (
+        <div id="user-seat">
+            <Timer time={props.time} />
+            {props.vote.map(button => {
+                return (
+                    <VoteButton>{button}</VoteButton>
+                )
+            })}
+            {/* <VoteButton>1</VoteButton>
                 <VoteButton>2</VoteButton>
                 <VoteButton>3</VoteButton> */}
-                <Timer time={props.time}/>
 
-                {/* <div id="user-section">
+            {/* <div id="user-section">
                     <div id="user-info">
                         <span>Welcome to SpotBot, 'Username'!</span><span>You've won # games.</span>
                     </div>
@@ -30,8 +30,8 @@ const UserSeat = props => {
                         </div>
                     </div>
                 </div> */}
-            </div>
-        )
+        </div>
+    )
 }
 
 export default UserSeat;
