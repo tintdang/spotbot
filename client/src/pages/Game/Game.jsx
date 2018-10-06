@@ -98,7 +98,7 @@ class Game extends React.Component {
             this.setState(data);
 
             console.log(this.state.userNames)
-            
+            // Run a function that will print out the names of the opposing users in the game in buttons
             
         });
 
