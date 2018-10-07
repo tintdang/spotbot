@@ -53,14 +53,19 @@ class Game extends React.Component {
         this.socket.on('bot reply', (msg) => {
             //console.log("Received bot msg?", msg);
             this.setState({
-                // botname: msg.author,
                 botMsg: msg
             });
 
-            this.socket.emit('SEND_MESSAGE', {
-                author: this.state.botname,
-                message: this.state.botMsg
-            });
+            // timeout length calculations
+            let timeout = msg.length * 100;
+            console.log("milliseconds for timeout: ", timeout);
+            //might need to clear timeout
+            setTimeout(() => {
+                this.socket.emit('SEND_MESSAGE', {
+                    author: this.state.botname,
+                    message: this.state.botMsg
+                });
+            }, timeout);
         });
 
         // game time logic
@@ -92,14 +97,13 @@ class Game extends React.Component {
             console.log("The index of " + this.state.author + " is " + data.userNames.indexOf(this.state.author))
             //This will return the object with the removed username that is used by the current client
             data.userNames.splice((data.userNames.indexOf(this.state.author)), 1);
-            console.log(data)
             // let newData = data.userNames.splice(data.userNames.indexOf(this.state.author), 1);
             // console.log(newData);
             this.setState(data);
 
-            console.log(this.state.userNames)
+            //console.log(this.state.userNames)
             // Run a function that will print out the names of the opposing users in the game in buttons
-            
+
         });
 
         const addMessage = data => {
@@ -240,7 +244,7 @@ class Game extends React.Component {
                     </div>
                 </div>
                 <PopOutRight />
-                <UserSeat time={this.state.timer} vote={this.state.userNames}/>
+                <UserSeat time={this.state.timer} vote={this.state.userNames} />
                 <button id='logout-button' onClick={this.logout}>Logout</button>
             </div>
         )
