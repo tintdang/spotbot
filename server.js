@@ -230,6 +230,7 @@ io.on('connection', (socket) => {
     // This disables chat functionality to the users
     io.emit('END_GAME', {
       // send something
+        message: '',
         chatActive: false,
         allowVoting: true,
         userNames: currentUserNames

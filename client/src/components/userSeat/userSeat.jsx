@@ -10,7 +10,7 @@ const UserSeat = props => {
             <Timer time={props.time} />
             {props.vote.map(button => {
                 return (
-                    <VoteButton>{button}</VoteButton>
+                    <VoteButton onClick={props.buttoncheck} >{button}</VoteButton>
                 )
             })}
             {/* <VoteButton>1</VoteButton>

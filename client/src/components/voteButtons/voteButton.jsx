@@ -10,7 +10,7 @@ const VoteButton = props => {
 
         return(
             <div>
-                <button {...props} id="vote-Button">{props.children}</button>
+                <button {...props} className="vote-button">{props.children}</button>
             </div>
         )
 }

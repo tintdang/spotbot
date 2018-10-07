@@ -133,6 +133,11 @@ class Game extends React.Component {
         }
     }
 
+    buttoncheck = event => {
+        event.preventDefault();
+        console.log("You clicked me!")
+    }
+
     actionsOnClick = event => {
         event.preventDefault();
         //console.log('ACTIONS CALLED.');
@@ -244,7 +249,7 @@ class Game extends React.Component {
                     </div>
                 </div>
                 <PopOutRight />
-                <UserSeat time={this.state.timer} vote={this.state.userNames} />
+                <UserSeat time={this.state.timer} vote={this.state.userNames} buttoncheck={this.buttoncheck} />
                 <button id='logout-button' onClick={this.logout}>Logout</button>
             </div>
         )
