@@ -91,6 +91,7 @@ class Game extends React.Component {
             console.log("The index of " + this.state.author + " is " + data.userNames.indexOf(this.state.author))
             //This will return the object with the removed username that is used by the current client
             data.userNames.splice((data.userNames.indexOf(this.state.author)), 1);
+            shuffle(data.userNames)
             this.setState(data)
         })
 
@@ -111,6 +112,13 @@ class Game extends React.Component {
             this.results();
         });
 
+        const shuffle = (a) => {
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
         const addMessage = data => {
             //console.log("Data rec'd in addMsg method:", data);
             this.setState({ messages: [...this.state.messages, data] });
@@ -270,14 +278,14 @@ class Game extends React.Component {
                 <div className="card" id="game-board">
 
                     <div className="card-title">Do your best to figure out which person is actually a chatbot. But remember: other people are trying to trick you!<br />
-                    Chat will activate after the game begins!
+                        Chat will activate after the game begins!
                     <hr />
                     </div>
 
-                   
+
 
                     <div className="card-body" id="scroll">
-                        <div  className="messages">
+                        <div className="messages">
                             {this.state.messages.map(message => {
                                 return (
                                     <div

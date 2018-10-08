@@ -239,13 +239,6 @@ io.on('connection', (socket) => {
     }, 1000);
 
   }
-  shuffle = (a) => {
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  }
   // END GAME LOGIC
   endGame = (gameInterval) => {
     clearInterval(gameInterval);
@@ -256,8 +249,7 @@ io.on('connection', (socket) => {
       message: "***GAME HAS ENDED***"
     });
     // This disables chat functionality to the users
-    //shuffle the array
-    shuffle(currentUserNames)
+ 
     io.emit('END_GAME', {
       // send something
       message: '',
