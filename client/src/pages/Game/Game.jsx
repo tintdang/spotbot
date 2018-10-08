@@ -151,6 +151,8 @@ class Game extends React.Component {
             this.autoscrollDown()
         }
         setTimeout(() => {
+            //Kick them from socket
+            this.socket.disconnect()
             // KICK PEOPLE to a broken page
             this.props.history.push('/waitingroom')
         }, 5000);
