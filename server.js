@@ -280,30 +280,36 @@ io.on('connection', (socket) => {
     currentUserNames = [];
   }
 
-  //COPY PASTE BOT LOGIC
-  socket.on('chat message', (text) => {
-    //console.log('Message: ' + text.message); 
-    // Get a reply from API.ai
+  // calculates the bot delay time
+  botDelay =(length) => {
+    let timeout;
+    if (length < 10) {
+      timeout = length * 100;
+    } else {
+      timeout = length * 50;
+    }
+    console.log("milliseconds for timeout: ", timeout);
+    return timeout;
+  }
+
+  // BOT CHAT LOGIC ------
+  socket.on('CHAT_MESSAGE', (text) => {
+    
     let apiaiReq = apiai.textRequest(text.message, {
       sessionId: APIAI_SESSION_ID
     });
+    // Get a reply from API.ai
     apiaiReq.on('response', (response) => {
       let aiText = response.result.fulfillment.speech;
       //console.log('Bot reply: ' + aiText);
-      socket.emit('bot reply', aiText);
+      socket.emit('BOT_REPLY', aiText);
     });
     apiaiReq.on('error', (error) => {
       console.log(error);
     });
     apiaiReq.end();
   });
-  //END PASTE
-
-  // START GAME FUNCTIONs
-  socket.on('game logic', (info) => {
-
-  });
-  // END GAME FUNCTIONS
+  // END bot chat stuff -----
 
 });
 
