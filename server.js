@@ -24,8 +24,7 @@ mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true
 });
-
-
+ 
 // Set up connections for socket.io ***
 // const http = require('http').Server(app); 
 const server = require('http').createServer(app);
@@ -64,7 +63,9 @@ let currentUserNames = [];
 // checks if game has started
 let gameRunning = false;
 // Names array
-let userNames = ["im_real", "user", "User", "bot", "Bot", "human", "Human", "NotBot", "!robot", "chat_ai", "Chat_AI", "trickyBOT"];
+let userNames = ["im_real", "user07", "User", "Bot", "Human", "NotBot", "!robot", "Chat_AI", "trickyBOT"];
+// bot chat allow
+let botToggle = true;
 
 //This will pick a random name from the array and slice it out of the array.
 generateUserName = (socketID) => {
@@ -98,29 +99,31 @@ let botName = generateBotName();
 
 // Setting up more socket.io stuff:
 io.on('connection', (socket) => {
-  // sends bot name to user
-  io.emit('BOT_NAME', {
-    botname: botName
-  });
 
   // Assign player their name and send it over to socket
-  username = generateUserName(socket.id);
-  io.emit('USER_NAME', {
-    author: username
-  });
-
+  if (currentUserNames.length < 4) {
+    username = generateUserName(socket.id);
+    io.emit('USER_NAME', {
+      author: username
+    });
+  }
 
   //When that specific socket disconnects, what should we do?
   socket.on('disconnect', () => {
     //Search our allowedUsers array and remove anyone from it that disconnects
     for (let i = 0; i < allowedUsers.length; i++) {
       if (socket.id === allowedUsers[i]) {
+        console.log("username removed: " + currentUserNames[i]);
         allowedUsers.splice(i, 1);
-        console.log("username removed: " + currentUserNames[i])
         currentUserNames.splice(i, 1);
-        console.log("usernames remaining: ", currentUserNames)
+        console.log("usernames remaining: ", currentUserNames);
         console.log("Array state after user removed: ", allowedUsers);
       }
+    }
+
+    // This checks when everybody leaves the game and will reset the bot name
+    if (allowedUsers.length === 0) {
+      botName = generateBotName();
     }
   });
 
@@ -131,7 +134,7 @@ io.on('connection', (socket) => {
 
   if (allowedUsers.length < 4) {
     socket.on('SEND_MESSAGE', function (data) {
-      console.log(data);
+      //console.log(data);
       io.emit('RECEIVE_MESSAGE', data);
       /* store to database
       axios.post('/api/history', 
@@ -145,6 +148,7 @@ io.on('connection', (socket) => {
     });
   } else {
     console.log("THIS IS THE LOGIC FLAG PLACE FOR TOO MANY PEOPLE");
+    //make code to kick users to 
   }
 
 
@@ -152,9 +156,18 @@ io.on('connection', (socket) => {
     // When there are the full amount of players we need in the game connected and joined.
     // ````````````````````````````timer stuff``````````````````
     let interval;
-    let timer = 6;
+
+    //Send everybody the userlist for the game
+    io.emit("SEND_USER", {
+      userNames: currentUserNames
+    });
 
     count = () => {
+      let timer = 4;
+      // sends bot name to user
+      io.emit('BOT_NAME', {
+        botname: botName
+      });
       interval = setInterval(() => {
         timer--;
         io.emit("GAME_MESSAGE", {
@@ -162,8 +175,6 @@ io.on('connection', (socket) => {
           message: timer
         });
         if (timer === 1) {
-          // io.emit("RECEIVE_MESSAGE",  { author: "SpotBot", message: "SPOTBOT!!!!"})
-          // io.emit("StartGame", )
           return stop();
         }
       }, 1000);
@@ -172,7 +183,7 @@ io.on('connection', (socket) => {
     stop = () => {
       io.emit("GAME_MESSAGE", {
         author: "SpotBot",
-        message: "SPOTBOT!!!!"
+        message: "***GAME HAS BEGUN***"
       });
       io.emit("START_GAME", {
         chatActive: true
@@ -185,14 +196,13 @@ io.on('connection', (socket) => {
       gameRunning = true;
     }
 
-
     // ````````````````````````````````````````
 
 
     console.log("Game is ready")
     io.emit("GAME_MESSAGE", {
       author: "SpotBot",
-      message: "A Third person has joined the session."
+      message: "A third person has joined the session. Prepare yourself!"
     })
     //Wait 2 seconds before running the next message
     setTimeout(() => {
@@ -219,7 +229,7 @@ io.on('connection', (socket) => {
     gameTime = 15;
     const gameInterval = setInterval(function () {
       gameTime--;
-      io.emit('game_logic', {
+      io.emit('GAME_LOGIC', {
         timer: gameTime
       });
       if (gameTime === 0) { // this is when game stops
@@ -236,15 +246,15 @@ io.on('connection', (socket) => {
     // Spotbot will tell the game is over
     io.emit("GAME_MESSAGE", {
       author: "SpotBot",
-      message: "GAME IS OVER!"
+      message: "***GAME HAS ENDED***"
     });
     // This disables chat functionality to the users
+ 
     io.emit('END_GAME', {
       // send something
       message: '',
       chatActive: false,
       allowVoting: true,
-      userNames: currentUserNames
     });
     // runs endResults after 3 seconds
     setTimeout(endResults, 3000);
@@ -252,19 +262,22 @@ io.on('connection', (socket) => {
 
   // starts voting timer
   endResults = () => {
-    let voteTimer = 15;
+    let voteTimer = 10;
     io.emit("GAME_MESSAGE", {
       author: "SpotBot",
-      message: "TIME TO VOTE. You have 15 seconds."
+      message: `TIME TO VOTE. You have ${voteTimer} seconds.`
     });
     // send over voting timer
     const voteInterval = setInterval(function () {
       voteTimer--;
-      io.emit('game_logic', {
+      io.emit('GAME_LOGIC', {
         timer: voteTimer
       });
       if (voteTimer === 0) { // this is when game stops
         //Run the end game function
+        //clear the current usernames
+        currentUserNames = [];
+        console.log(currentUserNames)
         endVoting(voteInterval);
       }
     }, 1000);
@@ -278,26 +291,26 @@ io.on('connection', (socket) => {
       message: "TIME IS UP"
     });
     io.emit('FINAL', "finally");
+    // clear the bot out of the current userNames and generate a new bot
     gameRunning = false;
-    currentUserNames = [];
-    botName = generateBotName();
-  }
-
-  // calculates the bot delay time
-  botDelay =(length) => {
-    let timeout;
-    if (length < 10) {
-      timeout = length * 100;
-    } else {
-      timeout = length * 50;
-    }
-    console.log("milliseconds for timeout: ", timeout);
-    return timeout;
+    console.log(currentUserNames)
   }
 
   // BOT CHAT LOGIC ------
-  socket.on('CHAT_MESSAGE', (text) => {
-    
+  socket.on('BOT_MESSAGE', (text) => {
+    let resDelay = botDelay(text.message.length);
+    if (botToggle) {
+      setTimeout(() => {
+        botChannel(text);
+      }, resDelay);
+    } else {
+      botToggle = true;
+    }
+    botTimeout();
+  });
+
+  // bot receive/send function
+  botChannel = (text) => {
     let apiaiReq = apiai.textRequest(text.message, {
       sessionId: APIAI_SESSION_ID
     });
@@ -311,7 +324,9 @@ io.on('connection', (socket) => {
       console.log(error);
     });
     apiaiReq.end();
-  });
+    botToggle = false;
+  }
+
   // END bot chat stuff -----
 
 });
@@ -321,3 +336,23 @@ io.on('connection', (socket) => {
 server.listen(PORT, () =>
   console.log(`Socket.io is listening on PORT ${PORT}`)
 );
+
+// bot-time functions *************************
+botTimeout = () => {
+  setTimeout(() => {
+    botToggle = true;
+  }, 4000);
+  //console.log("bot is timed out");
+}
+// calculates the bot delay time
+botDelay = (length) => {
+  let timeout;
+  if (length < 10) {
+    timeout = length * 400;
+  } else {
+    timeout = length * 200;
+  }
+  console.log("milliseconds for timeout: ", timeout);
+  return timeout;
+}
+// **********************************

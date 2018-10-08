@@ -5,6 +5,7 @@ import Navbar from "../../components/Navbar";
 import PopOutRight from '../../components/popOutRight';
 import PopOutLeft from '../../components/popOutLeft';
 import io from "socket.io-client";
+// import ScaleText from 'react-scale-text';
 
 
 const origin = window.location.origin;
@@ -54,7 +55,7 @@ class Game extends React.Component {
             this.setState({
                 botMsg: msg
             });
-            if (this.state.chatActive) {
+            if (!(this.state.allowVoting)) {
                 this.socket.emit('SEND_MESSAGE', {
                     author: this.state.botname,
                     message: this.state.botMsg
@@ -63,7 +64,7 @@ class Game extends React.Component {
         });
 
         // game time logic
-        this.socket.on('game_logic', (data) => {
+        this.socket.on('GAME_LOGIC', (data) => {
             this.setState(data);
         });
 
@@ -84,13 +85,20 @@ class Game extends React.Component {
             this.setState(data);
         });
 
-        // receive endgame from socket
-        this.socket.on('END_GAME', (data) => {
+        //This will recieve the usernames and then set the state after
+        this.socket.on("SEND_USER", (data) => {
             console.log(data)
             console.log("This user is called " + this.state.author)
             console.log("The index of " + this.state.author + " is " + data.userNames.indexOf(this.state.author))
             //This will return the object with the removed username that is used by the current client
             data.userNames.splice((data.userNames.indexOf(this.state.author)), 1);
+            shuffle(data.userNames)
+            this.setState(data)
+        })
+
+        // receive endgame from socket
+        this.socket.on('END_GAME', (data) => {
+
             // let newData = data.userNames.splice(data.userNames.indexOf(this.state.author), 1);
             // console.log(newData);
             this.setState(data);
@@ -105,6 +113,13 @@ class Game extends React.Component {
             this.results();
         });
 
+        const shuffle = (a) => {
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
         const addMessage = data => {
             //console.log("Data rec'd in addMsg method:", data);
             this.setState({ messages: [...this.state.messages, data] });
@@ -115,11 +130,12 @@ class Game extends React.Component {
         // too bot -->
         this.sendToBot = () => {
             // event.preventDefault();
-            this.socket.emit('CHAT_MESSAGE', {
+            this.socket.emit('BOT_MESSAGE', {
                 message: this.state.message
             });
         }
 
+        // send global socket message
         this.sendMessage = () => {
             // event.preventDefault();
             this.socket.emit('SEND_MESSAGE', {
@@ -151,11 +167,14 @@ class Game extends React.Component {
             this.autoscrollDown()
         }
         setTimeout(() => {
+            //Kick them from socket
+            this.socket.disconnect()
             // KICK PEOPLE to a broken page
             this.props.history.push('/waitingroom')
         }, 5000);
     }
 
+    // event listener for vote buttons
     vote = value => {
         // event.preventDefault();
         if (this.state.allowVoting) {
@@ -167,14 +186,32 @@ class Game extends React.Component {
         }
     }
 
+    // send event for message
     actionsOnClick = event => {
         event.preventDefault();
-        //console.log('ACTIONS CALLED.');
         if (this.state.chatActive === true) {
             this.sendMessage();
             this.sendToBot();
         }
+        this.chatDelay();
     };
+
+    // timeout messages function
+    chatDelay = () => {
+        let delayCount = 5;
+        this.state.chatActive = false;
+        console.log("5 second chat delay started");
+        /*
+        setInterval(() => {
+            this.setState({
+                messages: [...this.state.messages,
+                { author: "SpotBot", message: delayCount }]
+            });
+            delayCount--;
+        }, 1000); 
+        */
+        setTimeout(() => { this.state.chatActive = true }, 3000);
+    }
 
     componentDidMount() {
         console.log("Game Canvas (and chat) Component loaded!");
@@ -241,15 +278,18 @@ class Game extends React.Component {
                 <PopOutLeft />
                 <div className="card" id="game-board">
 
-                    <div className="card-title">Do your best to figure out which person is actually a chatbot. But remember: other people are trying to trick you!<br />
-                    Chat will activate after the game begins!
+                    <div className="card-title">
+                    {/* <ScaleText widthOnly={true} minFontSize={6} maxFontSize={24}> */}
+                    Good luck finding Spot, our sneaky chat bot!<br />
+                    <span className="subtext">(Chat turns on when the game begins...)</span>
+                    {/* </ScaleText> */}
                     <hr />
                     </div>
 
-                   
+
 
                     <div className="card-body" id="scroll">
-                        <div  className="messages">
+                        <div className="messages">
                             {this.state.messages.map(message => {
                                 return (
                                     <div
@@ -264,16 +304,10 @@ class Game extends React.Component {
 
                     <div className="card-footer">
                         <form>
-                            {/* <input type="text" placeholder="Username" name="author" className="form-control"
-                            value={this.state.author}
-                            onChange={this.handleInputChange}
-                        /> */}
-                            <br />
                             <input type="text" placeholder="Message" name="message" className="form-control"
                                 onChange={this.handleInputChange}
                                 value={this.state.message}
                             />
-                            <br />
                             <button onClick={this.actionsOnClick} className="btn btn-dark form-control">Send</button>
                         </form>
                     </div>
@@ -281,6 +315,8 @@ class Game extends React.Component {
 
 
                 <PopOutRight />
+
+                <img className="smallImg fl" id="bot-behind" src="/assets/images/noun_Chatbot_933467.png" />
 
                 <UserSeat time={this.state.timer} vote={this.state.userNames} buttoncheck={this.vote} />
                 <div id="logout-button" onClick={this.logout}>
