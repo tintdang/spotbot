@@ -54,12 +54,12 @@ class Game extends React.Component {
             this.setState({
                 botMsg: msg
             });
-            //if (this.state.chatActive) {
+            if (!(this.state.allowVoting)) {
                 this.socket.emit('SEND_MESSAGE', {
                     author: this.state.botname,
                     message: this.state.botMsg
                 });
-            //}
+            }
         });
 
         // game time logic

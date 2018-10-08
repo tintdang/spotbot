@@ -156,9 +156,9 @@ io.on('connection', (socket) => {
     // When there are the full amount of players we need in the game connected and joined.
     // ````````````````````````````timer stuff``````````````````
     let interval;
-    let timer = 6;
 
     count = () => {
+      let timer = 3;
       // sends bot name to user
       io.emit('BOT_NAME', {
         botname: botName
@@ -170,8 +170,6 @@ io.on('connection', (socket) => {
           message: timer
         });
         if (timer === 1) {
-          // io.emit("RECEIVE_MESSAGE",  { author: "SpotBot", message: "SPOTBOT!!!!"})
-          // io.emit("StartGame", )
           return stop();
         }
       }, 1000);
@@ -180,7 +178,7 @@ io.on('connection', (socket) => {
     stop = () => {
       io.emit("GAME_MESSAGE", {
         author: "SpotBot",
-        message: "SPOTBOT!!!!"
+        message: "GAME HAS BEGUN"
       });
       io.emit("START_GAME", {
         chatActive: true
@@ -269,10 +267,10 @@ io.on('connection', (socket) => {
 
   // starts voting timer
   endResults = () => {
-    let voteTimer = 15;
+    let voteTimer = 10;
     io.emit("GAME_MESSAGE", {
       author: "SpotBot",
-      message: "TIME TO VOTE. You have 15 seconds."
+      message: `TIME TO VOTE. You have ${voteTimer} seconds.`
     });
     // send over voting timer
     const voteInterval = setInterval(function () {
@@ -305,15 +303,14 @@ io.on('connection', (socket) => {
 
   // BOT CHAT LOGIC ------
   socket.on('BOT_MESSAGE', (text) => {
-    let textLength = text.message.length;
-    let resDelay = botDelay(textLength);
+    let resDelay = botDelay(text.message.length);
     console.log("results delay: ", resDelay);
     if (botToggle) {
       setTimeout(() => {
         botChannel(text);
       }, resDelay);
     } else {
-      clearTimeout(botChannel);
+      botToggle = true;
     }
     botTimeout();
   });
@@ -350,17 +347,16 @@ server.listen(PORT, () =>
  botTimeout = () => {
   setTimeout(() => {
     botToggle = true;
-  }, 3000);
-  console.log("bot is timed out");
+  }, 4000);
+  //console.log("bot is timed out");
 }
 // calculates the bot delay time
 botDelay = (length) => {
-  console.log("LENGTH: ", length);
   let timeout;
   if (length < 10) {
-    timeout = length * 100;
+    timeout = length * 400;
   } else {
-    timeout = length * 50;
+    timeout = length * 200;
   }
   console.log("milliseconds for timeout: ", timeout);
   return timeout;
