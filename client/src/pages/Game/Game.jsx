@@ -151,8 +151,9 @@ class Game extends React.Component {
             this.autoscrollDown()
         }
         setTimeout(() => {
-            // KICK PEOPLE
-        }, 1000);
+            // KICK PEOPLE to a broken page
+            this.props.history.push('/waitingroom')
+        }, 5000);
     }
 
     vote = value => {
