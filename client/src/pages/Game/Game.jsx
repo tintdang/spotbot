@@ -58,14 +58,16 @@ class Game extends React.Component {
             });
 
             // timeout length calculations
-            let timeout = msg.length * 100;
+            let timeout = msg.length * 60;
             console.log("milliseconds for timeout: ", timeout);
             //might need to clear timeout
             setTimeout(() => {
-                this.socket.emit('SEND_MESSAGE', {
-                    author: this.state.botname,
-                    message: this.state.botMsg
-                });
+                if (this.state.chatActive) {
+                    this.socket.emit('SEND_MESSAGE', {
+                        author: this.state.botname,
+                        message: this.state.botMsg
+                    });
+                }
             }, timeout);
         });
 
@@ -107,6 +109,11 @@ class Game extends React.Component {
 
         });
 
+         // this will end the game 
+         this.socket.on('FINAL', (data) => {
+            this.results();
+        });
+
         const addMessage = data => {
             //console.log("Data rec'd in addMsg method:", data);
             this.setState({ messages: [...this.state.messages, data] });
@@ -134,28 +141,31 @@ class Game extends React.Component {
         }
     }
 
+    // final function
     results = () => {
         // This will check if they win
         console.log(this.state.votedFor)
         console.log(this.state.botname)
-        if(this.state.votedFor === this.state.botname){
+        if (this.state.votedFor === this.state.botname) {
             console.log("You got it right!!!!!")
-            
+
         } else {
             console.log("WRONG")
         }
+        setTimeout(() => {
+            // KICK PEOPLE
+        }, 1000);
     }
 
     vote = value => {
         // event.preventDefault();
         if (this.state.allowVoting) {
             console.log(`I voted for ${value}`);
-        this.setState({ 
-            votedFor: value,
-            allowVoting: false
-         });
+            this.setState({
+                votedFor: value,
+                allowVoting: false
+            });
         }
-        setTimeout( this.results(), 3000);
     }
 
     actionsOnClick = event => {

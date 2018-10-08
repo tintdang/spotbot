@@ -97,11 +97,15 @@ let botName = generateBotName();
 // Setting up more socket.io stuff:
 io.on('connection', (socket) => {
   // sends bot name to user
-  io.emit('BOT_NAME', { botname: botName });
+  io.emit('BOT_NAME', {
+    botname: botName
+  });
 
   // Assign player their name and send it over to socket
   username = generateUserName(socket.id);
-  io.emit('USER_NAME', { author: username});
+  io.emit('USER_NAME', {
+    author: username
+  });
 
 
   //When that specific socket disconnects, what should we do?
@@ -164,8 +168,13 @@ io.on('connection', (socket) => {
     }
 
     stop = () => {
-      io.emit("GAME_MESSAGE", { author: "SpotBot", message: "SPOTBOT!!!!" });
-      io.emit("START_GAME", { chatActive: true });
+      io.emit("GAME_MESSAGE", {
+        author: "SpotBot",
+        message: "SPOTBOT!!!!"
+      });
+      io.emit("START_GAME", {
+        chatActive: true
+      });
       gameTimer();
       //Reset the timer and interval
       clearInterval(interval);
@@ -205,7 +214,7 @@ io.on('connection', (socket) => {
 
   // START GAME FUNCTIONs
   gameTimer = () => {
-    gameTime = 10;
+    gameTime = 15;
     const gameInterval = setInterval(function () {
       gameTime--;
       io.emit('game_logic', {
@@ -230,13 +239,46 @@ io.on('connection', (socket) => {
     // This disables chat functionality to the users
     io.emit('END_GAME', {
       // send something
-        message: '',
-        chatActive: false,
-        allowVoting: true,
-        userNames: currentUserNames
+      message: '',
+      chatActive: false,
+      allowVoting: true,
+      userNames: currentUserNames
     });
+    // runs endResults after 3 seconds
+    setTimeout(endResults, 3000);
   }
 
+  // starts voting timer
+  endResults = () => {
+    let voteTimer = 15;
+    io.emit("GAME_MESSAGE", {
+      author: "SpotBot",
+      message: "TIME TO VOTE. You have 15 seconds."
+    });
+    // send over voting timer
+    const voteInterval = setInterval(function () {
+      voteTimer--;
+      io.emit('game_logic', {
+        timer: voteTimer
+      });
+      if (voteTimer === 0) { // this is when game stops
+        //Run the end game function
+        endVoting(voteInterval);
+      }
+    }, 1000);
+  }
+
+  // finalizes game and resets
+  endVoting = (voteInterval) => {
+    clearInterval(voteInterval);
+    io.emit("GAME_MESSAGE", {
+      author: "SpotBot",
+      message: "TIME IS UP"
+    });
+    io.emit('FINAL', "finally");
+    gameRunning = false;
+    currentUserNames = [];
+  }
 
   //COPY PASTE BOT LOGIC
   socket.on('chat message', (text) => {
