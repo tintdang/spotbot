@@ -64,7 +64,7 @@ let currentUserNames = [];
 // checks if game has started
 let gameRunning = false;
 // Names array
-let userNames = ["Rosie", "Johnny5", "Marvin", "bot", "Lion Force Voltron", "Kitt", "T-1000", "Cable's Arm", "Winter Soldier's Arm"];
+let userNames = ["im_real", "user", "User", "bot", "Bot", "human", "Human", "NotBot", "!robot", "chat_ai", "Chat_AI", "trickyBOT"];
 // bot chat allow
 let botToggle = true;
 
@@ -120,6 +120,11 @@ io.on('connection', (socket) => {
         console.log("Array state after user removed: ", allowedUsers);
       }
     }
+
+    // This checks when everybody leaves the game and will reset the bot name
+    if (allowedUsers.length === 0) {
+      botName = generateBotName();
+    }
   });
 
 
@@ -143,6 +148,7 @@ io.on('connection', (socket) => {
     });
   } else {
     console.log("THIS IS THE LOGIC FLAG PLACE FOR TOO MANY PEOPLE");
+    //make code to kick users to 
   }
 
 
@@ -231,6 +237,13 @@ io.on('connection', (socket) => {
     }, 1000);
 
   }
+  shuffle = (a) => {
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
   // END GAME LOGIC
   endGame = (gameInterval) => {
     clearInterval(gameInterval);
@@ -241,6 +254,8 @@ io.on('connection', (socket) => {
       message: "GAME IS OVER!"
     });
     // This disables chat functionality to the users
+    //shuffle the array
+    shuffle(currentUserNames)
     io.emit('END_GAME', {
       // send something
       message: '',
@@ -267,6 +282,9 @@ io.on('connection', (socket) => {
       });
       if (voteTimer === 0) { // this is when game stops
         //Run the end game function
+        //clear the current usernames
+        currentUserNames = []
+        console.log(currentUserNames)
         endVoting(voteInterval);
       }
     }, 1000);
@@ -280,9 +298,9 @@ io.on('connection', (socket) => {
       message: "TIME IS UP"
     });
     io.emit('FINAL', "finally");
+    // clear the bot out of the current userNames and generate a new bot
     gameRunning = false;
-    currentUserNames = [];
-    botName = generateBotName();
+    console.log(currentUserNames)
   }
 
   // BOT CHAT LOGIC ------
