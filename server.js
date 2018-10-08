@@ -157,6 +157,11 @@ io.on('connection', (socket) => {
     // ````````````````````````````timer stuff``````````````````
     let interval;
 
+    //Send everybody the userlist for the game
+    io.emit("SEND_USER", {
+      userNames: currentUserNames
+    });
+
     count = () => {
       let timer = 4;
       // sends bot name to user
@@ -258,7 +263,6 @@ io.on('connection', (socket) => {
       message: '',
       chatActive: false,
       allowVoting: true,
-      userNames: currentUserNames
     });
     // runs endResults after 3 seconds
     setTimeout(endResults, 3000);

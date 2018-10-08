@@ -4,6 +4,7 @@ import { Route, Redirect } from "react-router-dom";
 import Game from "./pages/Game";
 import Callback from "./pages/Callback";
 import Homepage from "./pages/Homepage";
+import Waitingroom from "./pages/Waitingroom";
 
 
 const App = props => {
@@ -21,6 +22,11 @@ const App = props => {
       <Route exact path="/game" render={() => {
         return (props.auth.isAuthenticated()) ? (
           <Game auth={props.auth} history={props.history} />
+        ) : (<Redirect to="/" />)
+      }} />
+      <Route exact path="/waitingroom" render={() => {
+        return (props.auth.isAuthenticated()) ? (
+          <Waitingroom auth={props.auth} history={props.history} />
         ) : (<Redirect to="/" />)
       }} />
 

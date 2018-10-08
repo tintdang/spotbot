@@ -84,13 +84,19 @@ class Game extends React.Component {
             this.setState(data);
         });
 
-        // receive endgame from socket
-        this.socket.on('END_GAME', (data) => {
+        //This will recieve the usernames and then set the state after
+        this.socket.on("SEND_USER", (data) => {
             console.log(data)
             console.log("This user is called " + this.state.author)
             console.log("The index of " + this.state.author + " is " + data.userNames.indexOf(this.state.author))
             //This will return the object with the removed username that is used by the current client
             data.userNames.splice((data.userNames.indexOf(this.state.author)), 1);
+            this.setState(data)
+        })
+
+        // receive endgame from socket
+        this.socket.on('END_GAME', (data) => {
+
             // let newData = data.userNames.splice(data.userNames.indexOf(this.state.author), 1);
             // console.log(newData);
             this.setState(data);
