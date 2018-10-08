@@ -1,11 +1,9 @@
 import React from "react";
-import './game.css';
+import '../../assets/style.css';
 import UserSeat from '../../components/userSeat';
 import Navbar from "../../components/Navbar";
 import PopOutRight from '../../components/popOutRight';
 import PopOutLeft from '../../components/popOutLeft';
-import './gameBoard.css';
-import './chat.css';
 import io from "socket.io-client";
 
 
@@ -109,8 +107,8 @@ class Game extends React.Component {
 
         });
 
-         // this will end the game 
-         this.socket.on('FINAL', (data) => {
+        // this will end the game 
+        this.socket.on('FINAL', (data) => {
             this.results();
         });
 
@@ -182,7 +180,7 @@ class Game extends React.Component {
     }
 
     autoscrollDown = () => {
-        const element = document.getElementById("card-body");
+        const element = document.getElementById("scroll");
         element.scrollTop = element.scrollHeight - element.clientHeight;
     }
 
@@ -237,50 +235,54 @@ class Game extends React.Component {
 
     render() {
         return (
-            <div id="canvas">
+            <div className="canvas">
                 <Navbar />
                 <PopOutLeft />
-                <div id="game-board">
-                    <div className="card">
-                        <div id="card-body" className="card-body">
-                            <div className="scrolltobottom">
+                <div className="card" id="game-board">
 
-                                <div className="card-title">Welcome to SpotBot. Try to convince the other players that you're the bot, then try to guess who is actually fake! A round will begin when all players are here. For more information on game details, including scoring: Go here!</div>
+                    <div className="card-title">Welcome to SpotBot. This is now shorter. Write something good.
                                 <hr />
+                    </div>
 
-                                <div className="messages">
-                                    {this.state.messages.map(message => {
-                                        return (
-                                            <div
-                                                // onChange={this.genNewKey()}
-                                                key={key}>
-                                                {message.author}: {message.message}
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                            </div>
+                    <div className="card-body" id="scroll">
+                        <div  className="messages">
+                            {this.state.messages.map(message => {
+                                return (
+                                    <div
+                                        // onChange={this.genNewKey()}
+                                        key={key}>
+                                        {message.author}: {message.message}
+                                    </div>
+                                )
+                            })}
                         </div>
-                        <div className="card-footer">
-                            <form>
-                                {/* <input type="text" placeholder="Username" name="author" className="form-control"
+                    </div>
+
+                    <div className="card-footer">
+                        <form>
+                            {/* <input type="text" placeholder="Username" name="author" className="form-control"
                             value={this.state.author}
                             onChange={this.handleInputChange}
                         /> */}
-                                <br />
-                                <input type="text" placeholder="Message" name="message" className="form-control"
-                                    onChange={this.handleInputChange}
-                                    value={this.state.message}
-                                />
-                                <br />
-                                <button onClick={this.actionsOnClick} className="btn btn-dark form-control">Send</button>
-                            </form>
-                        </div>
+                            <br />
+                            <input type="text" placeholder="Message" name="message" className="form-control"
+                                onChange={this.handleInputChange}
+                                value={this.state.message}
+                            />
+                            <br />
+                            <button onClick={this.actionsOnClick} className="btn btn-dark form-control">Send</button>
+                        </form>
                     </div>
                 </div>
+
+
                 <PopOutRight />
+
                 <UserSeat time={this.state.timer} vote={this.state.userNames} buttoncheck={this.vote} />
-                <button id='logout-button' onClick={this.logout}>Logout</button>
+                <div id="logout-button" onClick={this.logout}>
+                    <span className="material-icons md-48">settings_backup_restore</span>
+                </div>
+
             </div>
         )
     }

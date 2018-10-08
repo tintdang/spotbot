@@ -1,5 +1,5 @@
-import React from 'react'
-import './voteButton.css'
+import React from 'react';
+import '../../assets/style.css';
 
 const VoteButton = props => {
 
@@ -8,6 +8,6 @@ const VoteButton = props => {
                 <button {...props} className="vote-button">{props.children}</button>
             </div>
         )
-}
+};
 
 export default VoteButton;
