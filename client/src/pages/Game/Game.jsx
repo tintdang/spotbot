@@ -30,7 +30,8 @@ class Game extends React.Component {
             chatActive: false,
             score: null,
             allowVoting: false,
-            userNames: []
+            userNames: [],
+            votedFor: ''
         };
 
         // USE THESE TO TOGGLE FOR PRODUCTION OR IMPLEMENT A SWITCH
@@ -133,9 +134,28 @@ class Game extends React.Component {
         }
     }
 
-    buttoncheck = value => {
+    results = () => {
+        // This will check if they win
+        console.log(this.state.votedFor)
+        console.log(this.state.botname)
+        if(this.state.votedFor === this.state.botname){
+            console.log("You got it right!!!!!")
+            
+        } else {
+            console.log("WRONG")
+        }
+    }
+
+    vote = value => {
         // event.preventDefault();
-        console.log("You clicked on " + value)
+        if (this.state.allowVoting) {
+            console.log(`I voted for ${value}`);
+        this.setState({ 
+            votedFor: value,
+            allowVoting: false
+         });
+        }
+        setTimeout( this.results(), 3000);
     }
 
     actionsOnClick = event => {
@@ -249,7 +269,7 @@ class Game extends React.Component {
                     </div>
                 </div>
                 <PopOutRight />
-                <UserSeat time={this.state.timer} vote={this.state.userNames} buttoncheck={this.buttoncheck} />
+                <UserSeat time={this.state.timer} vote={this.state.userNames} buttoncheck={this.vote} />
                 <button id='logout-button' onClick={this.logout}>Logout</button>
             </div>
         )
