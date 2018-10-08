@@ -65,6 +65,8 @@ let currentUserNames = [];
 let gameRunning = false;
 // Names array
 let userNames = ["Rosie", "Johnny5", "Marvin", "bot", "Lion Force Voltron", "Kitt", "T-1000", "Cable's Arm", "Winter Soldier's Arm"];
+// bot chat allow
+let botToggle = true;
 
 //This will pick a random name from the array and slice it out of the array.
 generateUserName = (socketID) => {
@@ -90,7 +92,7 @@ generateBotName = () => {
     name = userNames[Math.floor(Math.random() * userNames.length)];
     console.log("BOT now picked " + name);
   }
-  currentUserNames.push(name);
+  // store bot name here
   return name;
 }
 // sets bot name
@@ -98,10 +100,6 @@ let botName = generateBotName();
 
 // Setting up more socket.io stuff:
 io.on('connection', (socket) => {
-  // sends bot name to user
-  io.emit('BOT_NAME', {
-    botname: botName
-  });
 
   // Assign player their name and send it over to socket
   username = generateUserName(socket.id);
@@ -131,7 +129,7 @@ io.on('connection', (socket) => {
 
   if (allowedUsers.length < 4) {
     socket.on('SEND_MESSAGE', function (data) {
-      console.log(data);
+      //console.log(data);
       io.emit('RECEIVE_MESSAGE', data);
       /* store to database
       axios.post('/api/history', 
@@ -155,6 +153,10 @@ io.on('connection', (socket) => {
     let timer = 6;
 
     count = () => {
+      // sends bot name to user
+      io.emit('BOT_NAME', {
+        botname: botName
+      });
       interval = setInterval(() => {
         timer--;
         io.emit("GAME_MESSAGE", {
@@ -219,7 +221,7 @@ io.on('connection', (socket) => {
     gameTime = 15;
     const gameInterval = setInterval(function () {
       gameTime--;
-      io.emit('game_logic', {
+      io.emit('GAME_LOGIC', {
         timer: gameTime
       });
       if (gameTime === 0) { // this is when game stops
@@ -260,7 +262,7 @@ io.on('connection', (socket) => {
     // send over voting timer
     const voteInterval = setInterval(function () {
       voteTimer--;
-      io.emit('game_logic', {
+      io.emit('GAME_LOGIC', {
         timer: voteTimer
       });
       if (voteTimer === 0) { // this is when game stops
@@ -283,21 +285,23 @@ io.on('connection', (socket) => {
     botName = generateBotName();
   }
 
-  // calculates the bot delay time
-  botDelay =(length) => {
-    let timeout;
-    if (length < 10) {
-      timeout = length * 100;
-    } else {
-      timeout = length * 50;
-    }
-    console.log("milliseconds for timeout: ", timeout);
-    return timeout;
-  }
-
   // BOT CHAT LOGIC ------
-  socket.on('CHAT_MESSAGE', (text) => {
-    
+  socket.on('BOT_MESSAGE', (text) => {
+    let textLength = text.message.length;
+    let resDelay = botDelay(textLength);
+    console.log("results delay: ", resDelay);
+    if (botToggle) {
+      setTimeout(() => {
+        botChannel(text);
+      }, resDelay);
+    } else {
+      clearTimeout(botChannel);
+    }
+    botTimeout();
+  });
+
+  // bot receive/send function
+  botChannel = (text) => {
     let apiaiReq = apiai.textRequest(text.message, {
       sessionId: APIAI_SESSION_ID
     });
@@ -311,7 +315,9 @@ io.on('connection', (socket) => {
       console.log(error);
     });
     apiaiReq.end();
-  });
+    botToggle = false;
+  }
+
   // END bot chat stuff -----
 
 });
@@ -321,3 +327,24 @@ io.on('connection', (socket) => {
 server.listen(PORT, () =>
   console.log(`Socket.io is listening on PORT ${PORT}`)
 );
+
+ // bot-time functions *************************
+ botTimeout = () => {
+  setTimeout(() => {
+    botToggle = true;
+  }, 3000);
+  console.log("bot is timed out");
+}
+// calculates the bot delay time
+botDelay = (length) => {
+  console.log("LENGTH: ", length);
+  let timeout;
+  if (length < 10) {
+    timeout = length * 100;
+  } else {
+    timeout = length * 50;
+  }
+  console.log("milliseconds for timeout: ", timeout);
+  return timeout;
+}
+// **********************************

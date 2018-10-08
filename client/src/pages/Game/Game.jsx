@@ -54,16 +54,16 @@ class Game extends React.Component {
             this.setState({
                 botMsg: msg
             });
-            if (this.state.chatActive) {
+            //if (this.state.chatActive) {
                 this.socket.emit('SEND_MESSAGE', {
                     author: this.state.botname,
                     message: this.state.botMsg
                 });
-            }
+            //}
         });
 
         // game time logic
-        this.socket.on('game_logic', (data) => {
+        this.socket.on('GAME_LOGIC', (data) => {
             this.setState(data);
         });
 
@@ -115,11 +115,12 @@ class Game extends React.Component {
         // too bot -->
         this.sendToBot = () => {
             // event.preventDefault();
-            this.socket.emit('CHAT_MESSAGE', {
+            this.socket.emit('BOT_MESSAGE', {
                 message: this.state.message
             });
         }
 
+        // send global socket message
         this.sendMessage = () => {
             // event.preventDefault();
             this.socket.emit('SEND_MESSAGE', {
@@ -156,6 +157,7 @@ class Game extends React.Component {
         }, 5000);
     }
 
+    // event listener for vote buttons
     vote = value => {
         // event.preventDefault();
         if (this.state.allowVoting) {
@@ -167,14 +169,32 @@ class Game extends React.Component {
         }
     }
 
+    // send event for message
     actionsOnClick = event => {
         event.preventDefault();
-        //console.log('ACTIONS CALLED.');
         if (this.state.chatActive === true) {
             this.sendMessage();
             this.sendToBot();
         }
+        this.chatDelay();
     };
+
+    // timeout messages function
+    chatDelay = () => {
+        let delayCount = 5;
+        this.state.chatActive = false;
+        console.log("5 second chat delay started");
+        /*
+        setInterval(() => {
+            this.setState({
+                messages: [...this.state.messages,
+                { author: "SpotBot", message: delayCount }]
+            });
+            delayCount--;
+        }, 1000); 
+        */
+        setTimeout(() => { this.state.chatActive = true }, 3000);
+    }
 
     componentDidMount() {
         console.log("Game Canvas (and chat) Component loaded!");
