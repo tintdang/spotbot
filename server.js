@@ -193,7 +193,7 @@ io.on('connection', (socket) => {
       setTimeout(() => {
         count();
       })
-    }, 3000)
+    }, 2000);
   } else if (allowedUsers.length < 3) {
     //If there are less than 3 players, have spotbot send a message out
     console.log("Game is not ready");
