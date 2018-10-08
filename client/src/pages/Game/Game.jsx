@@ -147,10 +147,13 @@ class Game extends React.Component {
         console.log(this.state.votedFor)
         console.log(this.state.botname)
         if (this.state.votedFor === this.state.botname) {
-            console.log("You got it right!!!!!")
-
+            this.setState({ messages: [...this.state.messages, 
+                { author: "SpotBot", message: `You are correct. The bot was ${this.state.botname}` }] });
+            this.autoscrollDown()
         } else {
-            console.log("WRONG")
+            this.setState({ messages: [...this.state.messages, 
+                { author: "SpotBot", message: `You are incorrect. The bot was ${this.state.botname}` }] });
+            this.autoscrollDown()
         }
         setTimeout(() => {
             // KICK PEOPLE
