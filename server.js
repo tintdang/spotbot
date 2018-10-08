@@ -63,7 +63,7 @@ let currentUserNames = [];
 // checks if game has started
 let gameRunning = false;
 // Names array
-let userNames = ["im_real", "user07", "User", "bott", "Bot", "human", "Human", "NotBot", "!robot", "chat_ai", "Chat_AI", "trickyBOT"];
+let userNames = ["im_real", "user07", "User", "Bot", "Human", "NotBot", "!robot", "Chat_AI", "trickyBOT"];
 // bot chat allow
 let botToggle = true;
 
