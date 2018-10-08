@@ -64,7 +64,7 @@ let currentUserNames = [];
 // checks if game has started
 let gameRunning = false;
 // Names array
-let userNames = ["Rosie", "Johnny5", "Marvin", "bot", "Lion Force Voltron", "Kitt", "T-1000", "Cable's Arm", "Winter Soldier's Arm"];
+let userNames = ["im_real", "user", "User", "bot", "Bot", "human", "Human", "NotBot", "!robot", "chat_ai", "Chat_AI", "trickyBOT"];
 
 //This will pick a random name from the array and slice it out of the array.
 generateUserName = (socketID) => {
