@@ -1,14 +1,13 @@
 import React from 'react';
 import '../../assets/style.css';
 import Navbar from "../../components/Navbar";
-import { Link } from "react-router-dom";
 
 class Waitingroom extends React.Component {
     state = {
         currentlyPlaying: 0
     }
 
-    dosomething = () => {
+    playAgain = () => {
         this.props.history.push('/game')
     }
     logout = () => {
@@ -21,8 +20,9 @@ class Waitingroom extends React.Component {
                 <Navbar />
                 <h1> Welcome to the Waitingroom </h1>
                 <h2>There are currently {this.state.currentlyPlaying} players playing</h2>
-                <button onClick={this.dosomething} >Play Again</button>
+                <button onClick={this.playAgain} >Play Again</button>
                 <button onClick={this.logout} >Logout</button>
+
             </div>
         )
     }
