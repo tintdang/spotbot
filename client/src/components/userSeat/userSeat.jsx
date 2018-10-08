@@ -1,5 +1,5 @@
-import React from 'react'
-import './userSeat.css'
+import React from 'react';
+import '../../assets/style.css';
 import VoteButton from '../voteButtons';
 import Timer from '../timer';
 

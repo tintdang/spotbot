@@ -1,9 +1,7 @@
-import React from 'react'
-import './popOutRight.css'
+import React from 'react';
+import '../../assets/style.css';
 
-const toggleVisibility = () => {
-
-}
+const toggleVisibility = () => {}
 
 const PopOutRight = props =>
 
@@ -12,7 +10,5 @@ const PopOutRight = props =>
             <button id="prbutton" onClick={toggleVisibility()}> =- </button>
         </div>
     </div>
-
-
 
 export default PopOutRight;

@@ -13,6 +13,8 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+app.use(express.static("public"));
+
 // Database stuff ***
 //const db = require("./models");
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
