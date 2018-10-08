@@ -49,24 +49,17 @@ class Game extends React.Component {
         });
 
         // from bot <--
-        this.socket.on('bot reply', (msg) => {
+        this.socket.on('BOT_REPLY', (msg) => {
             //console.log("Received bot msg?", msg);
             this.setState({
                 botMsg: msg
             });
-
-            // timeout length calculations
-            let timeout = msg.length * 60;
-            console.log("milliseconds for timeout: ", timeout);
-            //might need to clear timeout
-            setTimeout(() => {
-                if (this.state.chatActive) {
-                    this.socket.emit('SEND_MESSAGE', {
-                        author: this.state.botname,
-                        message: this.state.botMsg
-                    });
-                }
-            }, timeout);
+            if (this.state.chatActive) {
+                this.socket.emit('SEND_MESSAGE', {
+                    author: this.state.botname,
+                    message: this.state.botMsg
+                });
+            }
         });
 
         // game time logic
@@ -122,7 +115,7 @@ class Game extends React.Component {
         // too bot -->
         this.sendToBot = () => {
             // event.preventDefault();
-            this.socket.emit('chat message', {
+            this.socket.emit('CHAT_MESSAGE', {
                 message: this.state.message
             });
         }
@@ -145,14 +138,22 @@ class Game extends React.Component {
         console.log(this.state.votedFor)
         console.log(this.state.botname)
         if (this.state.votedFor === this.state.botname) {
-            console.log("You got it right!!!!!")
-
+            this.setState({
+                messages: [...this.state.messages,
+                { author: "SpotBot", message: `You are correct. The bot was ${this.state.botname}` }]
+            });
+            this.autoscrollDown()
         } else {
-            console.log("WRONG")
+            this.setState({
+                messages: [...this.state.messages,
+                { author: "SpotBot", message: `You are incorrect. The bot was ${this.state.botname}` }]
+            });
+            this.autoscrollDown()
         }
         setTimeout(() => {
-            // KICK PEOPLE
-        }, 1000);
+            // KICK PEOPLE to a broken page
+            this.props.history.push('/waitingroom')
+        }, 5000);
     }
 
     vote = value => {
