@@ -16,7 +16,7 @@ class Waitingroom extends React.Component {
     }
     render() {
         return (
-            <div className="canvas">
+            <div>
                 <Navbar />
                 <h1 className="text-center"> Welcome to the Waitingroom </h1>
                 {/* <h2>This is currently in p</h2> This will be for future development to check how many people are in the room*/}
