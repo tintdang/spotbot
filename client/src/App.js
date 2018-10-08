@@ -1,11 +1,10 @@
 import React from "react";
 import {withRouter} from 'react-router';
 import { Route, Redirect } from "react-router-dom";
-
 import Game from "./pages/Game";
 import Callback from "./pages/Callback";
 import Homepage from "./pages/Homepage";
-import './style.css';
+
 
 const App = props => {
 

@@ -1,5 +1,5 @@
-import React from 'react'
-import './voteButton.css'
+import React from 'react';
+import '../../assets/style.css';
 
 const VoteButton = props => {
 
@@ -13,6 +13,6 @@ const VoteButton = props => {
                 <button id="vote-Button">Vote!</button>
             </div>
         )
-}
+};
 
 export default VoteButton;
