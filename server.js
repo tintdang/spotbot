@@ -59,7 +59,8 @@ app.use(morgan("combined"));
 let allowedUsers = [];
 // array of currently used User Names
 let currentUserNames = [];
-
+// checks if game has started
+let gameRunning = false;
 // Names array
 let userNames = ["Rosie", "Johnny5", "Marvin", "bot", "Lion Force Voltron", "Kitt", "T-1000", "Cable's Arm", "Winter Soldier's Arm"];
 
@@ -93,15 +94,18 @@ generateBotName = () => {
 // sets bot name
 let botName = generateBotName();
 
-
 // Setting up more socket.io stuff:
 io.on('connection', (socket) => {
   // sends bot name to user
-  io.emit('BOT_NAME', { botname: botName });
+  io.emit('BOT_NAME', {
+    botname: botName
+  });
 
   // Assign player their name and send it over to socket
   username = generateUserName(socket.id);
-  io.emit('USER_NAME', { author: username});
+  io.emit('USER_NAME', {
+    author: username
+  });
 
 
   //When that specific socket disconnects, what should we do?
@@ -142,10 +146,8 @@ io.on('connection', (socket) => {
   }
 
 
-  if (allowedUsers.length === 3) {
-    //When there are the full amount of players we need in the game connected and joined.
-
-
+  if (allowedUsers.length === 3 && gameRunning === false) {
+    // When there are the full amount of players we need in the game connected and joined.
     // ````````````````````````````timer stuff``````````````````
     let interval;
     let timer = 6;
@@ -166,12 +168,19 @@ io.on('connection', (socket) => {
     }
 
     stop = () => {
-      io.emit("GAME_MESSAGE", { author: "SpotBot", message: "SPOTBOT!!!!" })
-      io.emit("START_GAME", { chatActive: true })
+      io.emit("GAME_MESSAGE", {
+        author: "SpotBot",
+        message: "SPOTBOT!!!!"
+      });
+      io.emit("START_GAME", {
+        chatActive: true
+      });
       gameTimer();
       //Reset the timer and interval
       clearInterval(interval);
       timer = 6;
+      // set game running
+      gameRunning = true;
     }
 
 
@@ -193,7 +202,7 @@ io.on('connection', (socket) => {
       setTimeout(() => {
         count();
       })
-    }, 3000)
+    }, 2000);
   } else if (allowedUsers.length < 3) {
     //If there are less than 3 players, have spotbot send a message out
     console.log("Game is not ready");
@@ -212,17 +221,64 @@ io.on('connection', (socket) => {
         timer: gameTime
       });
       if (gameTime === 0) { // this is when game stops
-        clearInterval(gameInterval);
-        // // post-game logic
-        // io.emit('allow_voting', {
-        //   allowVote: true
-        // });
+        //Run the end game function
+        endGame(gameInterval);
       }
     }, 1000);
 
   }
-  // END GAME FUNCTIONS
+  // END GAME LOGIC
+  endGame = (gameInterval) => {
+    clearInterval(gameInterval);
+    // post-game logic
+    // Spotbot will tell the game is over
+    io.emit("GAME_MESSAGE", {
+      author: "SpotBot",
+      message: "GAME IS OVER!"
+    });
+    // This disables chat functionality to the users
+    io.emit('END_GAME', {
+      // send something
+      message: '',
+      chatActive: false,
+      allowVoting: true,
+      userNames: currentUserNames
+    });
+    // runs endResults after 3 seconds
+    setTimeout(endResults, 3000);
+  }
 
+  // starts voting timer
+  endResults = () => {
+    let voteTimer = 15;
+    io.emit("GAME_MESSAGE", {
+      author: "SpotBot",
+      message: "TIME TO VOTE. You have 15 seconds."
+    });
+    // send over voting timer
+    const voteInterval = setInterval(function () {
+      voteTimer--;
+      io.emit('game_logic', {
+        timer: voteTimer
+      });
+      if (voteTimer === 0) { // this is when game stops
+        //Run the end game function
+        endVoting(voteInterval);
+      }
+    }, 1000);
+  }
+
+  // finalizes game and resets
+  endVoting = (voteInterval) => {
+    clearInterval(voteInterval);
+    io.emit("GAME_MESSAGE", {
+      author: "SpotBot",
+      message: "TIME IS UP"
+    });
+    io.emit('FINAL', "finally");
+    gameRunning = false;
+    currentUserNames = [];
+  }
 
   //COPY PASTE BOT LOGIC
   socket.on('chat message', (text) => {

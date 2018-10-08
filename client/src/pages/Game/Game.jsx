@@ -29,6 +29,9 @@ class Game extends React.Component {
             timer: 15,
             chatActive: false,
             score: null,
+            allowVoting: false,
+            userNames: [],
+            votedFor: ''
         };
 
         // USE THESE TO TOGGLE FOR PRODUCTION OR IMPLEMENT A SWITCH
@@ -44,7 +47,6 @@ class Game extends React.Component {
 
         // receive game messages from socket
         this.socket.on('GAME_MESSAGE', (data) => {
-            //console.log("Received msg?", data);
             addMessage(data);
         });
 
@@ -52,14 +54,21 @@ class Game extends React.Component {
         this.socket.on('bot reply', (msg) => {
             //console.log("Received bot msg?", msg);
             this.setState({
-                // botname: msg.author,
                 botMsg: msg
             });
 
-            this.socket.emit('SEND_MESSAGE', {
-                author: this.state.botname,
-                message: this.state.botMsg
-            });
+            // timeout length calculations
+            let timeout = msg.length * 60;
+            console.log("milliseconds for timeout: ", timeout);
+            //might need to clear timeout
+            setTimeout(() => {
+                if (this.state.chatActive) {
+                    this.socket.emit('SEND_MESSAGE', {
+                        author: this.state.botname,
+                        message: this.state.botMsg
+                    });
+                }
+            }, timeout);
         });
 
         // game time logic
@@ -79,11 +88,30 @@ class Game extends React.Component {
             this.setState(data)
         });
 
-
-
         // this will enable chat at game start
         this.socket.on('START_GAME', (data) => {
-            this.setState(data)
+            this.setState(data);
+        });
+
+        // receive endgame from socket
+        this.socket.on('END_GAME', (data) => {
+            console.log(data)
+            console.log("This user is called " + this.state.author)
+            console.log("The index of " + this.state.author + " is " + data.userNames.indexOf(this.state.author))
+            //This will return the object with the removed username that is used by the current client
+            data.userNames.splice((data.userNames.indexOf(this.state.author)), 1);
+            // let newData = data.userNames.splice(data.userNames.indexOf(this.state.author), 1);
+            // console.log(newData);
+            this.setState(data);
+
+            //console.log(this.state.userNames)
+            // Run a function that will print out the names of the opposing users in the game in buttons
+
+        });
+
+         // this will end the game 
+         this.socket.on('FINAL', (data) => {
+            this.results();
         });
 
         const addMessage = data => {
@@ -110,6 +138,33 @@ class Game extends React.Component {
             // clear state
             this.setState({ message: '' });
             //console.log("sendMessage Ran. Message state reset to blank: ", this.state.message);
+        }
+    }
+
+    // final function
+    results = () => {
+        // This will check if they win
+        console.log(this.state.votedFor)
+        console.log(this.state.botname)
+        if (this.state.votedFor === this.state.botname) {
+            console.log("You got it right!!!!!")
+
+        } else {
+            console.log("WRONG")
+        }
+        setTimeout(() => {
+            // KICK PEOPLE
+        }, 1000);
+    }
+
+    vote = value => {
+        // event.preventDefault();
+        if (this.state.allowVoting) {
+            console.log(`I voted for ${value}`);
+            this.setState({
+                votedFor: value,
+                allowVoting: false
+            });
         }
     }
 
@@ -224,7 +279,7 @@ class Game extends React.Component {
                     </div>
                 </div>
                 <PopOutRight />
-                <UserSeat time={this.state.timer} />
+                <UserSeat time={this.state.timer} vote={this.state.userNames} buttoncheck={this.vote} />
                 <button id='logout-button' onClick={this.logout}>Logout</button>
             </div>
         )
