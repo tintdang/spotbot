@@ -278,6 +278,7 @@ io.on('connection', (socket) => {
     io.emit('FINAL', "finally");
     gameRunning = false;
     currentUserNames = [];
+    botName = generateBotName();
   }
 
   // calculates the bot delay time
