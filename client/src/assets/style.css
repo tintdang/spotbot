@@ -15,7 +15,7 @@
     background-position: center;
     background-size: auto; */
 
-    background: url('./images/bg_lines.jpg');
+    background: url('./images/circuit_color.jpg');
     background-image: 
     linear-gradient(from right 
     rgba(150,150,150.5),rgba(150,150,150.5)
@@ -45,7 +45,7 @@
   }
 
 #nav-style{
-    color: rgb(20,20,20);
+    color: rgb(230,230,250);
     font-weight: 800;
     /* color: black; */
     /* background-color: rgb(70,70,70);
@@ -68,6 +68,7 @@
 
 .card{
 }.card-title{
+    font-size: 28px;
     padding: 1vh 3vh;
     font-weight: 700;
     background-color: rgb(100,100,120);
@@ -76,6 +77,7 @@
     height: 100%;
     overflow-y: scroll;
     font-family: 'Roboto Mono', monospace; 
+    font-size: 20px;
     /* background-color: rgb(150,150,170);
     background-color: rgba(150,150,170,.9); */
 }.card-footer{
@@ -83,6 +85,13 @@
     background-color: rgba(100,100,120,.9);
     }
 
+.subtext{
+    font-size: 65%;
+    font-style: italic;
+}
+.bonus{
+    visibility: visible;
+}
 #messages{
     font-family: 'Roboto Mono', monospace;
 }
@@ -102,6 +111,16 @@
 }
 
 #typing-form{
+}
+
+form{
+    padding: 0vh;
+    margin: 0;
+}
+
+.form-control{
+    padding: 0vh;
+    margin: 1vh;
 }
 
 #game-text{
@@ -146,16 +165,41 @@
 /* HOMEPAGE */
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////// */
 
+#welcome{
+    font-family: 'Roboto Mono', monospace;
+}
+
+.welcome{
+    font-family: 'Roboto Mono', monospace;
+    font-size: 32px;
+}
+
+#bot1{
+    position: relative;
+    top: 0vh;
+    left: 0vh;
+}
+
+#bot2{
+    /* position: relative;
+    bottom: 10vh;
+    right: 2vh; */
+}
 
 .wflow{
     background-color: transparent;
     height: 70vh;
     min-height: 70vh;
+    padding: 5vh;
 }
 
 .smallImg{
-    height: 100px;
-    width: 100px;
+    height: 25vh;
+    width: 25vh;
+    padding: 2vh;
+}
+.fc {
+    float: center;
 }
 .fr {
     float: right;
@@ -168,7 +212,8 @@
     position: fixed;
     bottom: 5vh;
     width: 70vw;
-
+    background-color: rgb(50,50,50);
+    background-color: rgba(50,50,50,1);
 }
 
 /* END HOMEPAGE */
@@ -176,6 +221,14 @@
 
 /* USER SEAT */
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+#bot-behind{
+    position: fixed;
+    top: 30vh;
+    left: 60vw;
+    z-index: -1;
+    size: 200%;
+}
 
 #user-seat{
     background-color: rgb(230,230,250);
@@ -190,7 +243,7 @@
 }
 
 .vote-button{
-    color: rgb(240,240,240);
+    color: rgb(230,230,250);
     background-color: rgb(50,50,50);
     background-color: rgba(50,50,50,1);
     height: 5vh;
@@ -201,10 +254,11 @@
     float: left;
     position: relative;
     text-align: center;
+    border-radius: 5px;
 }
 
 #timer{
-    color: rgb(240,240,240);
+    color: rgb(230,230,250);
     background-color: rgb(50,50,50);
     background-color: rgba(50,50,50,1);
     height: 5vh;
@@ -215,6 +269,7 @@
     float: left;
     position: relative;
     text-align: center;
+    border-radius: 5px;
 }
 
 .popOut{
@@ -265,7 +320,38 @@
 
 @media screen and (max-width: 600px) {
     #game-board{
-        min-width: 200px;
+        width: 90vw;
+        left: 5vw;
+    }
+    .card-title{
+        font-size: 22px;
+    }
+    .card-body{
+        font-size: 14px;
+    }
+    #user-seat{
+        width: 90vw;
+        margin: 0 5vw;
+        bottom: 4vh;
+        visibility: visible;
+    }
+    #enter-btn{
+        width: 90vw;
+    }
+    .bonus{
+        visibility: hidden;
+    }
+    .smallImg{
+        height: 20vh;
+        width: 20vh;
+        padding: 10px;
+    }
+    .welcome{
+        font-size: 20px;
+    }
+    .form-control{
+        padding: 0vh;
+        margin: 0vh;
     }
   }
 

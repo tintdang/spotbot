@@ -5,6 +5,7 @@ import Navbar from "../../components/Navbar";
 import PopOutRight from '../../components/popOutRight';
 import PopOutLeft from '../../components/popOutLeft';
 import io from "socket.io-client";
+// import ScaleText from 'react-scale-text';
 
 
 const origin = window.location.origin;
@@ -240,8 +241,11 @@ class Game extends React.Component {
                 <PopOutLeft />
                 <div className="card" id="game-board">
 
-                    <div className="card-title">Do your best to figure out which person is actually a chatbot. But remember: other people are trying to trick you!<br />
-                    Chat will activate after the game begins!
+                    <div className="card-title">
+                    {/* <ScaleText widthOnly={true} minFontSize={6} maxFontSize={24}> */}
+                    Good luck finding Spot, our sneaky chat bot!<br />
+                    <span className="subtext">(Chat turns on when the game begins...)</span>
+                    {/* </ScaleText> */}
                     <hr />
                     </div>
 
@@ -263,16 +267,10 @@ class Game extends React.Component {
 
                     <div className="card-footer">
                         <form>
-                            {/* <input type="text" placeholder="Username" name="author" className="form-control"
-                            value={this.state.author}
-                            onChange={this.handleInputChange}
-                        /> */}
-                            <br />
                             <input type="text" placeholder="Message" name="message" className="form-control"
                                 onChange={this.handleInputChange}
                                 value={this.state.message}
                             />
-                            <br />
                             <button onClick={this.actionsOnClick} className="btn btn-dark form-control">Send</button>
                         </form>
                     </div>
@@ -280,6 +278,8 @@ class Game extends React.Component {
 
 
                 <PopOutRight />
+
+                <img className="smallImg fl" id="bot-behind" src="/assets/images/noun_Chatbot_933467.png" />
 
                 <UserSeat time={this.state.timer} vote={this.state.userNames} buttoncheck={this.vote} />
                 <div id="logout-button" onClick={this.logout}>
