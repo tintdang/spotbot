@@ -14,7 +14,7 @@ class Homepage extends React.Component {
         <Navbar />
         <div className="card" id="game-board">
           <div id="welcome-flow" className="carousel slide carousel-fade" data-ride="carousel" onChange={this.componentDidUpdate}>
-            <div className="carousel-inner">
+            <div className="carousel-inner" id="scroll">
 
               <div className="carousel-item active">
                 <div className="wflow" id="welcome">

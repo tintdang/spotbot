@@ -241,9 +241,12 @@ class Game extends React.Component {
                 <PopOutLeft />
                 <div className="card" id="game-board">
 
-                    <div className="card-title">Welcome to SpotBot. This is now shorter. Write something good.
-                                <hr />
+                    <div className="card-title">Do your best to figure out which person is actually a chatbot. But remember: other people are trying to trick you!<br />
+                    Chat will activate after the game begins!
+                    <hr />
                     </div>
+
+                   
 
                     <div className="card-body" id="scroll">
                         <div  className="messages">
