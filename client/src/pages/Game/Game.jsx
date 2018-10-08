@@ -133,9 +133,9 @@ class Game extends React.Component {
         }
     }
 
-    buttoncheck = event => {
-        event.preventDefault();
-        console.log("You clicked me!")
+    buttoncheck = value => {
+        // event.preventDefault();
+        console.log("You clicked on " + value)
     }
 
     actionsOnClick = event => {
