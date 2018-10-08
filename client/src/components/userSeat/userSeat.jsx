@@ -10,26 +10,9 @@ const UserSeat = props => {
             <Timer time={props.time} />
             {props.vote.map(button => {
                 return (
-                    <VoteButton>{button}</VoteButton>
+                    <VoteButton key={button} onClick={() => props.buttoncheck(button)} >{button}</VoteButton>
                 )
             })}
-            {/* <VoteButton>1</VoteButton>
-                <VoteButton>2</VoteButton>
-                <VoteButton>3</VoteButton> */}
-
-            {/* <div id="user-section">
-                    <div id="user-info">
-                        <span>Welcome to SpotBot, 'Username'!</span><span>You've won # games.</span>
-                    </div>
-                    <div id="user-input">
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="basic-addon1">Convince us you're a bot:</span>
-                            </div>
-                            <input type="text" className="form-control" placeholder="Speak to us..." aria-label="user-input" aria-describedby="basic-addon1"></input>
-                        </div>
-                    </div>
-                </div> */}
         </div>
     )
 }
