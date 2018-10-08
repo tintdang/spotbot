@@ -1,19 +1,28 @@
 import React from 'react';
 import '../../assets/style.css';
 import Navbar from "../../components/Navbar";
+import { Link } from "react-router-dom";
 
 class Waitingroom extends React.Component {
     state = {
         currentlyPlaying: 0
     }
 
+    dosomething = () => {
+        this.props.history.push('/game')
+    }
+    logout = () => {
+        this.props.auth.logout();
+        this.props.history.push('/');
+    }
     render() {
         return (
             <div>
                 <Navbar />
                 <h1> Welcome to the Waitingroom </h1>
                 <h2>There are currently {this.state.currentlyPlaying} players playing</h2>
-
+                <button onClick={this.dosomething} >Play Again</button>
+                <button onClick={this.logout} >Logout</button>
             </div>
         )
     }
