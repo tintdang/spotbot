@@ -202,7 +202,7 @@ io.on('connection', (socket) => {
     console.log("Game is ready")
     io.emit("GAME_MESSAGE", {
       author: "SpotBot",
-      message: "A Third person has joined the session."
+      message: "A third person has joined the session. Prepare yourself!"
     })
     //Wait 2 seconds before running the next message
     setTimeout(() => {
