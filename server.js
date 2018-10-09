@@ -323,9 +323,9 @@ botTimeout = () => {
 botDelay = (length) => {
   let timeout;
   if (length < 10) {
-    timeout = length * 400;
+    timeout = length * 500;
   } else {
-    timeout = length * 200;
+    timeout = length * 300;
   }
   console.log("milliseconds for timeout: ", timeout);
   return timeout;
