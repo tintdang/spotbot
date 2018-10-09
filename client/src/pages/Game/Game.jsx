@@ -30,11 +30,12 @@ class Game extends React.Component {
             score: null,
             allowVoting: false,
             userNames: [],
-            votedFor: ''
+            votedFor: '',
+            gameRunning: false
         };
 
         // USE THESE TO TOGGLE FOR PRODUCTION OR IMPLEMENT A SWITCH
-        this.socket = io(origin, {'sync disconnect on unload': true });
+        this.socket = io(origin, { 'sync disconnect on unload': true });
         //this.socket = io('localhost:3001', { 'sync disconnect on unload': true });
         // END PROD-SWITCH
 
@@ -193,7 +194,9 @@ class Game extends React.Component {
             this.sendMessage();
             this.sendToBot();
         }
-        this.chatDelay();
+        if (this.state.gameRunning) {
+            this.chatDelay();
+        }
     };
 
     // timeout messages function
@@ -279,11 +282,11 @@ class Game extends React.Component {
                 <div className="card" id="game-board">
 
                     <div className="card-title">
-                    {/* <ScaleText widthOnly={true} minFontSize={6} maxFontSize={24}> */}
-                    Good luck finding Spot, our sneaky chat bot!<br />
-                    <span className="subtext">(Chat turns on when the game begins...)</span>
-                    {/* </ScaleText> */}
-                    <hr />
+                        {/* <ScaleText widthOnly={true} minFontSize={6} maxFontSize={24}> */}
+                        Good luck finding Spot, our sneaky chat bot!<br />
+                        <span className="subtext">(Chat turns on when the game begins...)</span>
+                        {/* </ScaleText> */}
+                        <hr />
                     </div>
 
 

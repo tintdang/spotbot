@@ -186,7 +186,8 @@ io.on('connection', (socket) => {
         message: "***GAME HAS BEGUN***"
       });
       io.emit("START_GAME", {
-        chatActive: true
+        chatActive: true,
+        gameRunning: true
       });
       gameTimer();
       //Reset the timer and interval
