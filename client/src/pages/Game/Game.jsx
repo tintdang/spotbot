@@ -35,8 +35,8 @@ class Game extends React.Component {
         };
 
         // USE THESE TO TOGGLE FOR PRODUCTION OR IMPLEMENT A SWITCH
-        this.socket = io(origin, { 'sync disconnect on unload': true });
-        //this.socket = io('localhost:3001', { 'sync disconnect on unload': true });
+        //this.socket = io(origin, { 'sync disconnect on unload': true });
+        this.socket = io('localhost:3001', { 'sync disconnect on unload': true });
         // END PROD-SWITCH
 
         // receive chat messages from socket 
@@ -155,17 +155,9 @@ class Game extends React.Component {
         console.log(this.state.votedFor)
         console.log(this.state.botname)
         if (this.state.votedFor === this.state.botname) {
-            this.setState({
-                messages: [...this.state.messages,
-                { author: "SpotBot", message: `You are correct. The bot was ${this.state.botname}` }]
-            });
-            this.autoscrollDown()
+            this.addMessage( { author: "SpotBot", message: `You are correct. The bot was ${this.state.botname}` } );
         } else {
-            this.setState({
-                messages: [...this.state.messages,
-                { author: "SpotBot", message: `You are incorrect. The bot was ${this.state.botname}` }]
-            });
-            this.autoscrollDown()
+            this.addMessage( { author: "SpotBot", message: `You are incorrect. The bot was ${this.state.botname}` } );
         }
         setTimeout(() => {
             //Kick them from socket
@@ -203,7 +195,7 @@ class Game extends React.Component {
     chatDelay = () => {
         let delayCount = 5;
         this.state.chatActive = false;
-        console.log("5 second chat delay started");
+        console.log("4 second chat delay started");
         /*
         setInterval(() => {
             this.setState({
@@ -213,7 +205,7 @@ class Game extends React.Component {
             delayCount--;
         }, 1000); 
         */
-        setTimeout(() => { this.state.chatActive = true }, 3000);
+        setTimeout(() => { this.state.chatActive = true }, 4000);
     }
 
     componentDidMount() {
@@ -274,6 +266,14 @@ class Game extends React.Component {
         this.props.history.push('/');
     };
 
+    // add-message global function
+    addMessage = (data) => {
+        //console.log("Data rec'd in addMsg method:", data);
+        this.setState({ messages: [...this.state.messages, data] });
+        //console.log(this.state.messages);
+        this.autoscrollDown()
+    };
+
     render() {
         return (
             <div className="canvas">
@@ -288,8 +288,6 @@ class Game extends React.Component {
                         {/* </ScaleText> */}
                         <hr />
                     </div>
-
-
 
                     <div className="card-body" id="scroll">
                         <div className="messages">
