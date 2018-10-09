@@ -161,6 +161,23 @@ form{
     cursor: pointer;
 }
 
+.wr{
+    padding: 3vh;
+}
+
+#wait-bot{
+    height: 20vh;
+    width: 20vh;
+}
+
+h3,h4{
+    font-family: 'Roboto Mono', monospace; 
+}
+
+#wait-btn-pad1,#wait-btn-pad2{
+margin: 1vh;
+min-height: 35px;
+}
 
 /* HOMEPAGE */
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -352,6 +369,9 @@ form{
     .form-control{
         padding: 0vh;
         margin: 0vh;
+    }
+    .wr{
+        padding: 2vh;
     }
   }
 

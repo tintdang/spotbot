@@ -279,10 +279,10 @@ class Game extends React.Component {
                 <div className="card" id="game-board">
 
                     <div className="card-title">
-                    {/* <ScaleText widthOnly={true} minFontSize={6} maxFontSize={24}> */}
+                    
                     Good luck finding Spot, our sneaky chat bot!<br />
                     <span className="subtext">(Chat turns on when the game begins...)</span>
-                    {/* </ScaleText> */}
+                    
                     <hr />
                     </div>
 
