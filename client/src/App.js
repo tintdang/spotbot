@@ -15,19 +15,19 @@ const App = props => {
         <Callback auth={props.auth} />
       )} />
       <Route exact path="/" render={() => {
-        return (
-          <Homepage auth={props.auth} history={props.history} />
-        )
+        return (!props.auth.isAuthenticated()) ? (
+          <Homepage auth={props.auth} />
+        ) :(<Redirect to="/game" />)
       }} />
       <Route exact path="/game" render={() => {
-        return (
-        <Game auth={props.auth} history={props.history} />
-        )
+        return (props.auth.isAuthenticated()) ? (
+          <Game auth={props.auth} history={props.history} />
+        ) : (<Redirect to="/" />)
       }} />
       <Route exact path="/waitingroom" render={() => {
-        return (
+        return (props.auth.isAuthenticated()) ? (
           <Waitingroom auth={props.auth} history={props.history} />
-        )
+        ) : (<Redirect to="/" />)
       }} />
 
     </div>
