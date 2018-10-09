@@ -87,9 +87,9 @@ class Game extends React.Component {
 
         //This will recieve the usernames and then set the state after
         this.socket.on("SEND_USER", (data) => {
-            console.log(data)
-            console.log("This user is called " + this.state.author)
-            console.log("The index of " + this.state.author + " is " + data.userNames.indexOf(this.state.author))
+            // console.log(data)
+            // console.log("This user is called " + this.state.author)
+            // console.log("The index of " + this.state.author + " is " + data.userNames.indexOf(this.state.author))
             //This will return the object with the removed username that is used by the current client
             data.userNames.splice((data.userNames.indexOf(this.state.author)), 1);
             shuffle(data.userNames)
@@ -200,7 +200,7 @@ class Game extends React.Component {
     chatDelay = () => {
         let delayCount = 5;
         this.state.chatActive = false;
-        console.log("5 second chat delay started");
+        // console.log("5 second chat delay started");
         /*
         setInterval(() => {
             this.setState({
@@ -313,11 +313,7 @@ class Game extends React.Component {
                     </div>
                 </div>
 
-
                 <PopOutRight />
-
-                <img className="smallImg fl" id="bot-behind" src="/assets/images/noun_Chatbot_933467.png" />
-
                 <UserSeat time={this.state.timer} vote={this.state.userNames} buttoncheck={this.vote} />
                 <div id="logout-button" onClick={this.logout}>
                     <span className="material-icons md-48">settings_backup_restore</span>

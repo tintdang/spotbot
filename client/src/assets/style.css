@@ -15,7 +15,7 @@
     background-position: center;
     background-size: auto; */
 
-    background: url('./images/circuit_color.jpg');
+    background: url('./images/blue_woman_robotic.jpg');
     background-image: 
     linear-gradient(from right 
     rgba(150,150,150.5),rgba(150,150,150.5)
@@ -64,7 +64,7 @@
 #logo{
     height: 15vh;
     position: fixed;
-    z-index: 0;
+    z-index: -1;
     top: 0px;
     left: 35vw;
 }
@@ -94,6 +94,7 @@
 .subtext{
     font-size: 65%;
     font-style: italic;
+    text-align: right;
 }
 .bonus{
     visibility: visible;
@@ -108,12 +109,13 @@
 
 #game-board{
     background-color: rgb(150,150,170);
-    background-color: rgba(150,150,170,.9);
+    background-color: rgba(150,150,170,.7);
     width: 70vw;
     height: 75vh;
     float: left;
     position: fixed;
     left: 15vw;
+    border-radius: 10px;
 }
 
 #typing-form{
@@ -146,7 +148,7 @@ form{
 }
 
 .btn-dark{
-    background-color: rgb(150,150,150);
+    background-color: rgb(150,150,170);
 }
 
 /* MISC */
@@ -179,6 +181,13 @@ form{
 h3,h4{
     font-family: 'Roboto Mono', monospace; 
 }
+h3{
+    font-size: 250%;
+}
+h4{
+    font-size: 150%;
+    text-align: left;
+}
 
 #wait-btn-pad1,#wait-btn-pad2{
 margin: 1vh;
@@ -201,6 +210,15 @@ min-height: 35px;
     position: relative;
     top: 0vh;
     left: 0vh;
+}
+
+.carousel-control-prev{
+    position:absolute;
+    left: -4vw;
+}
+.carousel-control-next{
+    position:absolute;
+    left: 63vw;
 }
 
 #bot2{
@@ -348,6 +366,7 @@ min-height: 35px;
     }
     .card-title{
         font-size: 22px;
+        text-align: center;
     }
     .card-body{
         font-size: 14px;
@@ -383,9 +402,13 @@ min-height: 35px;
         height: 15vh;
         position: fixed;
         max-width: 100vw;
-        z-index: 0;
+        z-index: -1;
         top: 0px;
         left: 8vw;
+    }
+    .carousel-control-next{
+        position:absolute;
+        left: 79vw;
     }
   }
 

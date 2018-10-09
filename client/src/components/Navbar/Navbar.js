@@ -11,7 +11,7 @@ const Navbar = () =>
         {/* <h1>SPOT-BOT</h1> */}
         <div>
         {/* <img id="logo" src="./assets/images/Spot_Bot_Logo.png" /> */}
-        <img id="logo" src="./assets/images/Spot_Bot_White_Shadow.png" />
+        <img alt="#" id="logo" src="./assets/images/Spot_Bot_White_Shadow.png" />
         </div>
       </div>
     </div>
