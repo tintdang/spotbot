@@ -88,9 +88,9 @@ class Game extends React.Component {
 
         //This will recieve the usernames and then set the state after
         this.socket.on("SEND_USER", (data) => {
-            console.log(data)
-            console.log("This user is called " + this.state.author)
-            console.log("The index of " + this.state.author + " is " + data.userNames.indexOf(this.state.author))
+            // console.log(data)
+            // console.log("This user is called " + this.state.author)
+            // console.log("The index of " + this.state.author + " is " + data.userNames.indexOf(this.state.author))
             //This will return the object with the removed username that is used by the current client
             data.userNames.splice((data.userNames.indexOf(this.state.author)), 1);
             shuffle(data.userNames)
@@ -196,15 +196,6 @@ class Game extends React.Component {
         let delayCount = 5;
         this.state.chatActive = false;
         console.log("4 second chat delay started");
-        /*
-        setInterval(() => {
-            this.setState({
-                messages: [...this.state.messages,
-                { author: "SpotBot", message: delayCount }]
-            });
-            delayCount--;
-        }, 1000); 
-        */
         setTimeout(() => { this.state.chatActive = true }, 4000);
     }
 
@@ -282,11 +273,11 @@ class Game extends React.Component {
                 <div className="card" id="game-board">
 
                     <div className="card-title">
-                        {/* <ScaleText widthOnly={true} minFontSize={6} maxFontSize={24}> */}
-                        Good luck finding Spot, our sneaky chat bot!<br />
-                        <span className="subtext">(Chat turns on when the game begins...)</span>
-                        {/* </ScaleText> */}
-                        <hr />
+                    
+                    Good luck finding Spot, our sneaky chat bot!<br />
+                    <span className="subtext">(Chat turns on when the game begins...)</span>
+                    
+                    <hr />
                     </div>
 
                     <div className="card-body" id="scroll">
@@ -314,11 +305,7 @@ class Game extends React.Component {
                     </div>
                 </div>
 
-
                 <PopOutRight />
-
-                <img className="smallImg fl" id="bot-behind" src="/assets/images/noun_Chatbot_933467.png" />
-
                 <UserSeat time={this.state.timer} vote={this.state.userNames} buttoncheck={this.vote} />
                 <div id="logout-button" onClick={this.logout}>
                     <span className="material-icons md-48">settings_backup_restore</span>

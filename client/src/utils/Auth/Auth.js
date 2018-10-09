@@ -33,7 +33,7 @@ export default class Auth {
     return new Promise((resolve, reject) => {
       this.auth0.parseHash((err, authResult) => {
         if (err) return reject(err);
-        console.log(authResult);
+        // console.log(authResult);
         if (!authResult || !authResult.idToken) {
           return reject(err);
         }
@@ -69,7 +69,7 @@ export default class Auth {
     localStorage.setItem('expires_at', expiresAt);
     // set the time that the id token will expire at
     // saving user to database
-    console.log("authResult.idTokenPayload");
+    // console.log("authResult.idTokenPayload");
     API.saveUser({
       id: authResult.idTokenPayload.sub,
       name: authResult.idTokenPayload.name
