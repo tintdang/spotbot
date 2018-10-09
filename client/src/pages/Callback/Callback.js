@@ -2,8 +2,13 @@ import React from 'react';
 import { withRouter } from 'react-router';
 
 const Callback = props => {
-    props.auth.handleAuthentication().then(() => {
+    props.auth.handleAuthentication().then((resolve, err) => {
+        if (err) {
+            console.log(err)
+        }
+        // if it resolves then push them to game
         props.history.push('/game')
+
     });
     
     return (
