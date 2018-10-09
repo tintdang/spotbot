@@ -86,12 +86,6 @@ class Game extends React.Component {
 
         //This will recieve the usernames and then set the state after
         this.socket.on("SEND_USER", (data) => {
-<<<<<<< HEAD
-=======
-            // console.log(data)
-            // console.log("This user is called " + this.state.author)
-            // console.log("The index of " + this.state.author + " is " + data.userNames.indexOf(this.state.author))
->>>>>>> master
             //This will return the object with the removed username that is used by the current client
             data.userNames.splice((data.userNames.indexOf(this.state.author)), 1);
             //This will shuffle the usernames and post the opposing  for each client
@@ -183,16 +177,7 @@ class Game extends React.Component {
     chatDelay = () => {
         let delayCount = 5;
         this.state.chatActive = false;
-<<<<<<< HEAD
-        setTimeout(() => { this.state.chatActive = true }, 3000);
-=======
-        console.log("4 second chat delay started");
         setTimeout(() => { this.state.chatActive = true }, 4000);
->>>>>>> master
-    }
-
-    componentDidMount() {
-        console.log("Game Canvas (and chat) Component loaded!");
     }
 
     autoscrollDown = () => {
@@ -221,9 +206,7 @@ class Game extends React.Component {
 
     // add-message global function
     addMessage = (data) => {
-        //console.log("Data rec'd in addMsg method:", data);
         this.setState({ messages: [...this.state.messages, data] });
-        //console.log(this.state.messages);
         this.autoscrollDown()
     };
 
