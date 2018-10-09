@@ -12,7 +12,6 @@ const origin = window.location.origin;
 
 let randNum;
 let key;
-let interval;
 
 class Game extends React.Component {
 
@@ -36,7 +35,7 @@ class Game extends React.Component {
 
         // USE THESE TO TOGGLE FOR PRODUCTION OR IMPLEMENT A SWITCH
         //this.socket = io(origin, { 'sync disconnect on unload': true });
-        this.socket = io('localhost:3001', { 'sync disconnect on unload': true });
+        this.socket = io(origin, { 'sync disconnect on unload': true });
         // END PROD-SWITCH
 
         // receive chat messages from socket 
@@ -175,9 +174,8 @@ class Game extends React.Component {
 
     // timeout messages function
     chatDelay = () => {
-        let delayCount = 5;
-        this.state.chatActive = false;
-        setTimeout(() => { this.state.chatActive = true }, 4000);
+        this.state.chatActive = false 
+        setTimeout(() => this.state.chatActive = true , 4000);
     }
 
     autoscrollDown = () => {
