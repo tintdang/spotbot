@@ -227,7 +227,7 @@ io.on('connection', (socket) => {
 
   // START GAME FUNCTIONs
   gameTimer = () => {
-    gameTime = 15;
+    gameTime = 45;
     const gameInterval = setInterval(function () {
       gameTime--;
       io.emit('GAME_LOGIC', {
