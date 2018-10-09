@@ -61,7 +61,13 @@
     padding: 15px 0 5px 0;
 }
 
-
+#logo{
+    height: 15vh;
+    position: fixed;
+    z-index: 0;
+    top: 0px;
+    left: 35vw;
+}
 
 /* MIDDLE SECTION  */
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -372,6 +378,14 @@ min-height: 35px;
     }
     .wr{
         padding: 2vh;
+    }
+    #logo{
+        height: 15vh;
+        position: fixed;
+        max-width: 100vw;
+        z-index: 0;
+        top: 0px;
+        left: 8vw;
     }
   }
 
