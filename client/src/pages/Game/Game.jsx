@@ -41,7 +41,6 @@ class Game extends React.Component {
 
         // receive chat messages from socket 
         this.socket.on('RECEIVE_MESSAGE', (data) => {
-            //console.log("Received msg?", data);
             addMessage(data);
         });
 
@@ -52,7 +51,6 @@ class Game extends React.Component {
 
         // from bot <--
         this.socket.on('BOT_REPLY', (msg) => {
-            //console.log("Received bot msg?", msg);
             this.setState({
                 botMsg: msg
             });
@@ -69,7 +67,7 @@ class Game extends React.Component {
             this.setState(data);
         });
 
-        // This sets username 
+        // This sets username for each client
         this.socket.on('USER_NAME', (data) => {
             if (this.state.author === '') {
                 this.setState(data)
@@ -88,25 +86,16 @@ class Game extends React.Component {
 
         //This will recieve the usernames and then set the state after
         this.socket.on("SEND_USER", (data) => {
-            // console.log(data)
-            // console.log("This user is called " + this.state.author)
-            // console.log("The index of " + this.state.author + " is " + data.userNames.indexOf(this.state.author))
             //This will return the object with the removed username that is used by the current client
             data.userNames.splice((data.userNames.indexOf(this.state.author)), 1);
+            //This will shuffle the usernames and post the opposing  for each client
             shuffle(data.userNames)
             this.setState(data)
         })
 
         // receive endgame from socket
         this.socket.on('END_GAME', (data) => {
-
-            // let newData = data.userNames.splice(data.userNames.indexOf(this.state.author), 1);
-            // console.log(newData);
             this.setState(data);
-
-            //console.log(this.state.userNames)
-            // Run a function that will print out the names of the opposing users in the game in buttons
-
         });
 
         // this will end the game 
@@ -121,16 +110,14 @@ class Game extends React.Component {
             }
             return a;
         }
+        //This function will add onto the messages
         const addMessage = data => {
-            //console.log("Data rec'd in addMsg method:", data);
             this.setState({ messages: [...this.state.messages, data] });
-            //console.log(this.state.messages);
             this.autoscrollDown()
         };
 
         // too bot -->
         this.sendToBot = () => {
-            // event.preventDefault();
             this.socket.emit('BOT_MESSAGE', {
                 message: this.state.message
             });
@@ -138,22 +125,18 @@ class Game extends React.Component {
 
         // send global socket message
         this.sendMessage = () => {
-            // event.preventDefault();
             this.socket.emit('SEND_MESSAGE', {
                 author: this.state.author,
                 message: this.state.message
             });
             // clear state
             this.setState({ message: '' });
-            //console.log("sendMessage Ran. Message state reset to blank: ", this.state.message);
         }
     }
 
     // final function
     results = () => {
         // This will check if they win
-        console.log(this.state.votedFor)
-        console.log(this.state.botname)
         if (this.state.votedFor === this.state.botname) {
             this.addMessage( { author: "SpotBot", message: `You are correct. The bot was ${this.state.botname}` } );
         } else {
@@ -162,16 +145,15 @@ class Game extends React.Component {
         setTimeout(() => {
             //Kick them from socket
             this.socket.disconnect()
-            // KICK PEOPLE to a broken page
+            // KICK everybody to the waiting room
             this.props.history.push('/waitingroom')
         }, 5000);
     }
 
     // event listener for vote buttons
     vote = value => {
-        // event.preventDefault();
+        //Once user makes a vote, disable the vote function.
         if (this.state.allowVoting) {
-            console.log(`I voted for ${value}`);
             this.setState({
                 votedFor: value,
                 allowVoting: false
@@ -195,12 +177,7 @@ class Game extends React.Component {
     chatDelay = () => {
         let delayCount = 5;
         this.state.chatActive = false;
-        console.log("4 second chat delay started");
         setTimeout(() => { this.state.chatActive = true }, 4000);
-    }
-
-    componentDidMount() {
-        console.log("Game Canvas (and chat) Component loaded!");
     }
 
     autoscrollDown = () => {
@@ -208,47 +185,17 @@ class Game extends React.Component {
         element.scrollTop = element.scrollHeight - element.clientHeight;
     }
 
-    //It's a terrible way to swap it, but here's where chatActive turns on and off.
+    //This function enables users to be able to type but only when the game is active
     handleInputChange = event => {
-        if (this.state.chatActive === true) {
+        if (this.state.chatActive) {
             const { name, value } = event.target;
             this.setState({ [name]: value });
-        } else {
-            console.log("Chat is NOT working because it's flagged to be off in our state");
         }
     }
 
     genNewKey = () => {
         randNum = Math.floor(Math.random() * 300);
         key = Date.now() + randNum;
-        console.log("Key id assigned: ", key);
-        // return key;
-    }
-
-    timerCountdown = () => {
-        interval = setInterval(() => {
-            this.setState({
-                timer: this.state.timer - 1
-            })
-            console.log(this.state.timer)
-
-            if (this.state.timer === 0) {
-                console.log("this should stop")
-                //This will run the stop countdown function below and will stop the timer to continue any furthur
-                return this.stopCountdown()
-            }
-
-        }, 1000)
-    }
-
-    stopCountdown = () => {
-        clearInterval(interval)
-        //Reset the timer back to the normal state after 3 seconds
-        setTimeout(() => {
-            this.setState({
-                timer: 5
-            })
-        }, 3000)
     }
 
     //Creating a logout button
@@ -259,9 +206,7 @@ class Game extends React.Component {
 
     // add-message global function
     addMessage = (data) => {
-        //console.log("Data rec'd in addMsg method:", data);
         this.setState({ messages: [...this.state.messages, data] });
-        //console.log(this.state.messages);
         this.autoscrollDown()
     };
 
