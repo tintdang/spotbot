@@ -1,6 +1,5 @@
 // import dependencies ***
 require('dotenv').config()
-//const axios = require('axios');
 const express = require("express");
 const bodyParser = require("body-parser");
 const routes = require("./routes");
@@ -16,7 +15,6 @@ const PORT = process.env.PORT || 3001;
 app.use(express.static("public"));
 
 // Database stuff ***
-//const db = require("./models");
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/SpotBot";
 // Connect to the Mongo DB
@@ -71,11 +69,8 @@ let botToggle = true;
 generateUserName = (socketID) => {
   let name;
   name = userNames[Math.floor(Math.random() * userNames.length)];
-  console.log("We picked " + name + " = " + socketID)
   while (currentUserNames.includes(name)) {
-    console.log("found duplicate name");
     name = userNames[Math.floor(Math.random() * userNames.length)];
-    console.log("We now picked " + name + " = " + socketID);
   }
   currentUserNames.push(name);
   return name;
@@ -85,11 +80,8 @@ generateUserName = (socketID) => {
 generateBotName = () => {
   let name;
   name = userNames[Math.floor(Math.random() * userNames.length)];
-  console.log("BOT picked " + name)
   while (currentUserNames.includes(name)) {
-    console.log("found duplicate name");
     name = userNames[Math.floor(Math.random() * userNames.length)];
-    console.log("BOT now picked " + name);
   }
   currentUserNames.push(name);
   return name;
@@ -113,10 +105,8 @@ io.on('connection', (socket) => {
     //Search our allowedUsers array and remove anyone from it that disconnects
     for (let i = 0; i < allowedUsers.length; i++) {
       if (socket.id === allowedUsers[i]) {
-        console.log("username removed: " + currentUserNames[i]);
         allowedUsers.splice(i, 1);
         currentUserNames.splice(i, 1);
-        console.log("usernames remaining: ", currentUserNames);
         console.log("Array state after user removed: ", allowedUsers);
       }
     }
@@ -132,23 +122,11 @@ io.on('connection', (socket) => {
   allowedUsers.push(socket.id);
   console.log("List of players by socket.id:", allowedUsers);
 
+  //This allows only the first 3 users to be able to type
   if (allowedUsers.length < 4) {
     socket.on('SEND_MESSAGE', function (data) {
-      //console.log(data);
       io.emit('RECEIVE_MESSAGE', data);
-      /* store to database
-      axios.post('/api/history', 
-        data
-      ).then(function (response) {
-        console.log(response);
-      }).catch(function (error) {
-        console.log("Encountered error in database posting");
-      });
-      */
     });
-  } else {
-    console.log("THIS IS THE LOGIC FLAG PLACE FOR TOO MANY PEOPLE");
-    //make code to kick users to 
   }
 
 
@@ -277,7 +255,6 @@ io.on('connection', (socket) => {
         //Run the end game function
         //clear the current usernames
         currentUserNames = [];
-        console.log(currentUserNames)
         endVoting(voteInterval);
       }
     }, 1000);
@@ -293,7 +270,6 @@ io.on('connection', (socket) => {
     io.emit('FINAL', "finally");
     // clear the bot out of the current userNames and generate a new bot
     gameRunning = false;
-    console.log(currentUserNames)
   }
 
   // BOT CHAT LOGIC ------
@@ -317,7 +293,6 @@ io.on('connection', (socket) => {
     // Get a reply from API.ai
     apiaiReq.on('response', (response) => {
       let aiText = response.result.fulfillment.speech;
-      //console.log('Bot reply: ' + aiText);
       socket.emit('BOT_REPLY', aiText);
     });
     apiaiReq.on('error', (error) => {
@@ -342,7 +317,6 @@ botTimeout = () => {
   setTimeout(() => {
     botToggle = true;
   }, 4000);
-  //console.log("bot is timed out");
 }
 // calculates the bot delay time
 botDelay = (length) => {
