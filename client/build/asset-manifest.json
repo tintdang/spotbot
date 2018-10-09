@@ -1,12 +1,7 @@
 {
-  "main.css": "static/css/main.6e066e52.css",
-  "main.css.map": "static/css/main.6e066e52.css.map",
-<<<<<<< HEAD
-  "main.js": "static/js/main.4ba28b1f.js",
-  "main.js.map": "static/js/main.4ba28b1f.js.map",
-=======
-  "main.js": "static/js/main.783b92a3.js",
-  "main.js.map": "static/js/main.783b92a3.js.map",
->>>>>>> fa23128e26af53ac6257ef6338ac58fdb1b10777
-  "static\\media\\circuit_color.jpg": "static/media/circuit_color.8ae48a2b.jpg"
+  "main.css": "static/css/main.a90f8831.css",
+  "main.css.map": "static/css/main.a90f8831.css.map",
+  "main.js": "static/js/main.85cdf108.js",
+  "main.js.map": "static/js/main.85cdf108.js.map",
+  "static\\media\\blue_woman_robotic.jpg": "static/media/blue_woman_robotic.40dc9f9c.jpg"
 }
