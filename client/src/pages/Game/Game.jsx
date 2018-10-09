@@ -35,8 +35,8 @@ class Game extends React.Component {
         };
 
         // USE THESE TO TOGGLE FOR PRODUCTION OR IMPLEMENT A SWITCH
-        this.socket = io(origin, { 'sync disconnect on unload': true });
-        //this.socket = io('localhost:3001', { 'sync disconnect on unload': true });
+        //this.socket = io(origin, { 'sync disconnect on unload': true });
+        this.socket = io('localhost:3001', { 'sync disconnect on unload': true });
         // END PROD-SWITCH
 
         // receive chat messages from socket 
