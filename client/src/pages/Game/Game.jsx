@@ -177,21 +177,7 @@ class Game extends React.Component {
     chatDelay = () => {
         let delayCount = 5;
         this.state.chatActive = false;
-<<<<<<< HEAD
         setTimeout(() => { this.state.chatActive = true }, 3000);
-=======
-        console.log("4 second chat delay started");
-        /*
-        setInterval(() => {
-            this.setState({
-                messages: [...this.state.messages,
-                { author: "SpotBot", message: delayCount }]
-            });
-            delayCount--;
-        }, 1000); 
-        */
-        setTimeout(() => { this.state.chatActive = true }, 4000);
->>>>>>> master
     }
 
     componentDidMount() {
