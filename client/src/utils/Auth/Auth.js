@@ -32,13 +32,9 @@ export default class Auth {
   handleAuthentication() {
     return new Promise((resolve, reject) => {
       this.auth0.parseHash((err, authResult) => {
-        if (err) {
-          console.log(err)
-          return reject(err);
-        }
+        if (err) return reject(err);
         // console.log(authResult);
         if (!authResult || !authResult.idToken) {
-          console.log(err)
           return reject(err);
         }
         this.setSession(authResult);
