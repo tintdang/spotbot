@@ -13,7 +13,7 @@ This game is a group project created during the UT Austin Coding Bootcamp. It ut
 
 ```
 * Built on the React.js framework.
-* The socket.io implemnetation of websockets.
+* The socket.io implementation of websockets.
 * Authentication management with Auth0.
 * Database management with mongoose.
 * Server management with Express
