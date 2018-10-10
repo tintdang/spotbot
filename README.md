@@ -17,12 +17,17 @@ This game is a group project created during the UT Austin Coding Bootcamp. It ut
 * Authentication management with Auth0.
 * Database management with mongoose.
 * Server management with Express
+* Server logic and execution with Node.js
 ```
 
 
 ### For more information about the members who contributed to this project, please visit their respective Github pages!
 
-```
+* [Tin Dang](https://github.com/tintdang)
+* [Thomas Milnes](https://github.com/thmiv)
+* [Kenny Fickling](https://github.com/must-git-good)
+* [Jason Kirker](https://github.com/jasonkirker)
+
 Thanks, and enjoy!
-```
+
 
