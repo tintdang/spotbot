@@ -1,14 +1,67 @@
-*{
+* {
     /* font-family: 'Roboto Mono', monospace; */
     /* font-family: 'Roboto', sans-serif; */
     margin: 0;
     padding: 0;
 }
 
+/* CUSTOM BACKGROUND TESTING ---------------------------------------------------- */
+.land-bkgd {
+    animation: colorchange 20s infinite;
+    /* animation-name followed by duration in seconds*/
+    /* you could also use milliseconds (ms) or something like 2.5s */
+    -webkit-animation: colorchange 20s infinite;
+    /* Chrome and Safari */
+    background-origin: border-box;
+    background-repeat: none;
+    background-position: center;
+    background-size: cover;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+@keyframes colorchange {
+    0% {
+        background: #7B68EE;
+    }
+
+    50% {
+        background: #ED6A5A;
+    }
+
+    100% {
+        background: #7B68EE;
+    }
+}
+
+@-webkit-keyframes colorchange
+
+/* Safari and Chrome - necessary duplicate */
+    {
+    0% {
+        background: #7B68EE;
+    }
+
+    50% {
+        background: #ED6A5A;
+    }
+
+    100% {
+        background: #7B68EE;
+    }
+}
+
+
+
 /* BACKGROUND */
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-.canvas{
+.canvas {
     background-color: #eee;
     /* background-image: url('./images/wavy-dots.png');
     background-repeat: repeat;
@@ -16,11 +69,9 @@
     background-size: auto; */
 
     background: url('./images/blue_woman_robotic.jpg');
-    background-image: 
-    linear-gradient(from right 
-    rgba(150,150,150.5),rgba(150,150,150.5)
-    );
-    
+    background-image:
+        linear-gradient(from right rgba(150, 150, 150.5), rgba(150, 150, 150.5));
+
     background-repeat: none;
     background-position: center;
     background-size: cover;
@@ -40,76 +91,95 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background-image: linear-gradient(to right,#002f4b,rgba(150,150,100,.7));
-    opacity: .6; 
-  }
+    background-image: linear-gradient(to right, #002f4b, rgba(150, 150, 100, .7));
+    opacity: .6;
+}
 
-#nav-style{
-    color: rgb(230,230,250);
+#nav-style {
+    color: rgb(230, 230, 250);
     font-weight: 800;
     /* color: black; */
     /* background-color: rgb(70,70,70);
     background-color: rgba(70,70,70,.7); */
     background-color: transparent;
-    height: 10vh;
+    /* height: 10vh; */
     /* border-bottom: 8px;
     border-bottom-style: solid;
     border-bottom-color:  rgb(10,10,10);
     border-bottom-color:  rgba(10,10,10,.9); */
     text-align: center;
     font-weight: bold;
-    padding: 15px 0 5px 0;
+    padding: 8px 0 4px 0;
 }
 
-#logo{
+#logo {
     height: 15vh;
     position: fixed;
     z-index: -1;
     top: 0px;
     left: 35vw;
 }
+#logo2 {
+    max-width: 150px;
+}
 
 /* MIDDLE SECTION  */
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////// */
+.container-fluid {
+    overflow: scroll;
+}
 
-.card{
-}.card-title{
+.card {
+    background: #ffffff;    
+    border-radius: 10px;
+    border: 0;
+}
+
+#wait-card-title {
+    background: #000000;
+    color: #ffffff;
+    padding: 40px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-title {
     font-size: 28px;
-    padding: 1vh 3vh;
     font-weight: 700;
-    background-color: rgb(100,100,120);
-    background-color: rgba(100,100,120,.9);
-}.card-body{
-    height: 100%;
-    overflow-y: scroll;
-    font-family: 'Roboto Mono', monospace; 
-    font-size: 20px;
-    /* background-color: rgb(150,150,170);
-    background-color: rgba(150,150,170,.9); */
-}.card-footer{
-    background-color: rgb(100,100,120);
-    background-color: rgba(100,100,120,.9);
-    }
+    background-color: rgba(100, 100, 120, .9);
+}
 
-.subtext{
+.card-body {
+    /* height: 100%; */
+    font-family: 'Roboto Mono', monospace;
+    font-size: 20px;
+    /* background-color: rgba(150,150,170,.9); */
+}
+
+.card-footer {
+    background-color: rgba(100, 100, 120, .9);
+}
+
+.subtext {
     font-size: 65%;
     font-style: italic;
     text-align: right;
 }
-.bonus{
+
+.bonus {
     visibility: visible;
 }
-#messages{
+
+#messages {
     font-family: 'Roboto Mono', monospace;
 }
 
-.msg{
+.msg {
     font-family: 'Roboto Mono', monospace;
 }
 
-#game-board{
-    background-color: rgb(150,150,170);
-    background-color: rgba(150,150,170,.7);
+#game-board {
+    background-color: rgba(150, 150, 170, .7);
     width: 70vw;
     height: 75vh;
     float: left;
@@ -118,143 +188,144 @@
     border-radius: 10px;
 }
 
-#typing-form{
-}
-
-form{
+form {
     padding: 0vh;
     margin: 0;
 }
 
-.form-control{
+.form-control {
     padding: 0vh;
     margin: 1vh;
 }
 
-#game-text{
-}
 
 /* BOTTOM  */
 
-#timer-holder{
+#timer-holder {
     position: relative;
     bottom: 12vh;
     left: 40%;
     height: 12vh;
     width: 20%;
-    background-color: rgb(50,50,50);
-    background-color: rgba(50,50,50,1);
+    background-color: rgb(50, 50, 50);
+    background-color: rgba(50, 50, 50, 1);
     visibility: visible;
 }
 
-.btn-dark{
-    background-color: rgb(150,150,170);
+.btn-dark {
+    background-color: rgb(150, 150, 170);
 }
 
 /* MISC */
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-#logout-button{
+#logout-button {
     position: fixed;
     top: 0px;
     right: 0px;
-    background-color: rgb(50,50,50);
-    background-color: rgba(50,50,50,0);
-    color:  rgb(180,180,180);
-    color: rgba(180,180,180,.8);
+    background-color: rgb(50, 50, 50);
+    background-color: rgba(50, 50, 50, 0);
+    color: rgb(180, 180, 180);
+    color: rgba(180, 180, 180, .8);
 
     visibility: visible;
 }
-#logout-button:hover{
+
+#logout-button:hover {
     cursor: pointer;
 }
 
-.wr{
+.wr {
     padding: 3vh;
 }
 
-#wait-bot{
+#wait-bot {
     height: 20vh;
     width: 20vh;
 }
 
-h3,h4{
-    font-family: 'Roboto Mono', monospace; 
+h3,
+h4 {
+    font-family: 'Roboto Mono', monospace;
 }
-h3{
+
+h3 {
     font-size: 250%;
 }
-h4{
+
+h4 {
     font-size: 150%;
     text-align: left;
 }
 
-#wait-btn-pad1,#wait-btn-pad2{
-margin: 1vh;
-min-height: 35px;
+#wait-btn-pad1 {
+    margin: 1vh;
+    min-height: 35px;
+}
+#wait-btn-pad2 {
+    margin: 1vh;
+    min-height: 35px;
 }
 
 /* HOMEPAGE */
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-#welcome{
+#welcome {
     font-family: 'Roboto Mono', monospace;
 }
 
-.welcome{
+.welcome {
     font-family: 'Roboto Mono', monospace;
     font-size: 32px;
 }
 
-#bot1{
+#bot1 {
     position: relative;
     top: 0vh;
     left: 0vh;
 }
 
-.carousel-control-prev{
-    position:absolute;
+.carousel-control-prev {
+    position: absolute;
     left: -4vw;
 }
-.carousel-control-next{
-    position:absolute;
+
+.carousel-control-next {
+    position: absolute;
     left: 63vw;
 }
 
-#bot2{
-    /* position: relative;
-    bottom: 10vh;
-    right: 2vh; */
-}
-
-.wflow{
+.wflow {
     background-color: transparent;
     height: 70vh;
     min-height: 70vh;
     padding: 5vh;
 }
 
-.smallImg{
+.smallImg {
     height: 25vh;
     width: 25vh;
     padding: 2vh;
 }
+
 .fc {
     float: center;
 }
+
 .fr {
     float: right;
 }
+
 .fl {
     float: left;
 }
 
-#enter-btn{
+#enter-btn {
     position: fixed;
     bottom: 5vh;
     width: 70vw;
-    background-color: rgb(50,50,50);
-    background-color: rgba(50,50,50,1);
+    background-color: rgb(50, 50, 50);
+    background-color: rgba(50, 50, 50, 1);
 }
 
 /* END HOMEPAGE */
@@ -263,7 +334,7 @@ min-height: 35px;
 /* USER SEAT */
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-#bot-behind{
+#bot-behind {
     position: fixed;
     top: 30vh;
     left: 60vw;
@@ -271,9 +342,9 @@ min-height: 35px;
     size: 200%;
 }
 
-#user-seat{
-    background-color: rgb(230,230,250);
-    background-color: rgba(230,230,250,.9);
+#user-seat {
+    background-color: rgb(230, 230, 250);
+    background-color: rgba(230, 230, 250, .9);
     height: 8vh;
     width: 70vw;
     margin: 0 15vw;
@@ -283,10 +354,10 @@ min-height: 35px;
     visibility: visible;
 }
 
-.vote-button{
-    color: rgb(230,230,250);
-    background-color: rgb(50,50,50);
-    background-color: rgba(50,50,50,1);
+.vote-button {
+    color: rgb(230, 230, 250);
+    background-color: rgb(50, 50, 50);
+    background-color: rgba(50, 50, 50, 1);
     height: 5vh;
     width: 20%;
     /* position: center; */
@@ -298,10 +369,10 @@ min-height: 35px;
     border-radius: 5px;
 }
 
-#timer{
-    color: rgb(230,230,250);
-    background-color: rgb(50,50,50);
-    background-color: rgba(50,50,50,1);
+#timer {
+    color: rgb(230, 230, 250);
+    background-color: rgb(50, 50, 50);
+    background-color: rgba(50, 50, 50, 1);
     height: 5vh;
     width: 20%;
     /* position: center; */
@@ -313,9 +384,9 @@ min-height: 35px;
     border-radius: 5px;
 }
 
-.popOut{
-    background-color: rgb(20,20,20);
-    background-color: rgba(20,20,20,.8);
+.popOut {
+    background-color: rgb(20, 20, 20);
+    background-color: rgba(20, 20, 20, .8);
     width: 5vw;
     margin: 0;
     height: 60vh;
@@ -325,25 +396,25 @@ min-height: 35px;
     visibility: hidden;
 }
 
-.right{
+.right {
     position: relative;
     right: -10vw;
     top: 5vh;
 }
 
-#prbutton{
+#prbutton {
     background-color: transparent;
     width: 100%;
     visibility: hidden;
 }
 
-.left{
+.left {
     position: relative;
     left: 10vw;
     top: 5vh;
 }
 
-#plbutton{
+#plbutton {
     background-color: transparent;
     width: 100%;
     visibility: hidden;
@@ -359,46 +430,56 @@ min-height: 35px;
 /* SMALL SCREENS */
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-@media screen and (max-width: 600px) {
-    #game-board{
+/* @media screen and (max-width: 600px) {
+    #game-board {
         width: 90vw;
         left: 5vw;
     }
-    .card-title{
+
+    .card-title {
         font-size: 22px;
         text-align: center;
     }
-    .card-body{
+
+    .card-body {
         font-size: 14px;
     }
-    #user-seat{
+
+    #user-seat {
         width: 90vw;
         margin: 0 5vw;
         bottom: 4vh;
         visibility: visible;
     }
-    #enter-btn{
+
+    #enter-btn {
         width: 90vw;
     }
-    .bonus{
+
+    .bonus {
         visibility: hidden;
     }
-    .smallImg{
+
+    .smallImg {
         height: 20vh;
         width: 20vh;
         padding: 10px;
     }
-    .welcome{
+
+    .welcome {
         font-size: 20px;
     }
-    .form-control{
+
+    .form-control {
         padding: 0vh;
         margin: 0vh;
     }
-    .wr{
+
+    .wr {
         padding: 2vh;
     }
-    #logo{
+
+    #logo {
         height: 15vh;
         position: fixed;
         max-width: 100vw;
@@ -406,20 +487,21 @@ min-height: 35px;
         top: 0px;
         left: 8vw;
     }
-    .carousel-control-next{
-        position:absolute;
+
+    .carousel-control-next {
+        position: absolute;
         left: 79vw;
     }
-  }
+} */
 
 /* MEDIUM SCREENS */
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-@media screen and (max-width: 992px) {
-    #game-board{
+/* @media screen and (max-width: 992px) {
+    #game-board {
         min-width: 200px;
     }
-  }
+} */
 
 /* LARGE SCREENS */
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////// */

@@ -10,7 +10,7 @@ import Waitingroom from "./pages/Waitingroom";
 const App = props => {
 
   return (
-    <div>
+    <div className="main">
       <Route path="/callback" render={() => (
         <Callback auth={props.auth} />
       )} />

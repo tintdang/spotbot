@@ -2,11 +2,12 @@ import React from "react";
 import Navbar from '../../components/Navbar';
 import '../../assets/style.css';
 
+
 class Homepage extends React.Component {
 
   render() {
     return (
-      <div className="canvas">
+      <div className="land-bkgd">
         <Navbar />
         <div className="card" id="game-board">
           <div id="welcome-flow" className="carousel slide carousel-fade" data-ride="carousel" data-interval="false">

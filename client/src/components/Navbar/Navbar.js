@@ -8,10 +8,9 @@ const Navbar = () =>
       id="nav-style"
       className="nav-bar">
       <div className="Navbar-nav">
-        {/* <h1>SPOT-BOT</h1> */}
-        <div>
-        {/* <img id="logo" src="./assets/images/Spot_Bot_Logo.png" /> */}
-        <img alt="#" id="logo" src="./assets/images/Spot_Bot_White_Shadow.png" />
+        <div className="brand">
+        <img alt="Spot" id="logo2" src="assets/images/spottobotto.svg" />
+        <h2>SpotBot</h2>
         </div>
       </div>
     </div>
