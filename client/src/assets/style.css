@@ -259,12 +259,18 @@ h4 {
 }
 
 #wait-btn-pad1 {
-    margin: 1vh;
-    min-height: 35px;
+    margin-bottom: 40px;
+    background: #ED6A5A;
+    border: none;
+    width: 50%;
+    padding: 8px 0 8px 0;
 }
 #wait-btn-pad2 {
-    margin: 1vh;
-    min-height: 35px;
+    margin: 40px;
+    background: #000000;
+    border: none;
+    width: 33%;
+    padding: 8px 0 8px 0;
 }
 
 /* HOMEPAGE */
