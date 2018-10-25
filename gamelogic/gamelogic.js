@@ -238,13 +238,10 @@ module.exports.listen = server => {
 
         // BOT CHAT LOGIC ------
         socket.on('BOT_MESSAGE', (text) => {
-            let resDelay = botDelay(text.message.length);
             if (botToggle) {
                 botToggle = false;
-                setTimeout(() => {
                     botChannel(text);
-                    botToggle = true;
-                }, resDelay);
+                    //botToggle = true;
             }
         });
 
@@ -256,7 +253,11 @@ module.exports.listen = server => {
             // Get a reply from API.ai
             apiaiReq.on('response', (response) => {
                 let aiText = response.result.fulfillment.speech;
-                socket.emit('BOT_REPLY', aiText);
+                let botResponseLength = botDelay(aiText.length);
+                setTimeout(() => {
+                    socket.emit('BOT_REPLY', aiText);
+                    botToggle = true;
+                }, botResponseLength);
             });
             apiaiReq.on('error', (error) => {
                 console.log(error);
@@ -270,9 +271,9 @@ module.exports.listen = server => {
         botDelay = (length) => {
             let timeout;
             if (length < 10) {
-                timeout = length * 500;
+                timeout = length * 400;
             } else {
-                timeout = length * 300;
+                timeout = length * 200;
             }
             console.log("milliseconds for timeout: ", timeout);
             return timeout;
