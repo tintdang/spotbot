@@ -240,13 +240,12 @@ module.exports.listen = server => {
         socket.on('BOT_MESSAGE', (text) => {
             let resDelay = botDelay(text.message.length);
             if (botToggle) {
+                botToggle = false;
                 setTimeout(() => {
                     botChannel(text);
+                    botToggle = true;
                 }, resDelay);
-            } else {
-                botToggle = true;
             }
-            botTimeout();
         });
 
         // bot receive/send function
@@ -263,25 +262,17 @@ module.exports.listen = server => {
                 console.log(error);
             });
             apiaiReq.end();
-            botToggle = false;
         }
 
         // END bot chat stuff -----
 
-
-        // bot-time functions *************************
-        botTimeout = () => {
-            setTimeout(() => {
-                botToggle = true;
-            }, 4000);
-        }
         // calculates the bot delay time
         botDelay = (length) => {
             let timeout;
             if (length < 10) {
-                timeout = length * 400;
+                timeout = length * 500;
             } else {
-                timeout = length * 200;
+                timeout = length * 300;
             }
             console.log("milliseconds for timeout: ", timeout);
             return timeout;
