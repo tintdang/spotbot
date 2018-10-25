@@ -55,4 +55,3 @@ app.use(morgan("combined"));
 server.listen(PORT, () =>
   console.log(`Server is listening on PORT ${PORT}`)
 );
-
